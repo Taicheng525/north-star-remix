@@ -1,0 +1,19 @@
+Output: one full-width landing-page closing CTA section, the last section before a footer. Just this single section — no footer, no surrounding sections.
+
+Top: a small badge / pill: North Star Engine
+
+Headline (two lines):
+- The Fast Lane
+- Is Open
+
+Subtitle: Try the live demo, read the litepaper, or start building with the North Star SDK.
+
+Primary CTA button: Try the live demo
+
+Two secondary text links:
+- Read the litepaper
+- View docs
+
+Status indicator (small, somewhere in the layout, with a status dot):
+- Label: Node Status
+- Value: Synced

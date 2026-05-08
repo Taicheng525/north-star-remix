@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>North Star Engine — Closing</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body style="font-family: 'Manrope', sans-serif; background-color: #EFEFF5;" class="text-slate-900 antialiased selection:bg-blue-200">
+
+<section class="relative w-full overflow-hidden" style="background-color: #EFEFF5;">
+
+  <!-- Top hairline + section meta -->
+  <div class="relative z-10 w-full max-w-7xl mx-auto px-6 lg:px-10 pt-10 border-t border-slate-300/60">
+    <div class="flex items-center justify-between flex-wrap gap-4 text-xs uppercase tracking-widest text-slate-500" style="font-family: 'Orbitron', sans-serif;">
+      <div class="flex items-center gap-2">
+        <span>§ 07</span>
+        <span class="text-slate-400">/</span>
+        <span>Launch Sequence</span>
+      </div>
+      <div class="flex items-center gap-2">
+        <span class="w-1.5 h-1.5 rounded-full animate-pulse" style="background: #0000FF;"></span>
+        Ready for handoff
+      </div>
+    </div>
+  </div>
+
+  <!-- Main CTA frame -->
+  <div class="relative z-10 w-full max-w-7xl mx-auto px-6 lg:px-10 pt-12 pb-24">
+    <div class="relative rounded-3xl overflow-hidden border border-slate-300/60"
+         style="background-image: linear-gradient(180deg, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0) 60%), linear-gradient(45deg, rgba(0,0,255,0.025) 25%, transparent 25%, transparent 75%, rgba(0,0,255,0.025) 75%), linear-gradient(45deg, rgba(0,0,255,0.025) 25%, transparent 25%, transparent 75%, rgba(0,0,255,0.025) 75%); background-size: 100% 100%, 22px 22px, 22px 22px; background-position: 0 0, 0 0, 11px 11px; box-shadow: inset 0 1px 0 rgba(255,255,255,1), 0 22px 44px rgba(0,0,0,0.06), 0 60px 120px rgba(0,0,0,0.08);">
+
+      <!-- Inner highlight -->
+      <div style="position: absolute; inset: 0; border-radius: inherit; pointer-events: none; box-shadow: inset 0 1px 1px rgba(255,255,255,1), inset 0 -1px 2px rgba(0,0,0,0.08);"></div>
+
+      <!-- Corner brackets -->
+      <div style="position: absolute; top: 18px; left: 18px; width: 14px; height: 14px; border-top: 1px solid rgba(0,0,255,0.45); border-left: 1px solid rgba(0,0,255,0.45);"></div>
+      <div style="position: absolute; top: 18px; right: 18px; width: 14px; height: 14px; border-top: 1px solid rgba(0,0,255,0.45); border-right: 1px solid rgba(0,0,255,0.45);"></div>
+      <div style="position: absolute; bottom: 18px; left: 18px; width: 14px; height: 14px; border-bottom: 1px solid rgba(0,0,255,0.45); border-left: 1px solid rgba(0,0,255,0.45);"></div>
+      <div style="position: absolute; bottom: 18px; right: 18px; width: 14px; height: 14px; border-bottom: 1px solid rgba(0,0,255,0.45); border-right: 1px solid rgba(0,0,255,0.45);"></div>
+
+      <div class="relative grid lg:grid-cols-12 gap-y-10">
+
+        <!-- LEFT: headline + actions -->
+        <div class="lg:col-span-8 p-8 md:p-12 lg:p-16 lg:pr-10 lg:border-r lg:border-slate-300/60">
+
+          <!-- Pill badge -->
+          <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-slate-300/70 bg-white/70" style="box-shadow: inset 0 1px 0 rgba(255,255,255,1), 0 1px 2px rgba(0,0,0,0.04);">
+            <span class="w-1.5 h-1.5 rounded-full" style="background: #0000FF;"></span>
+            <span class="text-xs uppercase tracking-widest text-slate-700" style="font-family: 'Orbitron', sans-serif; font-weight: 500;">North Star Engine</span>
+          </div>
+
+          <!-- Headline -->
+          <h2 class="mt-8 text-5xl md:text-6xl lg:text-7xl leading-[1.02] tracking-tight" style="font-family: 'Orbitron', sans-serif; font-weight: 600;">
+            The Fast Lane<br>
+            <span style="color: #0000FF;">Is Open</span>
+          </h2>
+
+          <!-- Subtitle -->
+          <p class="mt-6 max-w-xl text-base md:text-lg text-slate-600 leading-relaxed">
+            Spin up the live demo, dig into the litepaper, or wire a first build with the North Star SDK — whichever path matches how you ship.
+          </p>
+
+          <!-- Actions -->
+          <div class="mt-10 flex flex-wrap items-center gap-x-6 gap-y-4">
+            <button class="text-sm px-5 py-3.5 rounded-xl text-white font-medium tracking-tight flex items-center gap-2"
+                    style="background: #0000FF; box-shadow: inset 0 1px 0 rgba(255,255,255,0.25), 0 10px 28px rgba(0,0,255,0.32);">
+              <iconify-icon icon="solar:play-circle-linear" style="font-size: 16px;"></iconify-icon>
+              Try the live demo
+              <iconify-icon icon="solar:arrow-right-linear" style="font-size: 16px;"></iconify-icon>
+            </button>
+
+            <a href="#" class="group text-sm font-medium text-slate-800 flex items-center gap-1.5 hover:gap-2.5 transition-all">
+              <iconify-icon icon="solar:document-text-linear" style="font-size: 16px;"></iconify-icon>
+              Read the litepaper
+              <iconify-icon icon="solar:arrow-right-up-linear" style="font-size: 14px; color: #0000FF;"></iconify-icon>
+            </a>
+
+            <a href="#" class="group text-sm font-medium text-slate-800 flex items-center gap-1.5 hover:gap-2.5 transition-all">
+              <iconify-icon icon="solar:book-2-linear" style="font-size: 16px;"></iconify-icon>
+              View docs
+              <iconify-icon icon="solar:arrow-right-up-linear" style="font-size: 14px; color: #0000FF;"></iconify-icon>
+            </a>
+          </div>
+
+          <!-- Footnote row -->
+          <div class="mt-12 pt-6 border-t border-dashed border-slate-300/80 flex items-center gap-6 text-xs uppercase tracking-widest text-slate-500" style="font-family: 'Orbitron', sans-serif;">
+            <span>SDK v0.9.4</span>
+            <span class="text-slate-400">·</span>
+            <span>MIT Licensed</span>
+            <span class="text-slate-400 hidden sm:inline">·</span>
+            <span class="hidden sm:inline">No card required</span>
+          </div>
+        </div>
+
+        <!-- RIGHT: status panel -->
+        <div class="lg:col-span-4 p-8 md:p-12 lg:p-10 flex flex-col justify-between gap-8">
+
+          <!-- Node status card -->
+          <div class="rounded-2xl bg-white/70 border border-slate-300/60 p-5"
+               style="box-shadow: inset 0 1px 0 rgba(255,255,255,1), 0 4px 14px rgba(0,0,0,0.04);">
+            <div class="flex items-center justify-between">
+              <div class="text-xs uppercase tracking-widest text-slate-500" style="font-family: 'Orbitron', sans-serif;">Node Status</div>
+              <iconify-icon icon="solar:server-square-linear" style="font-size: 16px; color: #0000FF;"></iconify-icon>
+            </div>
+            <div class="mt-3 flex items-center gap-2.5">
+              <span class="relative flex w-2 h-2">
+                <span class="absolute inline-flex h-full w-full rounded-full opacity-60 animate-ping" style="background: #0000FF;"></span>
+                <span class="relative inline-flex rounded-full h-2 w-2" style="background: #0000FF;"></span>
+              </span>
+              <span class="text-2xl tracking-tight" style="font-family: 'Orbitron', sans-serif; font-weight: 600;">Synced</span>
+            </div>
+            <div class="mt-4 grid grid-cols-2 gap-3 pt-4 border-t border-slate-200/80">
+              <div>
+                <div class="text-[10px] uppercase tracking-widest text-slate-500" style="font-family: 'Orbitron', sans-serif;">Block</div>
+                <div class="mt-1 text-xs text-slate-900" style="font-family: 'Orbitron', sans-serif; font-weight: 500;">#8,492,103</div>
+              </div>
+              <div>
+                <div class="text-[10px] uppercase tracking-widest text-slate-500" style="font-family: 'Orbitron', sans-serif;">Drift</div>
+                <div class="mt-1 text-xs text-slate-900" style="font-family: 'Orbitron', sans-serif; font-weight: 500;">0.04s</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Mini diagram / wayfinding -->
+          <div class="space-y-3">
+            <a href="#" class="flex items-center justify-between rounded-xl bg-white/40 hover:bg-white/70 transition-colors border border-slate-300/60 px-4 py-3">
+              <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background: rgba(0,0,255,0.08); color: #0000FF;">
+                  <iconify-icon icon="solar:terminal-linear" style="font-size: 16px;"></iconify-icon>
+                </div>
+                <div>
+                  <div class="text-xs font-medium text-slate-900">Quickstart</div>
+                  <div class="text-xs text-slate-500">npm i @northstar/sdk</div>
+                </div>
+              </div>
+              <iconify-icon icon="solar:arrow-right-linear" style="font-size: 16px; color: #64748b;"></iconify-icon>
+            </a>
+            <a href="#" class="flex items-center justify-between rounded-xl bg-white/40 hover:bg-white/70 transition-colors border border-slate-300/60 px-4 py-3">
+              <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background: rgba(0,0,255,0.08); color: #0000FF;">
+                  <iconify-icon icon="solar:chat-round-line-linear" style="font-size: 16px;"></iconify-icon>
+                </div>
+                <div>
+                  <div class="text-xs font-medium text-slate-900">Talk to the team</div>
+                  <div class="text-xs text-slate-500">Office hours · Thursdays</div>
+                </div>
+              </div>
+              <iconify-icon icon="solar:arrow-right-linear" style="font-size: 16px; color: #64748b;"></iconify-icon>
+            </a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+</body>
+</html>

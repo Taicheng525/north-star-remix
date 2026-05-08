@@ -1,0 +1,19 @@
+Output: a top navigation bar component, full page width, sticky to the top of the viewport. Just the navbar — no hero, no other sections.
+
+Layout:
+- Left: brand mark + wordmark
+- Center or right: text links
+- Far right: primary CTA button
+- Mobile: collapse links into a hamburger menu
+
+Brand:
+- Wordmark: North Star
+- Brand area pairs a Sonic logo with the wordmark
+
+Nav links:
+- Litepaper
+- Docs
+- GitHub
+
+Primary CTA button:
+- Try Demo

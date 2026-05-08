@@ -1,0 +1,30 @@
+Output: one full-width landing-page use-case showcase section with a heading, subheading, and three cards in a row. Just this single section — no navbar, no surrounding sections.
+
+Heading: What You Can Build With North Star
+
+Subheading: Workloads that need dedicated throughput, not a shared queue.
+
+Three cards in a row. Each card has a small label, a headline, a body paragraph, and a stat (value + small label):
+
+Card 1
+- Label: On-Chain Oracles
+- Headline: Near-Free Price Feeds. Always Fresh.
+- Body: Oracle updates become a near-free operation on a dedicated runtime. Write as often as you need. Every read returns current state.
+- Stat value: ≈ $0
+- Stat label: per price update
+
+Card 2
+- Label: Autonomous Agents
+- Headline: Faster Loops. Smarter Agents.
+- Body: Each agent runs on its own dedicated runtime. Decision loops drop from 400ms to under 50ms. Strategies iterate faster, adapt sooner.
+- Stat value: < 50ms
+- Stat label: per decision cycle
+
+Card 3
+- Label: On-Chain Orderbooks
+- Headline: Exchange-Grade Throughput. On-Chain.
+- Body: Thousands of order operations per second on a dedicated runtime. No contention, no throughput ceiling, no compromises.
+- Stat value: > 1M
+- Stat label: ops per second
+
+No CTAs in this section.

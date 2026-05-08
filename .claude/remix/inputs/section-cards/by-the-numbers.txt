@@ -1,0 +1,22 @@
+Output: one full-width landing-page metrics / proof-points section. Just this single section — no navbar, no surrounding sections.
+
+Heading: Performance That Changes the Math
+
+Three large stats in a row. Each stat has a big value, a label, and a small context line:
+
+Stat 1
+- Value: < 50ms
+- Label: Confirmation
+- Context: 8× faster than a standard blockchain slot
+
+Stat 2
+- Value: > 1M TPS
+- Label: Throughput
+- Context: 15× more than Solana L1
+
+Stat 3
+- Value: ≈ $0
+- Label: Per-transaction cost
+- Context: vs. $236K/year on shared infrastructure
+
+No CTAs in this section.

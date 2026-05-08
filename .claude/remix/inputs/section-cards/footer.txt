@@ -1,0 +1,11 @@
+Output: a footer component, full page width, sits at the bottom of the page. Just the footer — no other sections above.
+
+Brand line: North Star by Sonic SVM
+
+Four resource links (single row or simple list):
+- Litepaper
+- Docs
+- GitHub
+- Demo
+
+No CTA buttons; only text links and brand.

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What You Can Build With North Star</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body style="font-family: 'Manrope', sans-serif; background-color: #EFEFF5;" class="text-slate-900 antialiased">
+
+    <section class="relative w-full py-20 md:py-28">
+        <!-- subtle grid background -->
+        <div class="absolute inset-0 pointer-events-none opacity-[0.04]" style="background-image: linear-gradient(to right, #000 1px, transparent 1px), linear-gradient(to bottom, #000 1px, transparent 1px); background-size: 48px 48px;"></div>
+
+        <div class="relative w-full max-w-7xl mx-auto px-6 lg:px-10">
+
+            <!-- Section header -->
+            <div class="flex items-end justify-between flex-wrap gap-6 mb-12 md:mb-16">
+                <div class="max-w-2xl">
+                    <div class="flex items-center gap-2 text-xs uppercase tracking-widest mb-5" style="font-family: 'Orbitron', sans-serif; color: #0000FF;">
+                        <span class="w-1.5 h-1.5 rounded-full" style="background: #0000FF;"></span>
+                        Use Cases — 03
+                    </div>
+                    <h2 class="text-3xl md:text-5xl tracking-tight leading-[1.05]" style="font-family: 'Orbitron', sans-serif; font-weight: 600;">
+                        What you can build with <span style="color: #0000FF;">North Star</span>.
+                    </h2>
+                    <p class="mt-5 text-base md:text-lg text-slate-600 leading-relaxed max-w-xl">
+                        Workloads that demand dedicated throughput — not a shared queue waiting its turn behind everyone else's traffic.
+                    </p>
+                </div>
+
+                <!-- Decorative spec marker -->
+                <div class="hidden md:flex flex-col items-end gap-1 text-right">
+                    <div class="text-xs uppercase tracking-widest text-slate-500" style="font-family: 'Orbitron', sans-serif;">Runtime Profile</div>
+                    <div class="text-xs uppercase tracking-widest text-slate-800" style="font-family: 'Orbitron', sans-serif; font-weight: 500;">Dedicated · Isolated · Deterministic</div>
+                </div>
+            </div>
+
+            <!-- Cards grid -->
+            <div class="grid md:grid-cols-3 gap-5">
+
+                <!-- Card 1 -->
+                <article class="group relative rounded-2xl bg-white/70 border border-slate-300/60 p-7 flex flex-col" style="box-shadow: inset 0 1px 0 rgba(255,255,255,1), 0 4px 14px rgba(0,0,0,0.04);">
+                    <!-- corner brackets -->
+                    <div style="position: absolute; top: 14px; left: 14px; width: 10px; height: 10px; border-top: 1px solid rgba(0,0,255,0.5); border-left: 1px solid rgba(0,0,255,0.5);"></div>
+                    <div style="position: absolute; top: 14px; right: 14px; width: 10px; height: 10px; border-top: 1px solid rgba(0,0,255,0.5); border-right: 1px solid rgba(0,0,255,0.5);"></div>
+
+                    <div class="flex items-center gap-2 mb-8">
+                        <span class="inline-flex items-center justify-center w-7 h-7 rounded-lg" style="background: rgba(0,0,255,0.08); color: #0000FF;">
+                            <iconify-icon icon="solar:chart-2-linear" style="font-size: 15px;"></iconify-icon>
+                        </span>
+                        <span class="text-xs uppercase tracking-widest text-slate-500" style="font-family: 'Orbitron', sans-serif;">On-Chain Oracles</span>
+                    </div>
+
+                    <h3 class="text-xl tracking-tight leading-snug mb-3" style="font-family: 'Orbitron', sans-serif; font-weight: 500;">
+                        Near-free price feeds. Always fresh.
+                    </h3>
+                    <p class="text-sm text-slate-600 leading-relaxed mb-8">
+                        Oracle updates collapse to a near-zero operation on a runtime that's yours alone. Push as often as the market moves. Every read returns live state.
+                    </p>
+
+                    <!-- Stat block -->
+                    <div class="mt-auto pt-6 border-t border-dashed border-slate-300">
+                        <div class="flex items-baseline justify-between gap-3">
+                            <div class="text-3xl md:text-4xl tracking-tight" style="font-family: 'Orbitron', sans-serif; font-weight: 600; color: #0000FF;">≈ $0</div>
+                            <div class="text-xs uppercase tracking-widest text-slate-500 text-right" style="font-family: 'Orbitron', sans-serif;">per price<br>update</div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Card 2 -->
+                <article class="group relative rounded-2xl bg-white/70 border border-slate-300/60 p-7 flex flex-col" style="box-shadow: inset 0 1px 0 rgba(255,255,255,1), 0 4px 14px rgba(0,0,0,0.04);">
+                    <div style="position: absolute; top: 14px; left: 14px; width: 10px; height: 10px; border-top: 1px solid rgba(0,0,255,0.5); border-left: 1px solid rgba(0,0,255,0.5);"></div>
+                    <div style="position: absolute; top: 14px; right: 14px; width: 10px; height: 10px; border-top: 1px solid rgba(0,0,255,0.5); border-right: 1px solid rgba(0,0,255,0.5);"></div>
+
+                    <div class="flex items-center gap-2 mb-8">
+                        <span class="inline-flex items-center justify-center w-7 h-7 rounded-lg" style="background: rgba(0,0,255,0.08); color: #0000FF;">
+                            <iconify-icon icon="solar:cpu-bolt-linear" style="font-size: 15px;"></iconify-icon>
+                        </span>
+                        <span class="text-xs uppercase tracking-widest text-slate-500" style="font-family: 'Orbitron', sans-serif;">Autonomous Agents</span>
+                    </div>
+
+                    <h3 class="text-xl tracking-tight leading-snug mb-3" style="font-family: 'Orbitron', sans-serif; font-weight: 500;">
+                        Tighter loops. Sharper agents.
+                    </h3>
+                    <p class="text-sm text-slate-600 leading-relaxed mb-8">
+                        Each agent occupies its own runtime. Decision cycles compress from 400ms to under 50ms — strategies iterate quicker and adapt to conditions sooner.
+                    </p>
+
+                    <div class="mt-auto pt-6 border-t border-dashed border-slate-300">
+                        <div class="flex items-baseline justify-between gap-3">
+                            <div class="text-3xl md:text-4xl tracking-tight" style="font-family: 'Orbitron', sans-serif; font-weight: 600; color: #0000FF;">&lt; 50<span class="text-xl">ms</span></div>
+                            <div class="text-xs uppercase tracking-widest text-slate-500 text-right" style="font-family: 'Orbitron', sans-serif;">per decision<br>cycle</div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Card 3 -->
+                <article class="group relative rounded-2xl bg-white/70 border border-slate-300/60 p-7 flex flex-col" style="box-shadow: inset 0 1px 0 rgba(255,255,255,1), 0 4px 14px rgba(0,0,0,0.04);">
+                    <div style="position: absolute; top: 14px; left: 14px; width: 10px; height: 10px; border-top: 1px solid rgba(0,0,255,0.5); border-left: 1px solid rgba(0,0,255,0.5);"></div>
+                    <div style="position: absolute; top: 14px; right: 14px; width: 10px; height: 10px; border-top: 1px solid rgba(0,0,255,0.5); border-right: 1px solid rgba(0,0,255,0.5);"></div>
+
+                    <div class="flex items-center gap-2 mb-8">
+                        <span class="inline-flex items-center justify-center w-7 h-7 rounded-lg" style="background: rgba(0,0,255,0.08); color: #0000FF;">
+                            <iconify-icon icon="solar:square-share-line-linear" style="font-size: 15px;"></iconify-icon>
+                        </span>
+                        <span class="text-xs uppercase tracking-widest text-slate-500" style="font-family: 'Orbitron', sans-serif;">On-Chain Orderbooks</span>
+                    </div>
+
+                    <h3 class="text-xl tracking-tight leading-snug mb-3" style="font-family: 'Orbitron', sans-serif; font-weight: 500;">
+                        Exchange-grade throughput. On-chain.
+                    </h3>
+                    <p class="text-sm text-slate-600 leading-relaxed mb-8">
+                        Process thousands of order operations every second on a runtime built for it. No contention with other traffic, no throughput ceiling, no compromises.
+                    </p>
+
+                    <div class="mt-auto pt-6 border-t border-dashed border-slate-300">
+                        <div class="flex items-baseline justify-between gap-3">
+                            <div class="text-3xl md:text-4xl tracking-tight" style="font-family: 'Orbitron', sans-serif; font-weight: 600; color: #0000FF;">&gt; 1M</div>
+                            <div class="text-xs uppercase tracking-widest text-slate-500 text-right" style="font-family: 'Orbitron', sans-serif;">ops per<br>second</div>
+                        </div>
+                    </div>
+                </article>
+
+            </div>
+
+            <!-- Footer rule -->
+            <div class="mt-12 flex items-center justify-between text-xs uppercase tracking-widest text-slate-400" style="font-family: 'Orbitron', sans-serif;">
+                <span>§ 03 / Build Surface</span>
+                <span class="hidden sm:inline">Dedicated Runtime · No Shared Queue</span>
+                <span>v1.0</span>
+            </div>
+
+        </div>
+    </section>
+
+</body>
+</html>

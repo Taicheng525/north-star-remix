@@ -1,0 +1,45 @@
+Output: one full-width landing-page section that contains both a problem half and a solution half stacked vertically. Just this single section — no navbar, no hero, no other surrounding sections.
+
+=== PART 1: Problem ===
+
+Heading: Some Workloads Need a Dedicated Runtime
+
+Body: High-frequency updates, real-time pricing, autonomous agents. These workloads need guaranteed throughput, not a shared queue.
+
+Three cards in a row, each card has a label and a body paragraph:
+
+Card 1
+- Label: On-Chain Oracles
+- Body: Every write costs gas and queues behind unrelated traffic. Every read returns stale data while updates are stuck waiting.
+
+Card 2
+- Label: Autonomous Agents
+- Body: Every decision loop is bottlenecked by block time. Agents can't react faster than the chain confirms.
+
+Card 3
+- Label: On-Chain Orderbooks
+- Body: Thousands of updates per second, but shared throughput can only carry a fraction.
+
+Tagline below the cards: …and any workload that demands guaranteed throughput
+
+=== PART 2: Solution ===
+
+Heading: How North Star Solves It
+
+Body: Instead of competing for shared block space, North Star gives your app its own temporary runtime — dedicated compute where state updates become near-free, then settles everything back to Solana.
+
+Three numbered steps in a row:
+
+Step 1 — Your App Opens a Session
+When you need dedicated speed, you call North Star. One SDK call.
+
+Step 2 — You Get a Private Runtime
+Dedicated compute, no contention, over 1M TPS. State updates become near-free.
+
+Step 3 — Results Settle Back to Solana
+When the session ends, all state settles on-chain to Solana. Fully verifiable. The runtime disappears.
+
+Closing analogy line at the bottom of the section:
+Think of it as renting a private server — except it's on-chain, verifiable, and disappears when you're done.
+
+No CTAs in this section.

@@ -1,0 +1,22 @@
+Output: a single full-width hero section, roughly the height of one viewport, no navbar above and no other sections below. Just the hero.
+
+Top of section:
+- Status label (tiny, with a status indicator): Live Sync
+- Badge / pill: Powered by Sonic SVM
+
+Headline (two lines):
+- Your Own Blockchain,
+- On Demand
+
+Subtitle (two lines):
+- North Star spins up dedicated blockchains on demand.
+- Over a million TPS. Powered by Sonic SVM.
+
+Two CTAs side by side:
+- Primary CTA: Try the live demo
+- Secondary CTA: Read the litepaper
+
+Three stats in a row beneath the CTAs:
+1. > 1M  —  transactions per second
+2. < 50ms  —  confirmation
+3. ≈ $0  —  per transaction

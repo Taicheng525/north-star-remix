@@ -1,26 +1,360 @@
 @import "tailwindcss";
 
+/* ---------- SONIC-DS tokens (inlined from @mirrorworld-universe/sonic-ds@0.1.0) ----------
+   Inlined rather than @imported because the package's variables.css contains
+   `--spacing-scale-0.5: 2px;` which is invalid CSS (custom property names cannot
+   contain a dot) and Turbopack's parser rejects it. We omit that one line; we
+   don't reference it. Bump SONIC-DS → re-sync this block. */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Text */
+  --color-text-primary: #FFFFFF;
+  --color-text-secondary: #DADADA;
+  --color-text-tertiary: #999999;
+  --color-text-muted: #666666;
+  --color-text-quaternary: #4D4D4D;
+  --color-text-fifth: #454545;
+  --color-text-black: #000000;
+  /* Brand / Primary */
+  --color-primary-blue: #0000FF;
+  --color-primary-blue-50: rgba(0, 0, 255, 0.5);
+  --color-primary-blue-30: rgba(0, 0, 255, 0.3);
+  --color-primary-blue-10: rgba(0, 0, 255, 0.1);
+  --color-primary-blue-5: rgba(0, 0, 255, 0.05);
+  --color-primary-blue-bg: #000033;
+  /* Status / Secondary */
+  --color-secondary-green: #00FF94;
+  --color-secondary-green-30: rgba(0, 255, 148, 0.3);
+  --color-secondary-green-10: rgba(0, 255, 148, 0.1);
+  --color-secondary-dark-green: #002E1D;
+  --color-secondary-red: #FF0000;
+  --color-secondary-red-30: rgba(255, 0, 0, 0.3);
+  --color-secondary-red-10: rgba(255, 0, 0, 0.1);
+  --color-secondary-dark-red: #330000;
+  --color-secondary-blue: #3399EE;
+  --color-secondary-blue-10: rgba(51, 153, 238, 0.1);
+  --color-secondary-light-blue: #44AAFF;
+  /* Tertiary */
+  --color-tertiary-purple: #A855F7;
+  --color-tertiary-purple-50: rgba(168, 85, 247, 0.5);
+  --color-tertiary-purple-30: rgba(168, 85, 247, 0.3);
+  --color-tertiary-purple-10: rgba(168, 85, 247, 0.1);
+  /* Lines */
+  --color-line-primary: #262830;
+  --color-line-secondary: #3B3B3B;
+  --color-line-tertiary: #1F1F1F;
+  --color-line-button: #404040;
+  --color-line-handle: #27282D;
+  /* Surfaces / Cards */
+  --color-card-primary: #0A0A0A;
+  --color-card-secondary: #161616;
+  --color-card-tertiary: #1A1A1A;
+  --color-card-dark-glass-50: rgba(10, 10, 10, 0.5);
+  /* Icons */
+  --color-icon-primary: #EBEBEB;
+  --color-icon-secondary: #999999;
+  --color-icon-tertiary: #4D4D4D;
+  /* Backgrounds */
+  --color-background-primary: #000000;
+  --color-background-secondary: #0A0A0A;
+  --color-background-tertiary: #050505;
+  /* Chart */
+  --color-chart-border: #2B2F36;
+  --color-chart-label: #848E9C;
+  --color-chart-tooltip-bg: #151518;
+  /* Secondary buttons */
+  --color-secondarybutton-secondary-fill: #0A0A0A;
+  --color-secondarybutton-tertiary-fill: #262626;
+  --color-secondarybutton-disabled-fill: #1A1A1A;
+  --color-secondarybutton-white-fill: #FFFFFF;
+  --color-secondarybutton-hover-white-3: rgba(255, 255, 255, 0.03);
+  /* Typography */
+  --font-font-family-heading: Orbitron;
+  --font-font-family-body: Manrope;
+  --font-font-weight-extrabold: 800;
+  --font-font-weight-bold: 700;
+  --font-font-weight-semibold: 600;
+  --font-font-weight-medium: 500;
+  --font-font-weight-regular: 400;
+  --font-font-size-10: 10px;
+  --font-font-size-12: 12px;
+  --font-font-size-14: 14px;
+  --font-font-size-16: 16px;
+  --font-font-size-20: 20px;
+  --font-font-size-22: 22px;
+  --font-font-size-24: 24px;
+  --font-font-size-28: 28px;
+  --font-font-size-32: 32px;
+  --font-font-size-40: 40px;
+  --font-font-size-48: 48px;
+  --font-font-lineheight-16: 16px;
+  --font-font-lineheight-18: 18px;
+  --font-font-lineheight-20: 20px;
+  --font-font-lineheight-22: 22px;
+  --font-font-lineheight-24: 24px;
+  --font-font-lineheight-28: 28px;
+  --font-font-lineheight-32: 32px;
+  --font-font-lineheight-34: 34px;
+  --font-font-lineheight-40: 40px;
+  --font-font-lineheight-44: 44px;
+  --font-font-lineheight-56: 56px;
+  --font-font-lineheight-68: 68px;
+  --font-font-letterspacing-0: 0px;
+  --font-font-letterspacing-sm: 0.4px;
+  --font-font-letterspacing-md: 0.8px;
+  --font-font-letterspacing-lg: 1px;
+  --font-font-letterspacing-wide: 2px;
+  /* Spacing — `--spacing-scale-0.5: 2px;` from upstream is omitted (invalid identifier) */
+  --spacing-base: 4px;
+  --spacing-scale-0: 0;
+  --spacing-scale-1: 4px;
+  --spacing-scale-2: 8px;
+  --spacing-scale-3: 12px;
+  --spacing-scale-4: 16px;
+  --spacing-scale-5: 20px;
+  --spacing-scale-6: 24px;
+  --spacing-scale-7: 28px;
+  --spacing-scale-8: 32px;
+  --spacing-scale-9: 36px;
+  --spacing-scale-10: 40px;
+  --spacing-scale-11: 44px;
+  --spacing-scale-12: 48px;
+  --spacing-scale-14: 56px;
+  --spacing-scale-16: 64px;
+  --spacing-scale-20: 80px;
+  --spacing-scale-24: 96px;
+  --spacing-scale-32: 128px;
+  /* Radius */
+  --radius-radius-xs: 2px;
+  --radius-radius-sm: 4px;
+  --radius-radius-md: 6px;
+  --radius-radius-lg: 8px;
+  --radius-radius-xl: 10px;
+  --radius-radius-2xl: 12px;
+  --radius-radius-3xl: 16px;
+  --radius-radius-full: 9999px;
+  /* Shadows */
+  --shadow-shadow-sm: 0px 1px 2px 0px rgba(0, 0, 0, 0.6);
+  --shadow-shadow-md: 0px 4px 6px -1px rgba(0, 0, 0, 0.6), 0px 2px 4px -2px rgba(0, 0, 0, 0.6);
+  --shadow-shadow-lg: 0px 20px 25px -5px rgba(0, 0, 0, 0.5), 0px 8px 10px -6px rgba(0, 0, 0, 0.8);
+  --shadow-shadow-xl: 0px 25px 50px -12px rgba(0, 0, 0, 0.4);
+  --shadow-shadow-glow-blue: inset 0px 0px 12px 0px #0000FF;
+  --shadow-shadow-glow-blue-out: 0px 0px 12px 0px rgba(0, 0, 255, 0.4);
+  --shadow-shadow-glow-green: inset 0px 0px 12px 0px #00FF94;
+  --shadow-shadow-glow-green-out: 0px 0px 12px 0px rgba(0, 255, 148, 0.4);
+}
+
+/* ---------- Light theme alternative (project layer above SONIC-DS) ----------
+   SONIC-DS itself remains dark-only for in-app dApp UI. The landing page
+   uses these light tokens for marketing-context surfaces. */
+:root {
+  --color-surface-light: #EFEFF5;
+  --color-surface-light-soft: #F7F7FB;
+  --color-surface-light-elevated: rgba(255, 255, 255, 0.7);
+  --color-surface-light-pane: rgba(255, 255, 255, 0.4);
+
+  --color-on-light-primary: #0F172A;
+  --color-on-light-secondary: #475569;
+  --color-on-light-muted: #64748B;
+  --color-on-light-faint: #94A3B8;
+
+  --color-line-on-light: rgba(148, 163, 184, 0.4);
+  --color-line-on-light-soft: rgba(148, 163, 184, 0.25);
+  --color-line-on-light-strong: rgba(148, 163, 184, 0.6);
+
+  --color-primary-blue-on-light-bg: rgba(0, 0, 255, 0.04);
+  --color-primary-blue-on-light-bg-strong: rgba(0, 0, 255, 0.08);
+  --color-primary-blue-on-light-border: rgba(0, 0, 255, 0.18);
+  --color-primary-blue-on-light-border-strong: rgba(0, 0, 255, 0.45);
+
+  /* ---------- On-blue theme alternative (saturated #0000FF section bg) ----------
+     Used on ByTheNumbers + Closing for "rhythm break" sections. Reserved for
+     proof / final-CTA moments — max 2 per page. */
+  --color-on-blue-primary: #ffffff;
+  --color-on-blue-secondary: rgba(255, 255, 255, 0.85);
+  --color-on-blue-muted: rgba(255, 255, 255, 0.6);
+  --color-on-blue-faint: rgba(255, 255, 255, 0.4);
+
+  --color-line-on-blue: rgba(255, 255, 255, 0.18);
+  --color-line-on-blue-strong: rgba(255, 255, 255, 0.45);
+
+  --color-surface-on-blue-pane: rgba(255, 255, 255, 0.05);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  /* ---------- Colors (SONIC-DS) ---------- */
+  --color-text-primary: var(--color-text-primary);
+  --color-text-secondary: var(--color-text-secondary);
+  --color-text-tertiary: var(--color-text-tertiary);
+  --color-text-muted: var(--color-text-muted);
+  --color-text-quaternary: var(--color-text-quaternary);
+  --color-text-fifth: var(--color-text-fifth);
+  --color-text-black: var(--color-text-black);
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-primary-blue: var(--color-primary-blue);
+  --color-primary-blue-50: var(--color-primary-blue-50);
+  --color-primary-blue-30: var(--color-primary-blue-30);
+  --color-primary-blue-10: var(--color-primary-blue-10);
+  --color-primary-blue-5: var(--color-primary-blue-5);
+  --color-primary-blue-bg: var(--color-primary-blue-bg);
+
+  --color-secondary-green: var(--color-secondary-green);
+  --color-secondary-green-30: var(--color-secondary-green-30);
+  --color-secondary-green-10: var(--color-secondary-green-10);
+  --color-secondary-dark-green: var(--color-secondary-dark-green);
+  --color-secondary-red: var(--color-secondary-red);
+  --color-secondary-red-30: var(--color-secondary-red-30);
+  --color-secondary-red-10: var(--color-secondary-red-10);
+  --color-secondary-dark-red: var(--color-secondary-dark-red);
+  --color-secondary-blue: var(--color-secondary-blue);
+  --color-secondary-blue-10: var(--color-secondary-blue-10);
+  --color-secondary-light-blue: var(--color-secondary-light-blue);
+
+  --color-tertiary-purple: var(--color-tertiary-purple);
+  --color-tertiary-purple-50: var(--color-tertiary-purple-50);
+  --color-tertiary-purple-30: var(--color-tertiary-purple-30);
+  --color-tertiary-purple-10: var(--color-tertiary-purple-10);
+
+  --color-line-primary: var(--color-line-primary);
+  --color-line-secondary: var(--color-line-secondary);
+  --color-line-tertiary: var(--color-line-tertiary);
+  --color-line-button: var(--color-line-button);
+  --color-line-handle: var(--color-line-handle);
+
+  --color-card-primary: var(--color-card-primary);
+  --color-card-secondary: var(--color-card-secondary);
+  --color-card-tertiary: var(--color-card-tertiary);
+  --color-card-dark-glass-50: var(--color-card-dark-glass-50);
+
+  --color-icon-primary: var(--color-icon-primary);
+  --color-icon-secondary: var(--color-icon-secondary);
+  --color-icon-tertiary: var(--color-icon-tertiary);
+
+  --color-background-primary: var(--color-background-primary);
+  --color-background-secondary: var(--color-background-secondary);
+  --color-background-tertiary: var(--color-background-tertiary);
+
+  --color-chart-border: var(--color-chart-border);
+  --color-chart-label: var(--color-chart-label);
+  --color-chart-tooltip-bg: var(--color-chart-tooltip-bg);
+
+  --color-secondarybutton-secondary-fill: var(--color-secondarybutton-secondary-fill);
+  --color-secondarybutton-tertiary-fill: var(--color-secondarybutton-tertiary-fill);
+  --color-secondarybutton-disabled-fill: var(--color-secondarybutton-disabled-fill);
+  --color-secondarybutton-white-fill: var(--color-secondarybutton-white-fill);
+  --color-secondarybutton-hover-white-3: var(--color-secondarybutton-hover-white-3);
+
+  /* ---------- Light theme alternative (landing-page only) ---------- */
+  --color-surface-light: var(--color-surface-light);
+  --color-surface-light-soft: var(--color-surface-light-soft);
+  --color-surface-light-elevated: var(--color-surface-light-elevated);
+  --color-surface-light-pane: var(--color-surface-light-pane);
+
+  --color-on-light-primary: var(--color-on-light-primary);
+  --color-on-light-secondary: var(--color-on-light-secondary);
+  --color-on-light-muted: var(--color-on-light-muted);
+  --color-on-light-faint: var(--color-on-light-faint);
+
+  --color-line-on-light: var(--color-line-on-light);
+  --color-line-on-light-soft: var(--color-line-on-light-soft);
+  --color-line-on-light-strong: var(--color-line-on-light-strong);
+
+  --color-primary-blue-on-light-bg: var(--color-primary-blue-on-light-bg);
+  --color-primary-blue-on-light-bg-strong: var(--color-primary-blue-on-light-bg-strong);
+  --color-primary-blue-on-light-border: var(--color-primary-blue-on-light-border);
+  --color-primary-blue-on-light-border-strong: var(--color-primary-blue-on-light-border-strong);
+
+  /* ---------- On-blue theme alternative (saturated #0000FF section bg) ---------- */
+  --color-on-blue-primary: var(--color-on-blue-primary);
+  --color-on-blue-secondary: var(--color-on-blue-secondary);
+  --color-on-blue-muted: var(--color-on-blue-muted);
+  --color-on-blue-faint: var(--color-on-blue-faint);
+  --color-line-on-blue: var(--color-line-on-blue);
+  --color-line-on-blue-strong: var(--color-line-on-blue-strong);
+  --color-surface-on-blue-pane: var(--color-surface-on-blue-pane);
+
+  /* ---------- Typography ---------- */
+  --font-heading: var(--font-orbitron), sans-serif;
+  --font-body: var(--font-manrope), sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
+
+  --text-10: var(--font-font-size-10);
+  --text-12: var(--font-font-size-12);
+  --text-14: var(--font-font-size-14);
+  --text-16: var(--font-font-size-16);
+  --text-20: var(--font-font-size-20);
+  --text-22: var(--font-font-size-22);
+  --text-24: var(--font-font-size-24);
+  --text-28: var(--font-font-size-28);
+  --text-32: var(--font-font-size-32);
+  --text-40: var(--font-font-size-40);
+  --text-48: var(--font-font-size-48);
+
+  --leading-16: var(--font-font-lineheight-16);
+  --leading-18: var(--font-font-lineheight-18);
+  --leading-20: var(--font-font-lineheight-20);
+  --leading-22: var(--font-font-lineheight-22);
+  --leading-24: var(--font-font-lineheight-24);
+  --leading-28: var(--font-font-lineheight-28);
+  --leading-32: var(--font-font-lineheight-32);
+  --leading-34: var(--font-font-lineheight-34);
+  --leading-40: var(--font-font-lineheight-40);
+  --leading-44: var(--font-font-lineheight-44);
+  --leading-56: var(--font-font-lineheight-56);
+  --leading-68: var(--font-font-lineheight-68);
+
+  --tracking-0: var(--font-font-letterspacing-0);
+  --tracking-sm: var(--font-font-letterspacing-sm);
+  --tracking-md: var(--font-font-letterspacing-md);
+  --tracking-lg: var(--font-font-letterspacing-lg);
+  --tracking-wide: var(--font-font-letterspacing-wide);
+
+  /* ---------- Spacing (4px base; p-1=4, p-2=8, ...) ---------- */
+  --spacing: var(--spacing-base);
+
+  /* ---------- Border radius ---------- */
+  --radius-xs: var(--radius-radius-xs);
+  --radius-sm: var(--radius-radius-sm);
+  --radius-md: var(--radius-radius-md);
+  --radius-lg: var(--radius-radius-lg);
+  --radius-xl: var(--radius-radius-xl);
+  --radius-2xl: var(--radius-radius-2xl);
+  --radius-3xl: var(--radius-radius-3xl);
+
+  /* ---------- Shadows ---------- */
+  --shadow-sm: var(--shadow-shadow-sm);
+  --shadow-md: var(--shadow-shadow-md);
+  --shadow-lg: var(--shadow-shadow-lg);
+  --shadow-xl: var(--shadow-shadow-xl);
+  --shadow-glow-blue: var(--shadow-shadow-glow-blue);
+  --shadow-glow-blue-out: var(--shadow-shadow-glow-blue-out);
+  --shadow-glow-green: var(--shadow-shadow-glow-green);
+  --shadow-glow-green-out: var(--shadow-shadow-glow-green-out);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-surface-light);
+  color: var(--color-on-light-primary);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Unified section-title size — keep all interior section h2 sizes consistent.
+   Hero h1 has its own larger clamp; this class is for all section h2s.
+   `text-wrap: balance` distributes words across lines evenly and
+   prevents single-word orphans (e.g. lone "a" / "Star" on a line). */
+.section-title {
+  font-size: clamp(28px, 4vw, 52px);
+  line-height: 1.1;
+  text-wrap: balance;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

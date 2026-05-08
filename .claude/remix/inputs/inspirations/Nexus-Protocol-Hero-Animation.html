@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus Protocol — Hero Animation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body style="font-family: 'Manrope', sans-serif; background-color: #EFEFF5; margin: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px;">
+
+    <div id="hero-anim" style="position: relative; width: 100%; max-width: 640px; aspect-ratio: 1/1; border-radius: 24px; overflow: hidden; background: #EFEFF5; box-shadow: 0 2.8px 2.2px rgba(0,0,0,0.034), 0 6.7px 5.3px rgba(0,0,0,0.048), 0 12.5px 10px rgba(0,0,0,0.06), 0 22.3px 17.9px rgba(0,0,0,0.072), 0 41.8px 33.4px rgba(0,0,0,0.086), 0 100px 80px rgba(0,0,0,0.12);">
+
+        <!-- Shared grid background -->
+        <div style="position: absolute; inset: 0; background-image: linear-gradient(180deg, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0) 100%), linear-gradient(45deg, rgba(0,0,255,0.025) 25%, transparent 25%, transparent 75%, rgba(0,0,255,0.025) 75%), linear-gradient(45deg, rgba(0,0,255,0.025) 25%, transparent 25%, transparent 75%, rgba(0,0,255,0.025) 75%); background-size: 100% 100%, 20px 20px, 20px 20px; background-position: 0 0, 0 0, 10px 10px;"></div>
+
+        <!-- Inner highlight overlay -->
+        <div style="position: absolute; inset: 0; pointer-events: none; box-shadow: inset 0 1px 1px rgba(255,255,255,1), inset 0 -1px 2px rgba(0,0,0,0.1); border-radius: inherit;"></div>
+
+        <!-- Corner Brackets -->
+        <div style="position: absolute; top: 16px; left: 16px; width: 14px; height: 14px; border-top: 1px solid rgba(0,0,255,0.4); border-left: 1px solid rgba(0,0,255,0.4); z-index: 30;"></div>
+        <div style="position: absolute; top: 16px; right: 16px; width: 14px; height: 14px; border-top: 1px solid rgba(0,0,255,0.4); border-right: 1px solid rgba(0,0,255,0.4); z-index: 30;"></div>
+        <div style="position: absolute; bottom: 16px; left: 16px; width: 14px; height: 14px; border-bottom: 1px solid rgba(0,0,255,0.4); border-left: 1px solid rgba(0,0,255,0.4); z-index: 30;"></div>
+        <div style="position: absolute; bottom: 16px; right: 16px; width: 14px; height: 14px; border-bottom: 1px solid rgba(0,0,255,0.4); border-right: 1px solid rgba(0,0,255,0.4); z-index: 30;"></div>
+
+        <!-- HUD top -->
+        <div style="position: absolute; top: 18px; left: 36px; right: 36px; z-index: 30; display: flex; justify-content: space-between; align-items: center; font-family: 'Orbitron', sans-serif;" class="text-[10px] uppercase tracking-widest text-slate-600">
+            <div class="flex items-center gap-2">
+                <span style="width: 6px; height: 6px; border-radius: 50%; background: #0000FF;" class="animate-pulse"></span>
+                <span>NEXUS//SEQ</span>
+            </div>
+            <div id="seq-label" style="color: #0000FF;">01 / 04</div>
+        </div>
+
+        <!-- HUD bottom -->
+        <div style="position: absolute; bottom: 18px; left: 36px; right: 36px; z-index: 30; display: flex; justify-content: space-between; align-items: center; font-family: 'Orbitron', sans-serif;" class="text-[10px] uppercase tracking-widest text-slate-500">
+            <span>0xA1F·B27E</span>
+            <div style="flex: 1; margin: 0 16px; height: 1px; background: rgba(0,0,255,0.15); position: relative;">
+                <div id="progress-bar" style="position: absolute; left: 0; top: 0; height: 100%; width: 0%; background: #0000FF; transition: width 0.1s linear;"></div>
+            </div>
+            <span>FINALITY 1.2s</span>
+        </div>
+
+        <!-- ============ SEQUENCE 1: BOOT / LOGO ============ -->
+        <div class="seq" data-seq="0" style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; opacity: 0;">
+            <div style="position: absolute; inset: 0; opacity: 0.15;">
+                <div style="position: absolute; top: 0; bottom: 0; left: 30%; border-left: 1px solid #000;"></div>
+                <div style="position: absolute; top: 0; bottom: 0; right: 30%; border-right: 1px solid #000;"></div>
+                <div style="position: absolute; left: 0; right: 0; top: 50%; border-top: 1px solid #000;"></div>
+            </div>
+            <div style="text-align: center;">
+                <div class="s1-hex" style="width: 110px; height: 110px; margin: 0 auto 24px; border-radius: 24px; background: #0000FF; display: flex; align-items: center; justify-content: center; box-shadow: inset 0 1px 0 rgba(255,255,255,0.3), 0 20px 50px rgba(0,0,255,0.4); transform: scale(0.4); opacity: 0;">
+                    <iconify-icon icon="solar:hexagon-linear" style="color: white; font-size: 56px;"></iconify-icon>
+                </div>
+                <div style="overflow: hidden;">
+                    <div class="s1-title" style="font-family: 'Orbitron', sans-serif; font-weight: 600; font-size: 28px; letter-spacing: 0.04em; transform: translateY(110%);" class="tracking-tight">
+                        NEXUS<span style="color:#0000FF;">.</span>PROTOCOL
+                    </div>
+                </div>
+                <div style="overflow: hidden; margin-top: 8px;">
+                    <div class="s1-sub" style="font-family: 'Orbitron', sans-serif; font-size: 11px; letter-spacing: 0.3em; color: #6b7280; transform: translateY(110%);" class="uppercase">
+                        Initializing Mainnet · v4.2.1
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ SEQUENCE 2: BLUEPRINT ZOOM ============ -->
+        <div class="seq" data-seq="1" style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; opacity: 0;">
+            <div class="s2-wrap" style="width: 70%; max-width: 380px; aspect-ratio: 1/1; transform: scale(0.6); opacity: 0;">
+                <svg viewBox="-250 -250 500 500" style="width: 100%; height: 100%; overflow: visible;">
+                    <defs>
+                        <linearGradient id="bf2" x1="0" x2="0" y1="0" y2="1">
+                            <stop offset="0%" stop-color="#E8E8FF"/>
+                            <stop offset="100%" stop-color="#C8C8F5"/>
+                        </linearGradient>
+                    </defs>
+                    <g style="opacity: 0.3;">
+                        <line x1="-400" y1="-300" x2="300" y2="400" stroke="#0000FF" stroke-width="0.5" />
+                        <line x1="-200" y1="-350" x2="400" y2="250" stroke="#0000FF" stroke-width="0.5" />
+                        <line x1="-100" y1="-300" x2="300" y2="100" stroke="#0000FF" stroke-width="0.5" />
+                    </g>
+                    <g class="s2-shape">
+                        <rect x="-24" y="-120" width="48" height="240" fill="url(#bf2)" stroke="#0000FF" stroke-width="0.6"/>
+                        <polygon points="-120,-20 -120,60 -24,120 -24,-20" fill="url(#bf2)" stroke="#0000FF" stroke-width="0.6"/>
+                        <polygon points="24,-120 24,20 120,-40 120,-120" fill="url(#bf2)" stroke="#0000FF" stroke-width="0.6"/>
+                        <rect x="-110" y="-10" width="50" height="50" fill="#0000FF" stroke="#0000FF" stroke-width="0.5"/>
+                        <rect x="60" y="-40" width="50" height="50" fill="#0000FF" stroke="#0000FF" stroke-width="0.5"/>
+                    </g>
+                    <g class="s2-dims" style="opacity: 0;">
+                        <line x1="24" y1="-140" x2="102" y2="-140" stroke="#8A8A93" stroke-width="0.5"/>
+                        <text x="63" y="-145" text-anchor="middle" style="font-family:'Orbitron',sans-serif; font-size: 8px; fill:#111;">78</text>
+                        <line x1="-120" y1="-40" x2="-52" y2="-40" stroke="#8A8A93" stroke-width="0.5"/>
+                        <text x="-86" y="-45" text-anchor="middle" style="font-family:'Orbitron',sans-serif; font-size: 8px; fill:#111;">68</text>
+                        <line x1="-40" y1="-120" x2="-40" y2="120" stroke="#8A8A93" stroke-width="0.5"/>
+                        <text x="-50" y="4" text-anchor="end" style="font-family:'Orbitron',sans-serif; font-size: 8px; fill:#111;" transform="rotate(-90, -50, 4)">240</text>
+                    </g>
+                </svg>
+            </div>
+            <div style="position: absolute; bottom: 56px; left: 36px; overflow: hidden;">
+                <div class="s2-cap" style="font-family:'Orbitron',sans-serif; font-size: 11px; letter-spacing: 0.2em; color:#1f2937; transform: translateY(110%);" class="uppercase">
+                    Consensus Spec · ZK-Rollup
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ SEQUENCE 3: TYPOGRAPHY MOVE ============ -->
+        <div class="seq" data-seq="2" style="position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0;">
+            <div style="overflow: hidden;">
+                <div class="s3-l1" style="font-family:'Orbitron',sans-serif; font-weight: 600; font-size: clamp(36px, 9vw, 72px); line-height: 1; transform: translateY(110%);" class="tracking-tight">
+                    ON-CHAIN
+                </div>
+            </div>
+            <div style="overflow: hidden;">
+                <div class="s3-l2" style="font-family:'Orbitron',sans-serif; font-weight: 600; font-size: clamp(36px, 9vw, 72px); line-height: 1; color: #0000FF; transform: translateY(110%);" class="tracking-tight">
+                    INFRA.
+                </div>
+            </div>
+            <div class="s3-line" style="margin-top: 18px; width: 0; height: 1px; background: #0000FF;"></div>
+            <div style="margin-top: 14px; overflow: hidden;">
+                <div class="s3-sub" style="font-family:'Orbitron',sans-serif; font-size: 11px; letter-spacing: 0.3em; color:#6b7280; transform: translateY(110%);" class="uppercase">
+                    Settle in seconds · Scale without limit
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ SEQUENCE 4: METRICS RESOLVE ============ -->
+        <div class="seq" data-seq="3" style="position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0; padding: 0 36px;">
+            <div style="overflow: hidden; margin-bottom: 24px;">
+                <div class="s4-h" style="font-family:'Orbitron',sans-serif; font-size: 10px; letter-spacing: 0.4em; color: #0000FF; transform: translateY(110%);" class="uppercase">
+                    — Live On Mainnet
+                </div>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; width: 100%; max-width: 380px;">
+                <div class="s4-card" style="opacity: 0; transform: translateY(20px); border: 1px solid rgba(0,0,255,0.15); border-radius: 12px; padding: 14px; background: rgba(255,255,255,0.5); backdrop-filter: blur(4px);">
+                    <div style="font-family:'Orbitron',sans-serif; font-size: 9px; letter-spacing: 0.2em; color:#6b7280;" class="uppercase">TVL</div>
+                    <div style="font-family:'Orbitron',sans-serif; font-weight: 600; font-size: 22px; margin-top: 6px;" class="tracking-tight">$4.82B</div>
+                    <div style="font-size: 10px; color:#0000FF; margin-top: 2px;">+12.4%</div>
+                </div>
+                <div class="s4-card" style="opacity: 0; transform: translateY(20px); border: 1px solid rgba(0,0,255,0.15); border-radius: 12px; padding: 14px; background: rgba(255,255,255,0.5); backdrop-filter: blur(4px);">
+                    <div style="font-family:'Orbitron',sans-serif; font-size: 9px; letter-spacing: 0.2em; color:#6b7280;" class="uppercase">TPS</div>
+                    <div style="font-family:'Orbitron',sans-serif; font-weight: 600; font-size: 22px; margin-top: 6px;" class="tracking-tight">14,320</div>
+                    <div style="font-size: 10px; color:#0000FF; margin-top: 2px;">Peak 28k</div>
+                </div>
+                <div class="s4-card" style="opacity: 0; transform: translateY(20px); border: 1px solid rgba(0,0,255,0.15); border-radius: 12px; padding: 14px; background: rgba(255,255,255,0.5); backdrop-filter: blur(4px);">
+                    <div style="font-family:'Orbitron',sans-serif; font-size: 9px; letter-spacing: 0.2em; color:#6b7280;" class="uppercase">Validators</div>
+                    <div style="font-family:'Orbitron',sans-serif; font-weight: 600; font-size: 22px; margin-top: 6px;" class="tracking-tight">2,148</div>
+                    <div style="font-size: 10px; color:#6b7280; margin-top: 2px;">64 regions</div>
+                </div>
+                <div class="s4-card" style="opacity: 0; transform: translateY(20px); border: 1px solid rgba(0,0,255,0.15); border-radius: 12px; padding: 14px; background: rgba(255,255,255,0.5); backdrop-filter: blur(4px);">
+                    <div style="font-family:'Orbitron',sans-serif; font-size: 9px; letter-spacing: 0.2em; color:#6b7280;" class="uppercase">Finality</div>
+                    <div style="font-family:'Orbitron',sans-serif; font-weight: 600; font-size: 22px; margin-top: 6px;" class="tracking-tight">1.2s</div>
+                    <div style="font-size: 10px; color:#6b7280; margin-top: 2px;">Cryptographic</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Transition wipe -->
+        <div id="wipe" style="position: absolute; inset: 0; background: #0000FF; transform: translateX(-101%); z-index: 50; pointer-events: none;"></div>
+    </div>
+
+    <script>
+        (function(){
+            const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            const seqs = document.querySelectorAll('.seq');
+            const seqLabel = document.getElementById('seq-label');
+            const progressBar = document.getElementById('progress-bar');
+            const wipe = document.getElementById('wipe');
+            let current = -1;
+            const total = seqs.length;
+            const DUR = 5000; // per sequence
+
+            function anim(el, props, duration, delay, easing){
+                if(reduced){ Object.assign(el.style, props); return; }
+                el.style.transition = `all ${duration}ms ${easing||'cubic-bezier(0.22, 1, 0.36, 1)'} ${delay||0}ms`;
+                requestAnimationFrame(()=>Object.assign(el.style, props));
+            }
+
+            function resetAll(){
+                seqs.forEach(s=>{ s.style.transition='none'; s.style.opacity='0'; s.style.transform=''; });
+            }
+
+            function playSeq(idx){
+                resetAll();
+                const seq = seqs[idx];
+                seq.style.transition = 'opacity 400ms ease';
+                requestAnimationFrame(()=> seq.style.opacity = '1');
+
+                if(idx===0){
+                    const hex = seq.querySelector('.s1-hex');
+                    const t = seq.querySelector('.s1-title');
+                    const sub = seq.querySelector('.s1-sub');
+                    hex.style.transition='none'; hex.style.transform='scale(0.4)'; hex.style.opacity='0';
+                    t.style.transition='none'; t.style.transform='translateY(110%)';
+                    sub.style.transition='none'; sub.style.transform='translateY(110%)';
+                    setTimeout(()=>{
+                        anim(hex,{transform:'scale(1)',opacity:'1'},900,100,'cubic-bezier(0.34,1.56,0.64,1)');
+                        anim(t,{transform:'translateY(0%)'},700,500);
+                        anim(sub,{transform:'translateY(0%)'},700,650);
+                        // late zoom-in
+                        anim(hex,{transform:'scale(1.08)'},2500,1500,'ease-in-out');
+                    },20);
+                }
+                if(idx===1){
+                    const wrap = seq.querySelector('.s2-wrap');
+                    const dims = seq.querySelector('.s2-dims');
+                    const cap = seq.querySelector('.s2-cap');
+                    wrap.style.transition='none'; wrap.style.transform='scale(0.6)'; wrap.style.opacity='0';
+                    dims.style.transition='none'; dims.style.opacity='0';
+                    cap.style.transition='none'; cap.style.transform='translateY(110%)';
+                    setTimeout(()=>{
+                        anim(wrap,{transform:'scale(1)',opacity:'1'},900,100);
+                        anim(dims,{opacity:'1'},700,800);
+                        anim(cap,{transform:'translateY(0%)'},600,400);
+                        anim(wrap,{transform:'scale(1.15) rotate(2deg)'},3000,1500,'ease-in-out');
+                    },20);
+                }
+                if(idx===2){
+                    const l1 = seq.querySelector('.s3-l1');
+                    const l2 = seq.querySelector('.s3-l2');
+                    const line = seq.querySelector('.s3-line');
+                    const sub = seq.querySelector('.s3-sub');
+                    l1.style.transition='none'; l1.style.transform='translateY(110%)';
+                    l2.style.transition='none'; l2.style.transform='translateY(110%)';
+                    line.style.transition='none'; line.style.width='0';
+                    sub.style.transition='none'; sub.style.transform='translateY(110%)';
+                    setTimeout(()=>{
+                        anim(l1,{transform:'translateY(0%)'},700,200);
+                        anim(l2,{transform:'translateY(0%)'},700,350);
+                        anim(line,{width:'140px'},600,800);
+                        anim(sub,{transform:'translateY(0%)'},600,950);
+                    },20);
+                }
+                if(idx===3){
+                    const h = seq.querySelector('.s4-h');
+                    const cards = seq.querySelectorAll('.s4-card');
+                    h.style.transition='none'; h.style.transform='translateY(110%)';
+                    cards.forEach(c=>{ c.style.transition='none'; c.style.opacity='0'; c.style.transform='translateY(20px)'; });
+                    setTimeout(()=>{
+                        anim(h,{transform:'translateY(0%)'},600,100);
+                        cards.forEach((c,i)=> anim(c,{opacity:'1', transform:'translateY(0px)'},600,300+i*120));
+                    },20);
+                }
+
+                seqLabel.textContent = String(idx+1).padStart(2,'0') + ' / ' + String(total).padStart(2,'0');
+            }
+
+            function wipeTo(next){
+                if(reduced){ playSeq(next); return; }
+                wipe.style.transition='transform 500ms cubic-bezier(0.7, 0, 0.3, 1)';
+                wipe.style.transform='translateX(0%)';
+                setTimeout(()=>{
+                    playSeq(next);
+                    wipe.style.transition='transform 500ms cubic-bezier(0.7, 0, 0.3, 1)';
+                    wipe.style.transform='translateX(101%)';
+                    setTimeout(()=>{ wipe.style.transition='none'; wipe.style.transform='translateX(-101%)'; },520);
+                },500);
+            }
+
+            function next(){
+                const n = (current+1) % total;
+                if(current===-1){ playSeq(n); current=n; }
+                else { wipeTo(n); current=n; }
+            }
+
+            // progress
+            let start = performance.now();
+            function loop(t){
+                const elapsed = t - start;
+                const pct = Math.min(100,(elapsed/DUR)*100);
+                progressBar.style.width = pct + '%';
+                if(elapsed >= DUR){
+                    start = t;
+                    progressBar.style.width = '0%';
+                    next();
+                }
+                requestAnimationFrame(loop);
+            }
+
+            next();
+            if(!reduced) requestAnimationFrame(loop);
+            else { progressBar.style.width='100%'; }
+        })();
+    </script>
+</body>
+</html>

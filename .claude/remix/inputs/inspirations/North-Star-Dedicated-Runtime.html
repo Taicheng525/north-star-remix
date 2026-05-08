@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>North Star — Dedicated Runtime</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body style="font-family: 'Manrope', sans-serif; background-color: #EFEFF5;" class="text-slate-900 antialiased">
+
+<section class="relative w-full overflow-hidden" style="background-color: #EFEFF5;">
+
+  <!-- Faint grid backdrop -->
+  <div aria-hidden="true" class="absolute inset-0 pointer-events-none opacity-[0.05]" style="background-image: linear-gradient(rgba(0,0,255,0.6) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,255,0.6) 1px, transparent 1px); background-size: 56px 56px;"></div>
+
+  <!-- ============== PROBLEM HALF ============== -->
+  <div class="relative w-full max-w-7xl mx-auto px-6 lg:px-10 pt-20 md:pt-28 pb-16 md:pb-24">
+
+    <!-- Section marker -->
+    <div class="flex items-center gap-3 mb-8">
+      <span class="w-1.5 h-1.5 rounded-full" style="background:#0000FF;"></span>
+      <span class="text-xs uppercase tracking-[0.2em] text-slate-500" style="font-family:'Orbitron',sans-serif;">01 / The Problem</span>
+      <div class="flex-1 h-px" style="background: linear-gradient(90deg, rgba(0,0,255,0.25), transparent);"></div>
+    </div>
+
+    <div class="grid lg:grid-cols-12 gap-8 lg:gap-12 items-end mb-14 md:mb-16">
+      <div class="lg:col-span-7">
+        <h2 class="text-3xl md:text-5xl leading-[1.05] tracking-tight" style="font-family:'Orbitron',sans-serif; font-weight:600;">
+          Some workloads need a<br>
+          <span style="color:#0000FF;">dedicated runtime.</span>
+        </h2>
+      </div>
+      <div class="lg:col-span-5">
+        <p class="text-base md:text-lg text-slate-600 leading-relaxed">
+          High-frequency updates, real-time pricing, autonomous agents — these workloads demand guaranteed throughput. A shared queue will never give it to them.
+        </p>
+      </div>
+    </div>
+
+    <!-- Problem cards -->
+    <div class="grid md:grid-cols-3 gap-px rounded-2xl overflow-hidden border border-slate-300/60" style="background-color: rgba(148,163,184,0.35); box-shadow: inset 0 1px 0 rgba(255,255,255,1), 0 12px 30px rgba(0,0,0,0.05);">
+
+      <!-- Card 1 -->
+      <article class="bg-[#EFEFF5] p-7 md:p-8 relative">
+        <div class="flex items-center justify-between mb-6">
+          <span class="text-[0.65rem] uppercase tracking-[0.18em] text-slate-500" style="font-family:'JetBrains Mono',monospace;">case_01</span>
+          <iconify-icon icon="solar:database-linear" style="color:#0000FF; font-size:18px;"></iconify-icon>
+        </div>
+        <h3 class="text-lg tracking-tight mb-3" style="font-family:'Orbitron',sans-serif; font-weight:500;">On-Chain Oracles</h3>
+        <p class="text-sm text-slate-600 leading-relaxed mb-6">Every write costs gas and waits behind unrelated traffic. Reads return stale prices while fresh updates sit stuck in the queue.</p>
+        <div class="flex items-center gap-2 text-xs text-slate-500" style="font-family:'JetBrains Mono',monospace;">
+          <span class="px-2 py-0.5 rounded" style="background: rgba(220,38,38,0.08); color:#b91c1c;">stale_reads</span>
+          <span class="px-2 py-0.5 rounded" style="background: rgba(220,38,38,0.08); color:#b91c1c;">queue_lag</span>
+        </div>
+      </article>
+
+      <!-- Card 2 -->
+      <article class="bg-[#EFEFF5] p-7 md:p-8 relative">
+        <div class="flex items-center justify-between mb-6">
+          <span class="text-[0.65rem] uppercase tracking-[0.18em] text-slate-500" style="font-family:'JetBrains Mono',monospace;">case_02</span>
+          <iconify-icon icon="solar:cpu-bolt-linear" style="color:#0000FF; font-size:18px;"></iconify-icon>
+        </div>
+        <h3 class="text-lg tracking-tight mb-3" style="font-family:'Orbitron',sans-serif; font-weight:500;">Autonomous Agents</h3>
+        <p class="text-sm text-slate-600 leading-relaxed mb-6">Every decision loop is gated by block time. Agents can't react faster than the chain confirms — and that ceiling is too low.</p>
+        <div class="flex items-center gap-2 text-xs text-slate-500" style="font-family:'JetBrains Mono',monospace;">
+          <span class="px-2 py-0.5 rounded" style="background: rgba(220,38,38,0.08); color:#b91c1c;">block_bound</span>
+          <span class="px-2 py-0.5 rounded" style="background: rgba(220,38,38,0.08); color:#b91c1c;">latency</span>
+        </div>
+      </article>
+
+      <!-- Card 3 -->
+      <article class="bg-[#EFEFF5] p-7 md:p-8 relative">
+        <div class="flex items-center justify-between mb-6">
+          <span class="text-[0.65rem] uppercase tracking-[0.18em] text-slate-500" style="font-family:'JetBrains Mono',monospace;">case_03</span>
+          <iconify-icon icon="solar:graph-new-up-linear" style="color:#0000FF; font-size:18px;"></iconify-icon>
+        </div>
+        <h3 class="text-lg tracking-tight mb-3" style="font-family:'Orbitron',sans-serif; font-weight:500;">On-Chain Orderbooks</h3>
+        <p class="text-sm text-slate-600 leading-relaxed mb-6">Thousands of updates per second, but shared throughput can only ever carry a fraction. The book never reflects the market in real time.</p>
+        <div class="flex items-center gap-2 text-xs text-slate-500" style="font-family:'JetBrains Mono',monospace;">
+          <span class="px-2 py-0.5 rounded" style="background: rgba(220,38,38,0.08); color:#b91c1c;">throughput_cap</span>
+          <span class="px-2 py-0.5 rounded" style="background: rgba(220,38,38,0.08); color:#b91c1c;">contention</span>
+        </div>
+      </article>
+    </div>
+
+    <!-- Tagline -->
+    <div class="mt-10 flex items-center gap-4">
+      <div class="flex-1 h-px" style="background: linear-gradient(90deg, transparent, rgba(15,23,42,0.15), transparent);"></div>
+      <p class="text-xs md:text-sm text-slate-500 italic text-center">…and any workload that demands guaranteed throughput.</p>
+      <div class="flex-1 h-px" style="background: linear-gradient(90deg, transparent, rgba(15,23,42,0.15), transparent);"></div>
+    </div>
+  </div>
+
+  <!-- ============== TRANSITION DIVIDER ============== -->
+  <div class="relative w-full max-w-7xl mx-auto px-6 lg:px-10">
+    <div class="relative h-24 md:h-32 flex items-center justify-center">
+      <div class="absolute inset-x-0 top-1/2 h-px" style="background: linear-gradient(90deg, transparent, rgba(0,0,255,0.4) 50%, transparent);"></div>
+      <div class="relative flex items-center gap-3 px-5 py-2 rounded-full bg-[#EFEFF5] border border-slate-300/70" style="box-shadow: inset 0 1px 0 rgba(255,255,255,1), 0 4px 14px rgba(0,0,0,0.04);">
+        <iconify-icon icon="solar:arrow-down-linear" style="color:#0000FF; font-size:14px;"></iconify-icon>
+        <span class="text-[0.65rem] uppercase tracking-[0.2em] text-slate-700" style="font-family:'Orbitron',sans-serif;">The North Star Approach</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============== SOLUTION HALF ============== -->
+  <div class="relative w-full max-w-7xl mx-auto px-6 lg:px-10 pt-8 md:pt-12 pb-24 md:pb-32">
+
+    <!-- Section marker -->
+    <div class="flex items-center gap-3 mb-8">
+      <span class="w-1.5 h-1.5 rounded-full" style="background:#0000FF;"></span>
+      <span class="text-xs uppercase tracking-[0.2em] text-slate-500" style="font-family:'Orbitron',sans-serif;">02 / The Solution</span>
+      <div class="flex-1 h-px" style="background: linear-gradient(90deg, rgba(0,0,255,0.25), transparent);"></div>
+    </div>
+
+    <div class="grid lg:grid-cols-12 gap-8 lg:gap-12 items-end mb-14 md:mb-20">
+      <div class="lg:col-span-7">
+        <h2 class="text-3xl md:text-5xl leading-[1.05] tracking-tight" style="font-family:'Orbitron',sans-serif; font-weight:600;">
+          How North Star<br>
+          <span style="color:#0000FF;">solves it.</span>
+        </h2>
+      </div>
+      <div class="lg:col-span-5">
+        <p class="text-base md:text-lg text-slate-600 leading-relaxed">
+          Instead of fighting for shared block space, your app gets its own temporary runtime. Dedicated compute where state updates are near-free — then everything settles back to Solana.
+        </p>
+      </div>
+    </div>
+
+    <!-- Pipeline steps -->
+    <div class="relative">
+      <!-- Connecting line (desktop) -->
+      <div aria-hidden="true" class="hidden md:block absolute top-[3.25rem] left-0 right-0 h-px" style="background: repeating-linear-gradient(90deg, rgba(0,0,255,0.35) 0 6px, transparent 6px 12px);"></div>
+
+      <div class="grid md:grid-cols-3 gap-6 md:gap-5 relative">
+
+        <!-- Step 1 -->
+        <div class="relative">
+          <div class="flex items-center justify-between mb-6 relative">
+            <div class="w-[6.5rem] h-[6.5rem] rounded-2xl flex items-center justify-center bg-[#EFEFF5] border border-slate-300/70 relative" style="box-shadow: inset 0 1px 0 rgba(255,255,255,1), 0 8px 24px rgba(0,0,0,0.05);">
+              <span class="text-4xl tracking-tight" style="font-family:'Orbitron',sans-serif; font-weight:600; color:#0000FF;">01</span>
+              <span class="absolute -top-2 -right-2 w-5 h-5 rounded-full flex items-center justify-center" style="background:#0000FF; box-shadow: 0 4px 10px rgba(0,0,255,0.3);">
+                <iconify-icon icon="solar:bolt-linear" style="color:white; font-size:12px;"></iconify-icon>
+              </span>
+            </div>
+          </div>
+          <div class="rounded-2xl bg-white/60 border border-slate-300/60 p-6" style="box-shadow: inset 0 1px 0 rgba(255,255,255,1), 0 4px 14px rgba(0,0,0,0.04);">
+            <div class="text-[0.65rem] uppercase tracking-[0.18em] text-slate-500 mb-2" style="font-family:'JetBrains Mono',monospace;">step.open_session()</div>
+            <h3 class="text-lg tracking-tight mb-3" style="font-family:'Orbitron',sans-serif; font-weight:500;">Your app opens a session</h3>
+            <p class="text-sm text-slate-600 leading-relaxed">When you need dedicated speed, you call North Star. One SDK call — that's the entire integration surface.</p>
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="relative">
+          <div class="flex items-center justify-between mb-6 relative">
+            <div class="w-[6.5rem] h-[6.5rem] rounded-2xl flex items-center justify-center bg-[#EFEFF5] border border-slate-300/70 relative" style="box-shadow: inset 0 1px 0 rgba(255,255,255,1), 0 8px 24px rgba(0,0,0,0.05);">
+              <span class="text-4xl tracking-tight" style="font-family:'Orbitron',sans-serif; font-weight:600; color:#0000FF;">02</span>
+              <span class="absolute -top-2 -right-2 w-5 h-5 rounded-full flex items-center justify-center" style="background:#0000FF; box-shadow: 0 4px 10px rgba(0,0,255,0.3);">
+                <iconify-icon icon="solar:server-square-linear" style="color:white; font-size:12px;"></iconify-icon>
+              </span>
+            </div>
+          </div>
+          <div class="rounded-2xl p-6 relative overflow-hidden" style="background: linear-gradient(180deg, rgba(0,0,255,0.04), rgba(0,0,255,0.01)); border: 1px solid rgba(0,0,255,0.18); box-shadow: inset 0 1px 0 rgba(255,255,255,0.8), 0 8px 24px rgba(0,0,255,0.08);">
+            <div class="text-[0.65rem] uppercase tracking-[0.18em] mb-2" style="font-family:'JetBrains Mono',monospace; color:#0000FF;">runtime.allocated</div>
+            <h3 class="text-lg tracking-tight mb-3" style="font-family:'Orbitron',sans-serif; font-weight:500;">You get a private runtime</h3>
+            <p class="text-sm text-slate-600 leading-relaxed mb-4">Dedicated compute, zero contention, over 1M TPS. State updates become near-free for the duration of your session.</p>
+            <div class="flex flex-wrap gap-2 text-[0.65rem]" style="font-family:'JetBrains Mono',monospace;">
+              <span class="px-2 py-1 rounded bg-white/70 border border-slate-300/60 text-slate-700">1M+ TPS</span>
+              <span class="px-2 py-1 rounded bg-white/70 border border-slate-300/60 text-slate-700">no_contention</span>
+              <span class="px-2 py-1 rounded bg-white/70 border border-slate-300/60 text-slate-700">~0 fee</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="relative">
+          <div class="flex items-center justify-between mb-6 relative">
+            <div class="w-[6.5rem] h-[6.5rem] rounded-2xl flex items-center justify-center bg-[#EFEFF5] border border-slate-300/70 relative" style="box-shadow: inset 0 1px 0 rgba(255,255,255,1), 0 8px 24px rgba(0,0,0,0.05);">
+              <span class="text-4xl tracking-tight" style="font-family:'Orbitron',sans-serif; font-weight:600; color:#0000FF;">03</span>
+              <span class="absolute -top-2 -right-2 w-5 h-5 rounded-full flex items-center justify-center" style="background:#0000FF; box-shadow: 0 4px 10px rgba(0,0,255,0.3);">
+                <iconify-icon icon="solar:check-circle-linear" style="color:white; font-size:12px;"></iconify-icon>
+              </span>
+            </div>
+          </div>
+          <div class="rounded-2xl bg-white/60 border border-slate-300/60 p-6" style="box-shadow: inset 0 1px 0 rgba(255,255,255,1), 0 4px 14px rgba(0,0,0,0.04);">
+            <div class="text-[0.65rem] uppercase tracking-[0.18em] text-slate-500 mb-2" style="font-family:'JetBrains Mono',monospace;">settle.to_solana()</div>
+            <h3 class="text-lg tracking-tight mb-3" style="font-family:'Orbitron',sans-serif; font-weight:500;">Results settle back to Solana</h3>
+            <p class="text-sm text-slate-600 leading-relaxed">When the session closes, all state settles on-chain — fully verifiable. The runtime disappears, leaving only the proof.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Closing analogy -->
+    <div class="mt-16 md:mt-20 relative">
+      <div class="rounded-2xl p-6 md:p-8 flex items-start md:items-center gap-5 flex-col md:flex-row" style="background: linear-gradient(135deg, rgba(0,0,255,0.04), rgba(0,0,255,0.01)); border: 1px dashed rgba(0,0,255,0.3);">
+        <div class="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0" style="background:#0000FF; box-shadow: inset 0 1px 0 rgba(255,255,255,0.25), 0 8px 20px rgba(0,0,255,0.25);">
+          <iconify-icon icon="solar:lightbulb-linear" style="color:white; font-size:20px;"></iconify-icon>
+        </div>
+        <p class="text-base md:text-lg text-slate-700 leading-relaxed">
+          <span class="text-slate-500" style="font-family:'JetBrains Mono',monospace; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.15em;">tl;dr —</span>
+          Think of it as renting a private server, except it's <span style="color:#0000FF; font-weight:500;">on-chain</span>, fully verifiable, and disappears the moment you're done.
+        </p>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+</body>
+</html>

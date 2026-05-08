@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>North Star — Navigation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body style="font-family: 'Manrope', sans-serif; background-color: #EFEFF5; min-height: 100vh;" class="text-slate-900 antialiased">
+
+    <!-- Sticky Top Navigation -->
+    <header class="sticky top-0 z-50 w-full" style="backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); background: rgba(239,239,245,0.72); border-bottom: 1px solid rgba(148,163,184,0.18);">
+        <nav class="w-full max-w-7xl mx-auto px-6 lg:px-10">
+            <div class="flex items-center justify-between h-16 md:h-18" style="height: 4.25rem;">
+
+                <!-- Brand: Sonic mark + North Star wordmark -->
+                <a href="#" class="flex items-center gap-2.5 group">
+                    <span class="relative inline-flex items-center justify-center w-8 h-8 rounded-lg" style="background:#0000FF; box-shadow: inset 0 1px 0 rgba(255,255,255,0.3), 0 6px 16px rgba(0,0,255,0.28);">
+                        <iconify-icon icon="solar:star-fall-2-linear" style="font-size: 18px; color:#ffffff;" aria-hidden="true"></iconify-icon>
+                        <span class="absolute -bottom-0.5 -right-0.5 inline-flex items-center justify-center w-3.5 h-3.5 rounded-full bg-[#EFEFF5] ring-1 ring-slate-300/70" aria-hidden="true">
+                            <iconify-icon icon="solar:bolt-linear" style="font-size: 9px; color:#0000FF;"></iconify-icon>
+                        </span>
+                    </span>
+                    <span class="text-base tracking-tight text-slate-900" style="font-family: 'Orbitron', sans-serif; font-weight: 600; letter-spacing: 0.01em;">North Star</span>
+                </a>
+
+                <!-- Desktop links (center-right) -->
+                <div class="hidden md:flex items-center gap-1">
+                    <a href="#" class="text-sm px-3.5 py-2 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-white/60 transition-colors flex items-center gap-1.5">
+                        <iconify-icon icon="solar:document-text-linear" style="font-size: 15px;"></iconify-icon>
+                        Litepaper
+                    </a>
+                    <a href="#" class="text-sm px-3.5 py-2 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-white/60 transition-colors flex items-center gap-1.5">
+                        <iconify-icon icon="solar:book-2-linear" style="font-size: 15px;"></iconify-icon>
+                        Docs
+                    </a>
+                    <a href="#" class="text-sm px-3.5 py-2 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-white/60 transition-colors flex items-center gap-1.5">
+                        <iconify-icon icon="solar:code-square-linear" style="font-size: 15px;"></iconify-icon>
+                        GitHub
+                    </a>
+                </div>
+
+                <!-- Right: CTA + mobile toggle -->
+                <div class="flex items-center gap-2">
+                    <a href="#" class="hidden sm:inline-flex text-sm px-4 py-2.5 rounded-xl text-white font-medium tracking-tight items-center gap-2" style="background:#0000FF; box-shadow: inset 0 1px 0 rgba(255,255,255,0.25), 0 8px 22px rgba(0,0,255,0.30);">
+                        Try Demo
+                        <iconify-icon icon="solar:arrow-right-linear" style="font-size: 15px;"></iconify-icon>
+                    </a>
+
+                    <button id="navToggle" aria-label="Open menu" aria-expanded="false" class="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-lg bg-white/70 border border-slate-300/70 text-slate-800" style="box-shadow: inset 0 1px 0 rgba(255,255,255,1), 0 2px 6px rgba(0,0,0,0.04);">
+                        <iconify-icon id="navIconOpen" icon="solar:hamburger-menu-linear" style="font-size: 20px;"></iconify-icon>
+                        <iconify-icon id="navIconClose" icon="solar:close-square-linear" style="font-size: 20px; display:none;"></iconify-icon>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile dropdown panel -->
+            <div id="mobilePanel" class="md:hidden overflow-hidden" style="max-height: 0; transition: max-height 280ms ease;">
+                <div class="pb-5 pt-1 flex flex-col gap-1">
+                    <a href="#" class="text-sm px-3.5 py-3 rounded-lg text-slate-700 hover:bg-white/70 flex items-center gap-2.5">
+                        <iconify-icon icon="solar:document-text-linear" style="font-size: 16px;"></iconify-icon>
+                        Litepaper
+                    </a>
+                    <a href="#" class="text-sm px-3.5 py-3 rounded-lg text-slate-700 hover:bg-white/70 flex items-center gap-2.5">
+                        <iconify-icon icon="solar:book-2-linear" style="font-size: 16px;"></iconify-icon>
+                        Docs
+                    </a>
+                    <a href="#" class="text-sm px-3.5 py-3 rounded-lg text-slate-700 hover:bg-white/70 flex items-center gap-2.5">
+                        <iconify-icon icon="solar:code-square-linear" style="font-size: 16px;"></iconify-icon>
+                        GitHub
+                    </a>
+                    <a href="#" class="sm:hidden mt-2 text-sm px-4 py-3 rounded-xl text-white font-medium tracking-tight inline-flex items-center justify-center gap-2" style="background:#0000FF; box-shadow: inset 0 1px 0 rgba(255,255,255,0.25), 0 8px 22px rgba(0,0,255,0.30);">
+                        Try Demo
+                        <iconify-icon icon="solar:arrow-right-linear" style="font-size: 15px;"></iconify-icon>
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <script>
+        (function () {
+            const btn = document.getElementById('navToggle');
+            const panel = document.getElementById('mobilePanel');
+            const iOpen = document.getElementById('navIconOpen');
+            const iClose = document.getElementById('navIconClose');
+            let open = false;
+            btn.addEventListener('click', () => {
+                open = !open;
+                btn.setAttribute('aria-expanded', String(open));
+                panel.style.maxHeight = open ? panel.scrollHeight + 'px' : '0px';
+                iOpen.style.display = open ? 'none' : '';
+                iClose.style.display = open ? '' : 'none';
+            });
+        })();
+    </script>
+</body>
+</html>

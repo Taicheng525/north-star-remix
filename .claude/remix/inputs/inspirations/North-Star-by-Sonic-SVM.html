@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>North Star by Sonic SVM</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Manrope:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body style="font-family: 'Manrope', sans-serif; background-color: #F7F7FB; min-height: 100vh; display: flex; flex-direction: column;" class="text-slate-900 antialiased">
+
+    <!-- Spacer to push footer to bottom -->
+    <div class="flex-1"></div>
+
+    <!-- FOOTER -->
+    <footer class="relative w-full overflow-hidden" style="background: linear-gradient(180deg, #F7F7FB 0%, #EFEFF7 100%); border-top: 1px solid rgba(15,23,42,0.08);">
+
+        <!-- Ambient glow -->
+        <div aria-hidden="true" style="position: absolute; top: -200px; left: 50%; transform: translateX(-50%); width: 900px; height: 500px; background: radial-gradient(ellipse at center, rgba(99, 102, 241, 0.22) 0%, rgba(99, 102, 241, 0.08) 35%, transparent 70%); pointer-events: none; filter: blur(20px);"></div>
+
+        <!-- Grid pattern overlay -->
+        <div aria-hidden="true" style="position: absolute; inset: 0; background-image: linear-gradient(rgba(15,23,42,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(15,23,42,0.05) 1px, transparent 1px); background-size: 64px 64px; mask-image: radial-gradient(ellipse at top, black 30%, transparent 75%); -webkit-mask-image: radial-gradient(ellipse at top, black 30%, transparent 75%); pointer-events: none;"></div>
+
+        <!-- Top hairline accent -->
+        <div aria-hidden="true" style="position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent 0%, rgba(99, 102, 241, 0.55) 50%, transparent 100%);"></div>
+
+        <div class="relative w-full max-w-7xl mx-auto px-6 lg:px-10 py-14 md:py-20">
+
+            <!-- Top row: brand + meta -->
+            <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-10 md:gap-16">
+
+                <!-- Brand block -->
+                <div class="flex flex-col gap-5 max-w-md">
+                    <div class="flex items-center gap-3">
+                        <!-- Star mark -->
+                        <div class="relative w-10 h-10 flex items-center justify-center" style="background: linear-gradient(135deg, rgba(99,102,241,0.18), rgba(99,102,241,0.04)); border: 1px solid rgba(99,102,241,0.4); border-radius: 10px; box-shadow: inset 0 1px 0 rgba(255,255,255,0.7), 0 6px 20px rgba(99,102,241,0.18);">
+                            <iconify-icon icon="solar:star-linear" style="color: #4f46e5; font-size: 18px;" aria-hidden="true"></iconify-icon>
+                            <span style="position:absolute; top:-2px; right:-2px; width:6px; height:6px; border-radius:9999px; background:#6366f1; box-shadow:0 0 10px #818cf8;"></span>
+                        </div>
+                        <div class="flex flex-col leading-tight">
+                            <span class="text-xs uppercase tracking-[0.22em] text-slate-500" style="font-family: 'Orbitron', sans-serif;">Navigating on-chain</span>
+                            <span class="text-sm tracking-tight text-slate-900" style="font-family: 'Orbitron', sans-serif; font-weight: 500;">NORTH STAR</span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h2 class="text-2xl md:text-3xl tracking-tight text-slate-900 leading-[1.15]" style="font-family: 'Orbitron', sans-serif; font-weight: 500;">
+                            North Star
+                            <span class="text-slate-400"> by </span>
+                            <span style="background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">Sonic SVM</span>
+                        </h2>
+                        <p class="mt-3 text-sm text-slate-500 leading-relaxed max-w-sm">
+                            A guidance layer for builders charting the next generation of high-performance on-chain experiences.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Resources block -->
+                <nav aria-label="Resources" class="flex flex-col gap-4 md:items-end">
+                    <div class="flex items-center gap-2 text-xs uppercase tracking-[0.22em] text-slate-500" style="font-family: 'Orbitron', sans-serif;">
+                        <span aria-hidden="true" class="w-6 h-px bg-slate-300"></span>
+                        Resources
+                    </div>
+
+                    <ul class="flex flex-col md:items-end gap-2 md:gap-1.5" role="list">
+                        <li>
+                            <a href="#" class="group inline-flex items-center gap-3 py-1 text-base text-slate-700 hover:text-slate-900 transition-colors">
+                                <span class="text-xs text-slate-400 tabular-nums" style="font-family: 'JetBrains Mono', monospace;">01</span>
+                                <span class="tracking-tight" style="font-family: 'Orbitron', sans-serif; font-weight: 400;">Litepaper</span>
+                                <iconify-icon icon="solar:arrow-right-up-linear" style="font-size: 14px;" class="text-slate-400 group-hover:text-indigo-600 transition-colors" aria-hidden="true"></iconify-icon>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="group inline-flex items-center gap-3 py-1 text-base text-slate-700 hover:text-slate-900 transition-colors">
+                                <span class="text-xs text-slate-400 tabular-nums" style="font-family: 'JetBrains Mono', monospace;">02</span>
+                                <span class="tracking-tight" style="font-family: 'Orbitron', sans-serif; font-weight: 400;">Docs</span>
+                                <iconify-icon icon="solar:arrow-right-up-linear" style="font-size: 14px;" class="text-slate-400 group-hover:text-indigo-600 transition-colors" aria-hidden="true"></iconify-icon>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="group inline-flex items-center gap-3 py-1 text-base text-slate-700 hover:text-slate-900 transition-colors">
+                                <span class="text-xs text-slate-400 tabular-nums" style="font-family: 'JetBrains Mono', monospace;">03</span>
+                                <span class="tracking-tight" style="font-family: 'Orbitron', sans-serif; font-weight: 400;">GitHub</span>
+                                <iconify-icon icon="solar:arrow-right-up-linear" style="font-size: 14px;" class="text-slate-400 group-hover:text-indigo-600 transition-colors" aria-hidden="true"></iconify-icon>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="group inline-flex items-center gap-3 py-1 text-base text-slate-700 hover:text-slate-900 transition-colors">
+                                <span class="text-xs text-slate-400 tabular-nums" style="font-family: 'JetBrains Mono', monospace;">04</span>
+                                <span class="tracking-tight" style="font-family: 'Orbitron', sans-serif; font-weight: 400;">Demo</span>
+                                <iconify-icon icon="solar:arrow-right-up-linear" style="font-size: 14px;" class="text-slate-400 group-hover:text-indigo-600 transition-colors" aria-hidden="true"></iconify-icon>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+
+            <!-- Divider -->
+            <div class="my-10 md:my-14 relative h-px w-full" aria-hidden="true">
+                <div class="absolute inset-0" style="background: linear-gradient(90deg, transparent 0%, rgba(15,23,42,0.12) 20%, rgba(15,23,42,0.12) 80%, transparent 100%);"></div>
+            </div>
+
+            <!-- Bottom row: status + legal -->
+            <div class="flex flex-col-reverse md:flex-row md:items-center md:justify-between gap-6">
+                <div class="flex flex-wrap items-center gap-x-6 gap-y-2 text-xs text-slate-500">
+                    <span style="font-family: 'JetBrains Mono', monospace;">© 2025 Sonic SVM</span>
+                    <span class="hidden md:inline w-px h-3 bg-slate-300"></span>
+                    <a href="#" class="hover:text-slate-900 transition-colors">Terms</a>
+                    <a href="#" class="hover:text-slate-900 transition-colors">Privacy</a>
+                </div>
+
+                <div class="flex items-center gap-3 text-xs uppercase tracking-[0.2em] text-slate-600" style="font-family: 'Orbitron', sans-serif;">
+                    <span class="relative flex w-2 h-2" aria-hidden="true">
+                        <span class="absolute inline-flex h-full w-full rounded-full opacity-60 animate-ping" style="background:#818cf8;"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2" style="background:#6366f1; box-shadow:0 0 8px #818cf8;"></span>
+                    </span>
+                    Network Online
+                </div>
+            </div>
+
+            <!-- Oversized wordmark -->
+            <div aria-hidden="true" class="mt-16 md:mt-20 select-none pointer-events-none">
+                <div class="text-[14vw] md:text-[10vw] leading-none tracking-tight whitespace-nowrap overflow-hidden" style="font-family: 'Orbitron', sans-serif; font-weight: 600; background: linear-gradient(180deg, rgba(15,23,42,0.12) 0%, rgba(15,23,42,0.02) 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">
+                    NORTH&nbsp;STAR
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

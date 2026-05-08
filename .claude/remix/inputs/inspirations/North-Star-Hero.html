@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>North Star — Blockchains On Demand</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body style="font-family: 'Manrope', sans-serif; background-color: #EFEFF5; overflow-x: hidden;" class="text-slate-900 antialiased selection:bg-blue-200">
+
+    <!-- WebGL Background -->
+    <div id="webgl-container" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; pointer-events: none; opacity: 0.4;"></div>
+
+    <!-- NAV -->
+    <nav class="relative z-20 w-full max-w-7xl mx-auto px-6 lg:px-10 py-6 flex items-center justify-between">
+        <div class="flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background: #0000FF; box-shadow: inset 0 1px 0 rgba(255,255,255,0.3), 0 4px 12px rgba(0,0,255,0.25);">
+                <iconify-icon icon="solar:star-linear" style="color: white; font-size: 18px;"></iconify-icon>
+            </div>
+            <span style="font-family: 'Orbitron', sans-serif; font-weight: 600; letter-spacing: 0.02em;" class="text-sm tracking-tight">NORTH<span style="color: #0000FF;">.</span>STAR</span>
+        </div>
+        <div class="hidden md:flex items-center gap-8 text-sm text-slate-600">
+            <a href="#" class="hover:text-slate-900 transition">Platform</a>
+            <a href="#" class="hover:text-slate-900 transition">Builders</a>
+            <a href="#" class="hover:text-slate-900 transition">Validators</a>
+            <a href="#" class="hover:text-slate-900 transition">Docs</a>
+            <a href="#" class="hover:text-slate-900 transition">Ecosystem</a>
+        </div>
+        <div class="flex items-center gap-3">
+            <button class="hidden sm:block text-sm text-slate-700 hover:text-slate-900">Sign in</button>
+            <button class="text-xs px-4 py-2 rounded-lg text-white font-medium tracking-tight" style="background: #0000FF; box-shadow: inset 0 1px 0 rgba(255,255,255,0.25), 0 4px 14px rgba(0,0,255,0.3);">
+                Launch Console
+            </button>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="relative z-10 w-full max-w-7xl mx-auto px-6 lg:px-10 pt-6 pb-12">
+
+        <!-- Top Eyebrow Row -->
+        <div class="flex flex-wrap items-center justify-between gap-4 pb-10">
+            <div class="flex items-center gap-3">
+                <div class="flex items-center gap-2 text-xs uppercase tracking-widest text-slate-500" style="font-family: 'Orbitron', sans-serif;">
+                    <span class="relative flex w-1.5 h-1.5">
+                        <span class="absolute inline-flex w-full h-full rounded-full opacity-60 animate-ping" style="background: #0000FF;"></span>
+                        <span class="relative inline-flex w-1.5 h-1.5 rounded-full" style="background: #0000FF;"></span>
+                    </span>
+                    Live Sync
+                </div>
+                <span class="hidden sm:block w-px h-4 bg-slate-300/80"></span>
+                <div class="hidden sm:flex items-center gap-2 px-3 py-1 rounded-full bg-white/70 border border-slate-300/70" style="box-shadow: inset 0 1px 0 rgba(255,255,255,1), 0 1px 2px rgba(0,0,0,0.04);">
+                    <iconify-icon icon="solar:bolt-circle-linear" style="color: #0000FF; font-size: 14px;"></iconify-icon>
+                    <span class="text-xs tracking-tight" style="font-family: 'Orbitron', sans-serif; font-weight: 500;">Powered by Sonic SVM</span>
+                </div>
+            </div>
+            <div class="flex items-center gap-6 text-xs text-slate-500">
+                <span>Region <span class="text-slate-900 font-medium">us-east-1</span></span>
+                <span class="hidden sm:inline">Slot <span class="text-slate-900 font-medium">#284,917,302</span></span>
+                <span>Uptime <span class="text-slate-900 font-medium">99.998%</span></span>
+            </div>
+        </div>
+
+        <!-- Mobile pill -->
+        <div class="sm:hidden mb-6">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/70 border border-slate-300/70" style="box-shadow: inset 0 1px 0 rgba(255,255,255,1), 0 1px 2px rgba(0,0,0,0.04);">
+                <iconify-icon icon="solar:bolt-circle-linear" style="color: #0000FF; font-size: 14px;"></iconify-icon>
+                <span class="text-xs tracking-tight" style="font-family: 'Orbitron', sans-serif; font-weight: 500;">Powered by Sonic SVM</span>
+            </div>
+        </div>
+
+        <!-- Headline + Visual Split -->
+        <div class="grid lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+
+            <!-- Left: Copy + CTAs -->
+            <div class="lg:col-span-7">
+                <div class="reveal-mask" style="overflow: hidden; display: block;">
+                    <h1 class="reveal-text text-4xl md:text-6xl lg:text-7xl leading-[1.02] tracking-tight" style="font-family: 'Orbitron', sans-serif; font-weight: 600; transform: translateY(100%); will-change: transform;">
+                        Your Own Blockchain,<br>
+                        <span style="color: #0000FF;">On Demand.</span>
+                    </h1>
+                </div>
+                <p class="mt-6 max-w-xl text-base md:text-lg text-slate-600 leading-relaxed">
+                    North Star spins up dedicated blockchains in seconds — not quarters.
+                    Over a million TPS, sub-50ms confirmation, all running on Sonic SVM.
+                </p>
+
+                <div class="mt-8 flex flex-wrap items-center gap-3">
+                    <button class="text-sm px-5 py-3 rounded-xl text-white font-medium tracking-tight flex items-center gap-2 group" style="background: #0000FF; box-shadow: inset 0 1px 0 rgba(255,255,255,0.25), 0 8px 24px rgba(0,0,255,0.28);">
+                        Try the live demo
+                        <iconify-icon icon="solar:arrow-right-linear" style="font-size: 16px;"></iconify-icon>
+                    </button>
+                    <button class="text-sm px-5 py-3 rounded-xl text-slate-800 font-medium tracking-tight bg-white/60 border border-slate-300/70 flex items-center gap-2" style="box-shadow: inset 0 1px 0 rgba(255,255,255,1), 0 2px 4px rgba(0,0,0,0.04);">
+                        <iconify-icon icon="solar:document-text-linear" style="font-size: 16px;"></iconify-icon>
+                        Read the litepaper
+                    </button>
+                </div>
+
+                <!-- Stats Row -->
+                <div class="mt-12 grid grid-cols-3 gap-px rounded-2xl overflow-hidden border border-slate-300/60 bg-slate-300/50" style="box-shadow: inset 0 1px 0 rgba(255,255,255,1), 0 8px 24px rgba(0,0,0,0.04);">
+                    <div class="bg-[#EFEFF5] p-4 md:p-5">
+                        <div class="text-2xl md:text-3xl tracking-tight" style="font-family: 'Orbitron', sans-serif; font-weight: 600;">&gt;1M</div>
+                        <div class="mt-1 text-xs uppercase tracking-widest text-slate-500" style="font-family: 'Orbitron', sans-serif;">Tx / second</div>
+                    </div>
+                    <div class="bg-[#EFEFF5] p-4 md:p-5">
+                        <div class="text-2xl md:text-3xl tracking-tight" style="font-family: 'Orbitron', sans-serif; font-weight: 600;">&lt;50<span class="text-base md:text-lg text-slate-500">ms</span></div>
+                        <div class="mt-1 text-xs uppercase tracking-widest text-slate-500" style="font-family: 'Orbitron', sans-serif;">Confirmation</div>
+                    </div>
+                    <div class="bg-[#EFEFF5] p-4 md:p-5">
+                        <div class="text-2xl md:text-3xl tracking-tight" style="font-family: 'Orbitron', sans-serif; font-weight: 600;">≈ $0</div>
+                        <div class="mt-1 text-xs uppercase tracking-widest text-slate-500" style="font-family: 'Orbitron', sans-serif;">Per transaction</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Blueprint Frame Visual Anchor -->
+            <div class="lg:col-span-5">
+                <div style="background: #EFEFF5; position: relative;" class="w-full aspect-square flex items-center justify-center rounded-3xl">
+                    <div style="position: relative; background: #EFEFF5; background-image: linear-gradient(180deg, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0) 100%), linear-gradient(45deg, rgba(0,0,255,0.025) 25%, transparent 25%, transparent 75%, rgba(0,0,255,0.025) 75%), linear-gradient(45deg, rgba(0,0,255,0.025) 25%, transparent 25%, transparent 75%, rgba(0,0,255,0.025) 75%); background-size: 100% 100%, 20px 20px, 20px 20px; background-position: 0 0, 0 0, 10px 10px; box-shadow: 0 2.8px 2.2px rgba(0,0,0,0.034), 0 6.7px 5.3px rgba(0,0,0,0.048), 0 12.5px 10px rgba(0,0,0,0.06), 0 22.3px 17.9px rgba(0,0,0,0.072), 0 41.8px 33.4px rgba(0,0,0,0.086), 0 100px 80px rgba(0,0,0,0.12);" class="w-full h-full relative flex items-center justify-center rounded-3xl">
+
+                        <div style="position: absolute; inset: 0; border-radius: inherit; pointer-events: none; box-shadow: inset 0 1px 1px rgba(255,255,255,1), inset 0 -1px 2px rgba(0,0,0,0.1);"></div>
+
+                        <!-- Corner Brackets -->
+                        <div style="position: absolute; top: 16px; left: 16px; width: 14px; height: 14px; border-top: 1px solid rgba(0,0,255,0.4); border-left: 1px solid rgba(0,0,255,0.4); pointer-events: none;"></div>
+                        <div style="position: absolute; top: 16px; right: 16px; width: 14px; height: 14px; border-top: 1px solid rgba(0,0,255,0.4); border-right: 1px solid rgba(0,0,255,0.4); pointer-events: none;"></div>
+                        <div style="position: absolute; bottom: 16px; left: 16px; width: 14px; height: 14px; border-bottom: 1px solid rgba(0,0,255,0.4); border-left: 1px solid rgba(0,0,255,0.4); pointer-events: none;"></div>
+                        <div style="position: absolute; bottom: 16px; right: 16px; width: 14px; height: 14px; border-bottom: 1px solid rgba(0,0,255,0.4); border-right: 1px solid rgba(0,0,255,0.4); pointer-events: none;"></div>
+
+                        <!-- Top Left Metadata -->
+                        <div class="absolute top-5 left-5 flex flex-col gap-0.5">
+                            <div style="overflow: hidden; display: inline-block;">
+                                <span class="reveal-text text-xs tracking-tight uppercase text-slate-800" style="font-family: 'Orbitron', sans-serif; font-weight: 500; text-shadow: 0 1px 1px rgba(255,255,255,0.8); transform: translateY(100%); will-change: transform;">Chain Spec</span>
+                            </div>
+                            <div style="overflow: hidden; display: inline-block;">
+                                <span class="reveal-text text-xs tracking-tight uppercase text-slate-500" style="font-family: 'Orbitron', sans-serif; transform: translateY(100%);">SVM · Dedicated</span>
+                            </div>
+                        </div>
+
+                        <!-- Top Right Metadata -->
+                        <div class="absolute top-5 right-5 flex flex-col items-end gap-0.5 text-right">
+                            <div style="overflow: hidden; display: inline-block;">
+                                <span class="reveal-text text-xs tracking-tight uppercase text-slate-800" style="font-family: 'Orbitron', sans-serif; font-weight: 500; text-shadow: 0 1px 1px rgba(255,255,255,0.8); transform: translateY(100%);">Boot 8.4s</span>
+                            </div>
+                            <div style="overflow: hidden; display: inline-block;">
+                                <span class="reveal-text text-xs tracking-tight uppercase text-slate-500" style="font-family: 'Orbitron', sans-serif; transform: translateY(100%);">v 4.2.1</span>
+                            </div>
+                        </div>
+
+                        <!-- Center Geometric Diagram -->
+                        <div class="relative w-[78%] aspect-square flex items-center justify-center">
+                            <svg viewBox="-250 -250 500 500" class="w-full h-full overflow-visible" id="geometry-svg">
+                                <defs>
+                                    <linearGradient id="blueFill" x1="0" x2="0" y1="0" y2="1">
+                                        <stop offset="0%" stop-color="#E8E8FF"/>
+                                        <stop offset="100%" stop-color="#C8C8F5"/>
+                                    </linearGradient>
+                                </defs>
+                                <line x1="-400" y1="-300" x2="300" y2="400" style="stroke: #0000FF; stroke-width: 0.5; fill: none; opacity: 0.25;" />
+                                <line x1="-350" y1="-350" x2="400" y2="400" style="stroke: #0000FF; stroke-width: 0.5; fill: none; opacity: 0.25;" />
+                                <line x1="-200" y1="-350" x2="400" y2="250" style="stroke: #0000FF; stroke-width: 0.5; fill: none; opacity: 0.25;" />
+
+                                <g style="opacity: 0.2;">
+                                    <line x1="-120" y1="-50" x2="120" y2="-50" style="stroke: #8A8A93; stroke-width: 0.5; fill: none;"/>
+                                    <line x1="-120" y1="50" x2="120" y2="50" style="stroke: #8A8A93; stroke-width: 0.5; fill: none;"/>
+                                    <line x1="-50" y1="-120" x2="-50" y2="120" style="stroke: #8A8A93; stroke-width: 0.5; fill: none;"/>
+                                    <line x1="50" y1="-120" x2="50" y2="120" style="stroke: #8A8A93; stroke-width: 0.5; fill: none;"/>
+                                </g>
+
+                                <g id="main-shape" style="filter: drop-shadow(0px 2px 3px rgba(0,0,255,0.08)) drop-shadow(0px 6px 10px rgba(0,0,0,0.04));">
+                                    <rect x="-24" y="-120" width="48" height="240" style="fill: url(#blueFill); stroke: #0000FF; stroke-width: 0.6;" class="svg-fill-light"/>
+                                    <polygon points="-120,-20 -120,60 -24,120 -24,-20" style="fill: url(#blueFill); stroke: #0000FF; stroke-width: 0.6;" class="svg-fill-light"/>
+                                    <polygon points="24,-120 24,20 120,-40 120,-120" style="fill: url(#blueFill); stroke: #0000FF; stroke-width: 0.6;" class="svg-fill-light"/>
+                                    <rect x="-110" y="-10" width="50" height="50" style="fill: #0000FF; stroke: #0000FF; stroke-width: 0.5;" class="svg-fill-dark"/>
+                                    <rect x="60" y="-40" width="50" height="50" style="fill: #0000FF; stroke: #0000FF; stroke-width: 0.5;" class="svg-fill-dark"/>
+                                </g>
+                            </svg>
+                        </div>
+
+                        <!-- Bottom Left Metadata -->
+                        <div class="absolute bottom-5 left-5 flex flex-col gap-0.5">
+                            <div style="overflow: hidden; display: inline-block;">
+                                <span class="reveal-text text-xs tracking-tight uppercase text-slate-800" style="font-family: 'Orbitron', sans-serif; font-weight: 500; text-shadow: 0 1px 1px rgba(255,255,255,0.8); transform: translateY(100%);">Throughput</span>
+                            </div>
+                            <div style="overflow: hidden; display: inline-block;">
+                                <span class="reveal-text text-xs tracking-tight uppercase text-slate-500" style="font-family: 'Orbitron', sans-serif; transform: translateY(100%);">1.04M tps · live</span>
+                            </div>
+                        </div>
+
+                        <!-- Bottom Right Metadata -->
+                        <div class="absolute bottom-5 right-5 flex flex-col items-end gap-0.5 text-right">
+                            <div style="overflow: hidden; display: inline-block;">
+                                <span class="reveal-text text-xs tracking-tight uppercase text-slate-800" style="font-family: 'Orbitron', sans-serif; font-weight: 500; text-shadow: 0 1px 1px rgba(255,255,255,0.8); transform: translateY(100%);">Sonic SVM</span>
+                            </div>
+                            <div style="overflow: hidden; display: inline-block;">
+                                <span class="reveal-text text-xs tracking-tight uppercase text-slate-500" style="font-family: 'Orbitron', sans-serif; transform: translateY(100%);">Settlement Layer</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        const initWebGL = () => {
+            const container = document.getElementById('webgl-container');
+            const scene = new THREE.Scene();
+            scene.fog = new THREE.FogExp2(0xEFEFF5, 0.0015);
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.z = 200; camera.position.y = 50; camera.lookAt(0, 0, 0);
+            const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            container.appendChild(renderer.domElement);
+            const material = new THREE.LineBasicMaterial({ color: 0x0000FF, transparent: true, opacity: 0.18 });
+            const points = []; const size = 1000; const step = 40;
+            for (let i = -size; i <= size; i += step) {
+                points.push(new THREE.Vector3(-size, 0, i)); points.push(new THREE.Vector3(size, 0, i + size));
+                points.push(new THREE.Vector3(i, 0, -size)); points.push(new THREE.Vector3(i + size, 0, size));
+            }
+            const geometry = new THREE.BufferGeometry().setFromPoints(points);
+            const grid = new THREE.LineSegments(geometry, material);
+            grid.rotation.x = Math.PI / 4; scene.add(grid);
+            let time = 0;
+            const animate = () => {
+                requestAnimationFrame(animate); time += 0.001;
+                grid.position.x = Math.sin(time) * 10; grid.position.z = (time * 10) % step;
+                renderer.render(scene, camera);
+            };
+            animate();
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        };
+
+        const initGSAP = () => {
+            gsap.registerPlugin(ScrollTrigger);
+            const revealTexts = document.querySelectorAll('.reveal-text');
+            gsap.to(revealTexts, { y: "0%", duration: 0.8, ease: "power3.out", stagger: 0.08, delay: 0.2 });
+            const svgPaths = document.querySelectorAll('#geometry-svg polygon, #geometry-svg rect');
+            gsap.set(svgPaths, { opacity: 0 });
+            gsap.set('.svg-fill-light, .svg-fill-dark', { fillOpacity: 0 });
+            const tl = gsap.timeline({ delay: 0.5 });
+            tl.to(svgPaths, { opacity: 1, duration: 0.5, stagger: 0.02, ease: "power2.inOut" })
+              .to('.svg-fill-light, .svg-fill-dark', { fillOpacity: 1, duration: 0.8, ease: "power2.out" }, "-=0.2");
+        };
+
+        window.addEventListener('DOMContentLoaded', () => { initWebGL(); initGSAP(); });
+    </script>
+</body>
+</html>
