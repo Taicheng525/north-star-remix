@@ -1,117 +1,663 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import RevealOnScroll from "./RevealOnScroll";
 import SectionDivider from "./SectionDivider";
 
-const ROWS = [
-  {
-    num: "01",
-    label: "On-Chain Oracles",
-    headline: "Near-Free Price Feeds. Always Fresh.",
-    body: "Oracle updates become a near-free operation on a dedicated runtime. Write as often as you need. Every read returns current state.",
-    statValue: "≈ $0",
-    statLabel: "per price update",
-  },
-  {
-    num: "02",
-    label: "Autonomous Agents",
-    headline: "Faster Loops. Smarter Agents.",
-    body: "Each agent runs on its own dedicated runtime. Decision loops drop from 400ms to under 50ms. Strategies iterate faster, adapt sooner.",
-    statValue: "< 50ms",
-    statLabel: "per decision cycle",
-  },
-  {
-    num: "03",
-    label: "On-Chain Orderbooks",
-    headline: "Exchange-Grade Throughput. On-Chain.",
-    body: "Thousands of order operations per second on a dedicated runtime. No contention, no throughput ceiling, no compromises.",
-    statValue: "> 1M",
-    statLabel: "ops per second",
-  },
-] as const;
+const USECASE_GREEN = "#0F8F5C";
 
-export default function WhatYouCanBuild() {
-  return (
-    <section className="relative w-full">
-      <div className="pt-20 md:pt-24">
-        <SectionDivider label="Use Cases" theme="light" />
-      </div>
-
-      <div className="relative w-full max-w-7xl mx-auto px-6 lg:px-10 py-16 md:py-24">
-        <RevealOnScroll className="w-full">
-          <div className="max-w-2xl mb-12 md:mb-16">
-            <h2 className="font-heading text-on-light-primary font-extrabold tracking-tight section-title">
-              What You Can Build With{" "}
-              <span className="text-primary-blue">North{" "}Star</span>
-            </h2>
-            <p className="mt-5 font-body text-16 md:text-20 text-on-light-secondary leading-relaxed">
-              Workloads that need dedicated throughput, not a shared queue.
-            </p>
-          </div>
-        </RevealOnScroll>
-
-        <div className="border-t border-line-on-light">
-          {ROWS.map((row, i) => (
-            <RevealOnScroll key={row.num} className="w-full" delayMs={i * 120}>
-              <Row
-                num={row.num}
-                label={row.label}
-                headline={row.headline}
-                body={row.body}
-                statValue={row.statValue}
-                statLabel={row.statLabel}
-              />
-            </RevealOnScroll>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function Row({
-  num,
-  label,
-  headline,
-  body,
-  statValue,
-  statLabel,
-}: {
+type UseCaseRow = {
   num: string;
   label: string;
+  shortLabel: string;
   headline: string;
   body: string;
   statValue: string;
   statLabel: string;
-}) {
+  viz: React.ReactNode;
+};
+
+export default function WhatYouCanBuild() {
+  const rows: UseCaseRow[] = [
+    {
+      num: "01",
+      label: "On-Chain Oracles",
+      shortLabel: "Oracles",
+      headline: "Near-Free Price Feeds. Always Fresh.",
+      body: "Oracle updates become a near-free operation on a dedicated runtime. Write as often as you need. Every read returns current state.",
+      statValue: "≈ $0",
+      statLabel: "per price update",
+      viz: <PriceTickerViz />,
+    },
+    {
+      num: "02",
+      label: "Autonomous Agents",
+      shortLabel: "Agents",
+      headline: "Faster Loops. Smarter Agents.",
+      body: "Each agent runs on its own dedicated runtime. Decision loops drop from 400ms to under 50ms. Strategies iterate faster, adapt sooner.",
+      statValue: "< 50ms",
+      statLabel: "per decision cycle",
+      viz: <AgentLoopViz />,
+    },
+    {
+      num: "03",
+      label: "On-Chain Orderbooks",
+      shortLabel: "Orderbooks",
+      headline: "Exchange-Grade Throughput. On-Chain.",
+      body: "Thousands of order operations per second on a dedicated runtime. No contention, no throughput ceiling, no compromises.",
+      statValue: "> 1M",
+      statLabel: "ops per second",
+      viz: <OrderbookLadderViz />,
+    },
+  ];
+
+  // Active card index for the desktop hover-expand interaction.
+  // Default to 0 so the first card is pre-expanded on initial render.
+  const [active, setActive] = useState(0);
+
   return (
-    <article className="grid grid-cols-[3rem_1fr] md:grid-cols-[6rem_1fr] gap-x-6 md:gap-x-10 py-10 md:py-14 border-b border-line-on-light">
-      {/* big number marker */}
-      <div className="font-heading text-primary-blue text-28 md:text-40 font-extrabold tracking-tight tabular-nums leading-none pt-1">
-        {num}
+    <section className="relative w-full">
+      <div className="pt-14 md:pt-18">
+        <SectionDivider label="Use Cases" theme="light" />
       </div>
 
-      <div className="min-w-0">
-        {/* top row: label (left) + inline stat (right) */}
-        <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2 mb-3">
-          <span className="font-mono text-10 uppercase tracking-wide text-on-light-muted">
-            {label}
+      <div className="relative w-full max-w-6xl mx-auto px-6 lg:px-10 py-12 md:py-18">
+        <RevealOnScroll className="w-full">
+          <div className="max-w-2xl mb-10 md:mb-12">
+            <h2 className="font-heading text-on-light-primary font-extrabold tracking-tight section-title">
+              What You Can Build With{" "}
+              <span className="text-primary-blue">North{" "}Star</span>
+            </h2>
+            <p className="mt-4 font-body text-14 md:text-16 text-on-light-secondary leading-relaxed">
+              Workloads that need dedicated throughput, not a shared queue.
+            </p>
+            <p className="mt-3 font-mono text-10 uppercase tracking-wide text-on-light-faint">
+              Hover a card to explore →
+            </p>
+          </div>
+        </RevealOnScroll>
+
+        {/* Desktop: hover-expand row of 3 cards (flex-grow ratio active:inactive = 5:1) */}
+        <RevealOnScroll className="w-full" delayMs={120}>
+          <div
+            className="hidden md:flex gap-3 lg:gap-4"
+            style={{ height: 380 }}
+            onMouseLeave={() => setActive(0)}
+          >
+            {rows.map((row, i) => (
+              <ExpandCard
+                key={row.num}
+                row={row}
+                active={i === active}
+                onActivate={() => setActive(i)}
+              />
+            ))}
+          </div>
+        </RevealOnScroll>
+
+        {/* Mobile: stacked vertical cards (always fully expanded) */}
+        <div className="md:hidden flex flex-col gap-3">
+          {rows.map((row, i) => (
+            <RevealOnScroll key={row.num} className="w-full" delayMs={i * 120}>
+              <MobileCard row={row} />
+            </RevealOnScroll>
+          ))}
+        </div>
+      </div>
+
+      <style>{`
+        /* WhatYouCanBuild.Oracles — fresh status pip ping */
+        @keyframes ns-fresh-ping {
+          75%, 100% { transform: scale(2.4); opacity: 0; }
+        }
+        /* WhatYouCanBuild.Orderbooks — bid/ask bars subtle width breath, staggered */
+        @keyframes ns-ladder-breath {
+          0%, 100% { transform: scaleX(1);    opacity: 0.85; }
+          50%      { transform: scaleX(0.94); opacity: 1; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          [style*="ns-fresh-"],
+          [style*="ns-ladder-"] {
+            animation: none !important;
+          }
+        }
+      `}</style>
+    </section>
+  );
+}
+
+/**
+ * ExpandCard — the desktop hover-expand card.
+ * - inactive state: only number + a vertically-rotated label are visible
+ * - active state: full content (headline / body / stat / viz) fades in
+ * - flex-grow toggles 5 (active) ↔ 1 (inactive) over 500ms for the
+ *   width transition; content opacity transitions independently with a
+ *   small delay so they don't fight each other visually.
+ */
+function ExpandCard({
+  row,
+  active,
+  onActivate,
+}: {
+  row: UseCaseRow;
+  active: boolean;
+  onActivate: () => void;
+}) {
+  return (
+    <article
+      tabIndex={0}
+      onMouseEnter={onActivate}
+      onFocus={onActivate}
+      // Click also activates so it works on touch devices that hit md+.
+      onClick={onActivate}
+      aria-expanded={active}
+      className="relative overflow-hidden rounded-xl border outline-none cursor-pointer focus-visible:ring-2 focus-visible:ring-primary-blue/40"
+      style={{
+        flexBasis: 0,
+        flexShrink: 1,
+        flexGrow: active ? 5 : 1,
+        // Snappy ease-out: most of the motion is in the first 40% of the
+        // duration, then it glides to a stop. No slow start = no "pause
+        // before opening" feel.
+        transition:
+          "flex-grow 460ms cubic-bezier(0.22, 1, 0.36, 1), border-color 220ms ease-out",
+        // Active = SOLID sonic blue (the hovered card "lights up").
+        // Inactive = single-stop translucent white (no multi-stop
+        // gradient → no banding from alpha-stop transitions).
+        background: active
+          ? "rgba(0,0,255,0.92)"
+          : "rgba(255,255,255,0.36)",
+        // Inactive drops the `saturate(1.15)` — it was amplifying any
+        // colour bleeding in from neighbouring cards' shadows (15%
+        // boost made the active blue glow visible through the
+        // inactive's translucent layer). Plain blur keeps the glass
+        // feel without colour amplification.
+        backdropFilter: active
+          ? "blur(18px) saturate(1.15)"
+          : "blur(18px)",
+        WebkitBackdropFilter: active
+          ? "blur(18px) saturate(1.15)"
+          : "blur(18px)",
+        borderColor: active
+          ? "rgba(255,255,255,0.55)"
+          : "rgba(255,255,255,0.75)",
+        // Active outer shadow uses NEGATIVE spread (`-8px`, `-16px`) so
+        // the blur is pulled inward on all sides. Net effect: shadow
+        // mostly drops below the card, only a few px on the sides.
+        // Doesn't reach into the neighbouring card's area through the
+        // gap, so no more diagonal blue bleed on inactive cards.
+        boxShadow: active
+          ? "inset 0 1px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(0,0,0,0.10), 0 12px 24px -8px rgba(0,0,255,0.28), 0 24px 40px -16px rgba(0,0,255,0.16)"
+          : "inset 0 1px 0 rgba(255,255,255,1), inset 0 -1px 0 rgba(255,255,255,0.4), 0 1px 0 rgba(0,0,0,0.02), 0 8px 20px rgba(15,23,42,0.05)",
+      }}
+    >
+      {/* Decoration layers — only visible when active. Adds a faint
+          white grid + a soft top-right radial highlight to the solid
+          blue bg so it feels like a printed schematic / control panel
+          surface, not a flat block of colour. All low-opacity so the
+          foreground text + viz stay crisp. */}
+      <div
+        aria-hidden
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          opacity: active ? 1 : 0,
+          transition: "opacity 240ms ease-out 80ms",
+          // Layer 1 = faint top-right radial highlight (slight depth)
+          // Layer 2 = horizontal grid line every 36px
+          // Layer 3 = vertical grid line every 36px
+          backgroundImage: [
+            "radial-gradient(ellipse 480px 320px at 88% 8%, rgba(255,255,255,0.16) 0%, rgba(255,255,255,0.04) 40%, transparent 70%)",
+            "linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px)",
+            "linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px)",
+          ].join(", "),
+          backgroundSize: "100% 100%, 36px 36px, 36px 36px",
+          backgroundPosition: "0 0",
+          maskImage:
+            "linear-gradient(180deg, black 0%, black 78%, rgba(0,0,0,0.6) 100%)",
+          WebkitMaskImage:
+            "linear-gradient(180deg, black 0%, black 78%, rgba(0,0,0,0.6) 100%)",
+        }}
+      />
+      {/* Vertical accent line — thin white hairline on the LEFT edge
+          of the active card, runs top-to-bottom. Reads as a circuit
+          bus / data spine. Fades in/out with active state. */}
+      <div
+        aria-hidden
+        className="absolute left-0 top-[16%] bottom-[16%] w-px pointer-events-none"
+        style={{
+          background:
+            "linear-gradient(180deg, transparent, rgba(255,255,255,0.45) 25%, rgba(255,255,255,0.45) 75%, transparent)",
+          opacity: active ? 1 : 0,
+          transition: "opacity 240ms ease-out 80ms",
+        }}
+      />
+
+      {/* INACTIVE state: number + short horizontal label, vertically centered.
+          On-light colors since the card bg is now white magnesia glass. */}
+      <div
+        className="absolute inset-0 flex flex-col items-center justify-center px-3"
+        style={{
+          opacity: active ? 0 : 1,
+          pointerEvents: active ? "none" : "auto",
+          transition: "opacity 180ms ease-out",
+        }}
+      >
+        <div className="font-heading text-primary-blue text-32 font-extrabold tracking-tight tabular-nums leading-none mb-3">
+          {row.num}
+        </div>
+        <span className="font-mono text-10 uppercase tracking-[0.18em] text-on-light-muted text-center">
+          {row.shortLabel}
+        </span>
+      </div>
+
+      {/* ACTIVE state: full content panel.
+          On-blue colors since the active card bg is now sonic blue. */}
+      <div
+        className="absolute inset-0 p-7 md:p-8 flex flex-col"
+        style={{
+          opacity: active ? 1 : 0,
+          pointerEvents: active ? "auto" : "none",
+          transition: "opacity 220ms ease-out",
+          transitionDelay: active ? "140ms" : "0ms",
+        }}
+      >
+        {/* top row: number + label */}
+        <div className="flex items-baseline gap-4 mb-3">
+          <span className="font-heading text-on-blue-primary text-32 font-extrabold tracking-tight tabular-nums leading-none">
+            {row.num}
           </span>
-          <span className="font-heading text-12 text-on-light-secondary tabular-nums">
-            <span className="text-on-light-primary font-medium">{statValue}</span>
-            <span className="text-on-light-faint mx-2">/</span>
-            <span>{statLabel}</span>
+          <span className="font-mono text-10 uppercase tracking-wide text-on-blue-secondary">
+            {row.label}
           </span>
         </div>
 
         {/* headline */}
-        <h3 className="font-heading text-on-light-primary text-20 md:text-24 font-semibold tracking-tight mb-3 leading-snug">
-          {headline}
+        <h3 className="font-heading text-on-blue-primary text-20 lg:text-22 font-semibold tracking-tight mb-3 leading-snug max-w-md">
+          {row.headline}
         </h3>
 
         {/* body */}
-        <p className="font-body text-14 md:text-16 text-on-light-secondary leading-relaxed max-w-2xl">
-          {body}
+        <p className="font-body text-14 text-on-blue-secondary leading-relaxed mb-5 max-w-md">
+          {row.body}
         </p>
+
+        {/* spacer pushes stat + viz to the bottom */}
+        <div className="flex-1" />
+
+        {/* bottom row: stat (left) + viz (right) */}
+        <div className="flex items-end justify-between gap-6">
+          <div className="font-heading text-12 text-on-blue-secondary tabular-nums">
+            <span className="text-on-blue-primary font-medium">
+              {row.statValue}
+            </span>
+            <span className="text-on-blue-faint mx-2">/</span>
+            <span>{row.statLabel}</span>
+          </div>
+          <div className="shrink-0" aria-hidden style={{ width: 200 }}>
+            {row.viz}
+          </div>
+        </div>
       </div>
     </article>
+  );
+}
+
+/**
+ * MobileCard — fully-expanded card for mobile (< md). The hover-expand
+ * interaction does not work on touch, so on small screens we just show
+ * all 3 cards stacked, each with full content.
+ */
+function MobileCard({ row }: { row: UseCaseRow }) {
+  return (
+    <article
+      className="relative rounded-xl border p-5"
+      style={{
+        // Same frosted-glass recipe as Problem cards.
+        background:
+          "linear-gradient(135deg, rgba(255,255,255,0.36), rgba(255,255,255,0.22) 55%, rgba(255,255,255,0.30))",
+        backdropFilter: "blur(18px) saturate(1.15)",
+        WebkitBackdropFilter: "blur(18px) saturate(1.15)",
+        borderColor: "rgba(255,255,255,0.75)",
+        boxShadow:
+          "inset 0 1px 0 rgba(255,255,255,1), inset 0 -1px 0 rgba(255,255,255,0.4), 0 1px 0 rgba(0,0,0,0.02), 0 14px 32px rgba(15,23,42,0.06), 0 28px 60px rgba(15,23,42,0.05)",
+      }}
+    >
+      <div className="flex items-baseline gap-3 mb-2">
+        <span className="font-heading text-primary-blue text-22 font-extrabold tracking-tight tabular-nums leading-none">
+          {row.num}
+        </span>
+        <span className="font-mono text-10 uppercase tracking-wide text-on-light-muted">
+          {row.label}
+        </span>
+      </div>
+      <h3 className="font-heading text-on-light-primary text-16 font-semibold tracking-tight mb-2 leading-snug">
+        {row.headline}
+      </h3>
+      <p className="font-body text-12 text-on-light-secondary leading-relaxed mb-4">
+        {row.body}
+      </p>
+      <div className="font-heading text-12 text-on-light-secondary tabular-nums">
+        <span className="text-on-light-primary font-medium">
+          {row.statValue}
+        </span>
+        <span className="text-on-light-faint mx-2">/</span>
+        <span>{row.statLabel}</span>
+      </div>
+    </article>
+  );
+}
+
+/* ============ WhatYouCanBuild row mini-vizes ============
+ * 3 different *chart paradigms* per use-case semantic:
+ *   - Oracles    → live price ticker (digit feed)
+ *   - Agents     → loop diagram (dot orbiting a closed path)
+ *   - Orderbooks → bid/ask depth ladder
+ *
+ * Each uses the shared visual language (sonic blue palette, mono labels,
+ * thin strokes) but expresses its concept with a different layout.
+ */
+
+/**
+ * PriceTickerViz (Oracles) — HTML viz showing a live-updating mark
+ * price (4 decimal places). Updates every 250ms via a small interval
+ * so the digits visibly tick up. A green `FRESH` pip with a ping
+ * indicates "always-fresh" semantics.
+ */
+function PriceTickerViz() {
+  const [price, setPrice] = useState(1.2345);
+  useEffect(() => {
+    const id = setInterval(() => {
+      setPrice((p) => {
+        // mostly tick up, with occasional micro dips for realism
+        const drift = (Math.random() - 0.35) * 0.0028;
+        return p + drift;
+      });
+    }, 240);
+    return () => clearInterval(id);
+  }, []);
+
+  return (
+    <div className="flex flex-col items-end gap-2" style={{ width: 200 }}>
+      <span className="font-mono text-10 uppercase tracking-[0.2em] text-on-blue-faint">
+        Mark Price
+      </span>
+      <div className="flex items-baseline gap-1.5">
+        <span
+          className="font-mono text-on-blue-primary font-bold tabular-nums"
+          style={{ fontSize: 28, lineHeight: 1, letterSpacing: "-0.01em" }}
+        >
+          ${price.toFixed(4)}
+        </span>
+        <span
+          style={{
+            color: "#00FF94",
+            fontSize: 16,
+            lineHeight: 1,
+            fontWeight: 700,
+          }}
+        >
+          ↑
+        </span>
+      </div>
+      <div className="flex items-center gap-2">
+        <span className="relative inline-flex w-2 h-2">
+          <span
+            className="absolute inset-0 rounded-full bg-secondary-green opacity-60"
+            style={{
+              animation:
+                "ns-fresh-ping 1.6s cubic-bezier(0,0,0.2,1) infinite",
+            }}
+          />
+          <span
+            className="relative w-2 h-2 rounded-full bg-secondary-green"
+            style={{ boxShadow: "0 0 6px rgba(0,255,148,0.85)" }}
+          />
+        </span>
+        <span
+          className="font-mono text-10 uppercase tracking-[0.2em] font-semibold"
+          style={{ color: "#00FF94" }}
+        >
+          Fresh
+        </span>
+      </div>
+    </div>
+  );
+}
+
+/**
+ * AgentLoopViz (Agents) — bigger pill loop with 3 staggered orbiting
+ * dots (representing 3 concurrent agents on dedicated runtimes) +
+ * a center `×3 AGENTS` indicator. READ / ACT labels anchor the
+ * decision-cycle semantic.
+ */
+function AgentLoopViz() {
+  const W = 200;
+  const H = 80;
+  // Pill at (16, 26) with width 168 and height 28, rx 14
+  const PX = 16;
+  const PY = 26;
+  const PW = 168;
+  const PH = 28;
+  const RX = 14;
+  const cy = PY + PH / 2;
+  // path matches the rounded rect so dots ride its outline
+  const pillD = `M ${PX + RX},${PY} H ${PX + PW - RX} A ${RX},${RX} 0 0 1 ${PX + PW - RX},${PY + PH} H ${PX + RX} A ${RX},${RX} 0 0 1 ${PX + RX},${PY} Z`;
+
+  return (
+    <svg
+      viewBox={`0 0 ${W} ${H}`}
+      className="block w-full"
+      style={{ maxWidth: 200 }}
+      role="img"
+    >
+      {/* visible pill loop (dashed) */}
+      <rect
+        x={PX}
+        y={PY}
+        width={PW}
+        height={PH}
+        rx={RX}
+        ry={RX}
+        fill="none"
+        stroke="rgba(255,255,255,0.45)"
+        strokeWidth={0.7}
+        strokeDasharray="3 2"
+      />
+      {/* invisible motion path */}
+      <path id="ns-agent-loop" d={pillD} fill="none" />
+      {/* READ label (top) */}
+      <text
+        x={W / 2}
+        y={20}
+        fontFamily="var(--font-jetbrains-mono), monospace"
+        fontSize={7}
+        letterSpacing={1.4}
+        fill="var(--color-on-blue-secondary)"
+        textAnchor="middle"
+        fontWeight={600}
+      >
+        READ
+      </text>
+      {/* ACT label (bottom) */}
+      <text
+        x={W / 2}
+        y={H - 6}
+        fontFamily="var(--font-jetbrains-mono), monospace"
+        fontSize={7}
+        letterSpacing={1.4}
+        fill="var(--color-on-blue-secondary)"
+        textAnchor="middle"
+        fontWeight={600}
+      >
+        ACT
+      </text>
+      {/* center indicator: ×3 / AGENTS */}
+      <text
+        x={W / 2}
+        y={cy - 1}
+        fontFamily="var(--font-heading), sans-serif"
+        fontSize={11}
+        letterSpacing={-0.2}
+        fill="#00FF94"
+        textAnchor="middle"
+        fontWeight={700}
+      >
+        ×3
+      </text>
+      <text
+        x={W / 2}
+        y={cy + 8}
+        fontFamily="var(--font-jetbrains-mono), monospace"
+        fontSize={5.4}
+        letterSpacing={1}
+        fill="var(--color-on-blue-faint)"
+        textAnchor="middle"
+      >
+        AGENTS
+      </text>
+      {/* 3 chip "cars" rolling on the loop track. rect is offset to (-4,-4)
+          so its center sits on the motion point; rotate="auto" tilts each
+          chip to match the path tangent (so they tilt at the rounded ends
+          like train cars on a curved track). begin staggered by CYCLE/3
+          so the 3 chips are evenly distributed on the loop. */}
+      {[0, 1, 2].map((i) => (
+        <rect
+          key={i}
+          x={-4}
+          y={-4}
+          width={8}
+          height={8}
+          rx={1.5}
+          fill={i === 0 ? "rgba(255,255,255,0.85)" : "rgba(255,255,255,0.55)"}
+          stroke="rgba(255,255,255,0.95)"
+          strokeWidth={0.6}
+        >
+          <animateMotion
+            dur="4.5s"
+            repeatCount="indefinite"
+            begin={`${(i * 4.5) / 3}s`}
+            rotate="auto"
+          >
+            <mpath href="#ns-agent-loop" />
+          </animateMotion>
+        </rect>
+      ))}
+    </svg>
+  );
+}
+
+/**
+ * OrderbookLadderViz (Orderbooks) — 3 ask bars above a midline, 3 bid
+ * bars below it. Bars width represents depth; widths breath subtly
+ * (scaleX) staggered so the ladder feels alive. Asks use blue (sell),
+ * bids use green (buy / accept) — keeps red out of the palette.
+ */
+function OrderbookLadderViz() {
+  const W = 200;
+  const H = 80;
+  const cx = W / 2;
+  const ROW_H = 6;
+  const GAP = 3;
+  // ask widths (top → bottom), bid widths (top → bottom)
+  const askWidths = [60, 84, 110];
+  const bidWidths = [110, 84, 60];
+  const MID_Y = H / 2;
+  const startAskY = MID_Y - GAP - askWidths.length * (ROW_H + GAP);
+
+  return (
+    <svg
+      viewBox={`0 0 ${W} ${H}`}
+      className="block w-full"
+      style={{ maxWidth: 200 }}
+      role="img"
+    >
+      {/* 3 ask bars (top, white-tinted on blue bg) */}
+      {askWidths.map((w, i) => (
+        <rect
+          key={`ask-${i}`}
+          x={cx - w / 2}
+          y={startAskY + i * (ROW_H + GAP)}
+          width={w}
+          height={ROW_H}
+          rx={1}
+          fill="rgba(255,255,255,0.35)"
+          stroke="rgba(255,255,255,0.75)"
+          strokeWidth={0.4}
+          style={{
+            animation: "ns-ladder-breath 2.2s ease-in-out infinite",
+            animationDelay: `${i * 0.18}s`,
+            transformBox: "fill-box",
+            transformOrigin: "center",
+          }}
+        />
+      ))}
+      {/* mid line + price label — bright sonic green for visibility on blue */}
+      <line
+        x1={6}
+        y1={MID_Y}
+        x2={W - 6}
+        y2={MID_Y}
+        stroke="#00FF94"
+        strokeWidth={0.6}
+        strokeDasharray="2 2"
+      />
+      <text
+        x={W - 6}
+        y={MID_Y - 2}
+        fontFamily="var(--font-jetbrains-mono), monospace"
+        fontSize={7}
+        letterSpacing={0.5}
+        fill="#00FF94"
+        textAnchor="end"
+        fontWeight={600}
+      >
+        $1.2345
+      </text>
+      {/* 3 bid bars (bottom, bright sonic green) */}
+      {bidWidths.map((w, i) => (
+        <rect
+          key={`bid-${i}`}
+          x={cx - w / 2}
+          y={MID_Y + GAP + i * (ROW_H + GAP)}
+          width={w}
+          height={ROW_H}
+          rx={1}
+          fill="rgba(0,255,148,0.35)"
+          stroke="#00FF94"
+          strokeWidth={0.4}
+          style={{
+            animation: "ns-ladder-breath 2.2s ease-in-out infinite",
+            animationDelay: `${i * 0.18 + 1.1}s`,
+            transformBox: "fill-box",
+            transformOrigin: "center",
+          }}
+        />
+      ))}
+      {/* tiny side labels: ASK (top right) / BID (bottom right) */}
+      <text
+        x={W - 6}
+        y={startAskY - 2}
+        fontFamily="var(--font-jetbrains-mono), monospace"
+        fontSize={6.5}
+        letterSpacing={1}
+        fill="rgba(255,255,255,0.75)"
+        textAnchor="end"
+        fontWeight={600}
+      >
+        ASK
+      </text>
+      <text
+        x={W - 6}
+        y={H - 2}
+        fontFamily="var(--font-jetbrains-mono), monospace"
+        fontSize={6.5}
+        letterSpacing={1}
+        fill="#00FF94"
+        textAnchor="end"
+        fontWeight={600}
+      >
+        BID
+      </text>
+    </svg>
   );
 }

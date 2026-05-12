@@ -343,9 +343,63 @@ body {
    `text-wrap: balance` distributes words across lines evenly and
    prevents single-word orphans (e.g. lone "a" / "Star" on a line). */
 .section-title {
-  font-size: clamp(28px, 4vw, 52px);
-  line-height: 1.1;
+  font-size: clamp(20px, 2.2vw, 32px);
+  line-height: 1.18;
   text-wrap: balance;
+}
+
+/* ============ Section background design ============
+ * Below the Hero (which has its own WebGL animated grid), the
+ * remaining sections share the same light surface bg. These two
+ * utility classes layer subtle technical-feel decorations on top
+ * of that surface — matching the existing blueprint / data theme.
+ *
+ *   1. .ns-dot-grid: a 24px dot grid in primary-blue at ~5% opacity.
+ *      Faint enough to read as "texture", strong enough to tie the
+ *      content sections to the Hero's grid visual language.
+ *
+ *   2. .ns-ambient-glow-*: soft radial gradients in primary-blue,
+ *      ~8% peak opacity, positioned at corners of selected sections
+ *      (positioned absolute by the section itself). Adds depth and
+ *      a sense of "ambient brand glow" without obscuring content.
+ */
+
+.ns-dot-grid {
+  background-image: radial-gradient(
+    circle,
+    rgba(0, 0, 255, 0.08) 1px,
+    transparent 1.5px
+  );
+  background-size: 24px 24px;
+  background-position: 0 0;
+}
+
+/* Reusable ambient glow — applied to a `position: absolute` element
+   inside a `position: relative; overflow: hidden` section. The
+   parent's overflow hidden clips the glow at section edges. */
+.ns-ambient-glow {
+  position: absolute;
+  pointer-events: none;
+  width: 720px;
+  height: 720px;
+  background: radial-gradient(
+    circle at center,
+    rgba(0, 0, 255, 0.09) 0%,
+    rgba(0, 0, 255, 0.04) 35%,
+    transparent 70%
+  );
+  filter: blur(40px);
+}
+/* Variant: greener glow for the Closing/CTA — keeps it visually
+   distinct from the blue-only sections and ties to the existing
+   "secondary-green = active / online / ready" semantic. */
+.ns-ambient-glow-green {
+  background: radial-gradient(
+    circle at center,
+    rgba(0, 255, 148, 0.08) 0%,
+    rgba(0, 255, 148, 0.03) 35%,
+    transparent 70%
+  );
 }
 
 @media (prefers-reduced-motion: reduce) {

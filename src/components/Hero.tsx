@@ -9,13 +9,13 @@ const LINKS = {
 
 export default function Hero() {
   return (
-    <section className="relative w-full overflow-hidden md:min-h-screen">
+    <section className="relative w-full overflow-hidden md:min-h-screen bg-surface-light">
       <HeroBackground />
 
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 pt-12 md:pt-24 pb-16 md:pb-12 flex flex-col items-center text-center">
+      <div className="relative z-10 w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 pt-16 md:pt-24 pb-16 md:pb-20 flex flex-col items-center text-center">
         {/* Top label row */}
         <RevealOnScroll>
-          <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 mb-10">
+          <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 mb-12 md:mb-14">
             <div className="flex items-center gap-2 font-heading text-10 uppercase tracking-wide text-on-light-muted">
               <span className="relative inline-flex w-2 h-2">
                 <span
@@ -44,11 +44,12 @@ export default function Hero() {
           </div>
         </RevealOnScroll>
 
-        {/* Headline */}
-        <RevealOnScroll delayMs={150} className="w-full">
+        {/* Headline — blur reveal echoes the intro film's Seq 2
+            headline so the transition from intro → page is continuous. */}
+        <RevealOnScroll delayMs={150} className="w-full" blur>
           <h1
             className="font-heading text-on-light-primary font-extrabold tracking-tight whitespace-nowrap"
-            style={{ fontSize: "clamp(26px, 7.5vw, 112px)", lineHeight: 1.04 }}
+            style={{ fontSize: "clamp(28px, 6.6vw, 76px)", lineHeight: 0.98 }}
           >
             Your Own Blockchain,
             <br />
@@ -56,9 +57,9 @@ export default function Hero() {
           </h1>
         </RevealOnScroll>
 
-        {/* Subtitle */}
-        <RevealOnScroll delayMs={300} className="w-full flex justify-center">
-          <p className="mt-7 max-w-2xl font-body text-16 md:text-20 text-on-light-secondary leading-relaxed">
+        {/* Subtitle — same blur-in treatment, slightly delayed. */}
+        <RevealOnScroll delayMs={300} className="w-full flex justify-center" blur>
+          <p className="mt-8 md:mt-10 max-w-xl font-body text-14 md:text-16 text-on-light-secondary leading-relaxed">
             North Star spins up dedicated blockchains on demand.
             <br className="hidden md:block" /> Over a million TPS. Powered by Sonic
             SVM.
@@ -67,7 +68,7 @@ export default function Hero() {
 
         {/* CTA cluster */}
         <RevealOnScroll delayMs={450} className="w-full">
-          <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
+          <div className="mt-10 md:mt-12 flex flex-wrap items-center justify-center gap-3">
             <a
               href={LINKS.demo}
               target="_blank"
@@ -85,10 +86,16 @@ export default function Hero() {
               href={LINKS.litepaper}
               target="_blank"
               rel="noopener noreferrer"
-              className="font-heading text-14 font-semibold tracking-tight px-6 py-3.5 rounded-xl text-on-light-primary bg-surface-light-elevated border border-line-on-light inline-flex items-center gap-2"
+              // Mirrors the primary CTA's hover idiom: small upward
+              // lift (-1px), stronger border tint, and a deeper drop
+              // shadow. Subtle but matches the visual interaction
+              // language across both CTAs.
+              className="hero-secondary-cta font-heading text-14 font-semibold tracking-tight px-6 py-3.5 rounded-xl text-on-light-primary bg-surface-light-elevated border border-line-on-light inline-flex items-center gap-2 hover:-translate-y-px"
               style={{
                 boxShadow:
                   "inset 0 1px 0 rgba(255,255,255,1), 0 2px 6px rgba(0,0,0,0.04)",
+                transition:
+                  "transform 240ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 240ms ease-out, border-color 240ms ease-out, background-color 240ms ease-out",
               }}
             >
               <Document size={16} />
@@ -97,10 +104,12 @@ export default function Hero() {
           </div>
         </RevealOnScroll>
 
-        {/* Stats trio */}
+        {/* Stats trio — original design: 3-cell rounded container with
+            hairline dividers (gap-px on the line-on-light background
+            creates the 1px white separators between cells). */}
         <RevealOnScroll delayMs={600} className="w-full flex justify-center">
           <div
-            className="mt-14 md:mt-20 w-full max-w-4xl grid grid-cols-1 sm:grid-cols-3 gap-px rounded-2xl overflow-hidden border border-line-on-light"
+            className="mt-16 md:mt-24 w-full max-w-3xl grid grid-cols-1 sm:grid-cols-3 gap-px rounded-2xl overflow-hidden border border-line-on-light"
             style={{
               background: "var(--color-line-on-light)",
               boxShadow:
@@ -125,6 +134,21 @@ export default function Hero() {
             opacity: 0;
           }
         }
+        /* Secondary CTA hover — border picks up a faint sonic-blue
+           tint, drop shadow deepens slightly. Combined with the
+           Tailwind hover:-translate-y-px on the element, this matches
+           the interaction feel of the primary blue CTA without
+           competing visually. */
+        .hero-secondary-cta:hover {
+          border-color: rgba(0, 0, 255, 0.25) !important;
+          box-shadow:
+            inset 0 1px 0 rgba(255,255,255,1),
+            0 6px 16px rgba(0, 0, 255, 0.10),
+            0 2px 6px rgba(0,0,0,0.04) !important;
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .hero-secondary-cta:hover { transform: none !important; }
+        }
       `}</style>
     </section>
   );
@@ -140,13 +164,13 @@ function Stat({
   valueClass?: string;
 }) {
   return (
-    <div className="bg-surface-light px-6 py-7 text-left">
+    <div className="bg-surface-light px-5 py-6 text-left">
       <div
-        className={`font-heading ${valueClass} text-28 md:text-32 font-extrabold tracking-tight tabular-nums`}
+        className={`font-heading ${valueClass} text-22 md:text-24 font-extrabold tracking-tight tabular-nums`}
       >
         {value}
       </div>
-      <div className="mt-2 font-heading text-10 uppercase tracking-wide text-on-light-muted">
+      <div className="mt-1.5 font-heading text-10 uppercase tracking-wide text-on-light-muted">
         {label}
       </div>
     </div>

@@ -24,7 +24,7 @@ export default function Navbar() {
         borderBottom: "1px solid var(--color-line-on-light-soft)",
       }}
     >
-      <nav className="w-full max-w-7xl mx-auto px-6 lg:px-10">
+      <nav className="w-full max-w-6xl mx-auto px-6 lg:px-10">
         <div className="flex items-center justify-between" style={{ height: "4.25rem" }}>
           <Link href="/" className="flex items-center gap-2.5 group">
             <span
