@@ -158,15 +158,32 @@ export default function IntroFilm() {
       { y: "0%", duration: 0.7, ease: "power3.out" },
       0.3,
     );
+    // Logo scales straight up to its final size — no overshoot/
+    // bounce. `power3.out` decelerates smoothly so it doesn't feel
+    // robotic, but it never goes past scale 1. Shorter duration
+    // (0.6s vs the old 0.9s back.out) tightens the whole beat.
     master.to(
       "#intro-s1-star",
       {
         scale: 1,
         opacity: 1,
-        duration: 0.9,
-        ease: "back.out(1.6)",
+        duration: 0.6,
+        ease: "power3.out",
       },
       0.6,
+    );
+    // Shadow softly fades in (opacity only — no scale animation,
+    // which felt mechanical / "you can see the rectangle behind").
+    // Slightly longer duration with power1.out so it eases in
+    // gently. Starts in the final 0.15s of the logo's scale-in.
+    master.to(
+      "#intro-s1-shadow",
+      {
+        opacity: 1,
+        duration: 0.7,
+        ease: "power1.out",
+      },
+      1.05,
     );
     master.to("#intro-s1-co", { opacity: 1, duration: 0.5 }, 1.4);
     master.to(
@@ -384,12 +401,49 @@ export default function IntroFilm() {
                   A North Star Transmission
                 </div>
               </div>
-              <div style={{ overflow: "hidden", marginTop: 16 }}>
+              <div style={{ marginTop: 16 }}>
                 <div
                   id="intro-s1-star"
-                  style={{ transform: "scale(0.2)", opacity: 0 }}
+                  style={{
+                    position: "relative",
+                    display: "inline-block",
+                    transform: "scale(0.2)",
+                    opacity: 0,
+                  }}
                 >
-                  <NorthStarMark large />
+                  {/* Shadow-only proxy. We use `clip-path` (not an
+                      outer `overflow:hidden` wrapper) so the LOGO's
+                      bounce-in overshoot isn't clipped at the top —
+                      only the shadow's own vertical spread is.
+                      `inset(0 -1000px 0 -1000px)` clips strict at the
+                      top + bottom edges (kills the up/down halo) but
+                      extends 1000px LEFT and RIGHT so the horizontal
+                      spread of the box-shadow stays visible. */}
+                  <div
+                    id="intro-s1-shadow"
+                    aria-hidden
+                    style={{
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                      width: 60,
+                      height: 60,
+                      borderRadius: 14,
+                      // Softer shadow (0.32 vs 0.5) so it reads as
+                      // ambient glow, not a hard blue block fading in.
+                      boxShadow: "0 20px 60px rgba(0,0,255,0.32)",
+                      opacity: 0,
+                      // Vertical halo killed by clip-path so the glow
+                      // only spreads left/right (matches HTML ref).
+                      clipPath: "inset(0 -1000px 0 -1000px)",
+                      WebkitClipPath: "inset(0 -1000px 0 -1000px)",
+                      pointerEvents: "none",
+                      zIndex: 0,
+                    }}
+                  />
+                  <div style={{ position: "relative", zIndex: 1 }}>
+                    <NorthStarMark large withGlow={false} />
+                  </div>
                 </div>
               </div>
               <div style={{ overflow: "hidden", marginTop: 24 }}>
@@ -441,11 +495,25 @@ export default function IntroFilm() {
  *  / WebGL grid behind into a smooth tone, so the tile still reads
  *  as translucent (matches the Navbar visually) but never lets sharp
  *  background lines bleed through it. */
-function NorthStarMark({ large = false }: { large?: boolean }) {
+function NorthStarMark({
+  large = false,
+  withGlow = true,
+}: {
+  large?: boolean;
+  withGlow?: boolean;
+}) {
   // Scaled up version of the Navbar mark (which is w-9 h-9 = 36px).
   const size = large ? 60 : 44;
   const inner = large ? 34 : 26;
   const radius = large ? 14 : 10;
+  const innerHighlight = large
+    ? "inset 0 1px 0 rgba(255,255,255,0.85)"
+    : "inset 0 1px 0 rgba(255,255,255,0.7)";
+  // Outer glow — single strong shadow matching the reference HTML
+  // (0 20px 60px rgba(0,0,255,0.5) instead of two softer layers).
+  const outerGlow = large
+    ? ", 0 20px 60px rgba(0,0,255,0.5)"
+    : ", 0 4px 14px rgba(0,0,255,0.10)";
   return (
     <div
       style={{
@@ -455,20 +523,12 @@ function NorthStarMark({ large = false }: { large?: boolean }) {
         display: "inline-flex",
         alignItems: "center",
         justifyContent: "center",
-        // Same light-blue gradient as Navbar's tile, just slightly
-        // bumped opacities (0.18 / 0.06 vs 0.10 / 0.02) so that the
-        // frosted layer reads as "frosted glass" not "barely there".
         background:
           "linear-gradient(135deg, rgba(0,0,255,0.18), rgba(0,0,255,0.06))",
-        // The key: strong backdrop blur turns the gritty scanlines
-        // behind into a smooth blue wash, then saturate(1.3) deepens
-        // the blue so the tile feels like blue glass over blue light.
         backdropFilter: "blur(22px) saturate(1.3)",
         WebkitBackdropFilter: "blur(22px) saturate(1.3)",
         border: "1px solid var(--color-primary-blue-on-light-border)",
-        boxShadow: large
-          ? "inset 0 1px 0 rgba(255,255,255,0.85), 0 18px 56px rgba(0,0,255,0.28), 0 6px 18px rgba(0,0,255,0.18)"
-          : "inset 0 1px 0 rgba(255,255,255,0.7), 0 4px 14px rgba(0,0,255,0.10)",
+        boxShadow: withGlow ? `${innerHighlight}${outerGlow}` : innerHighlight,
       }}
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}

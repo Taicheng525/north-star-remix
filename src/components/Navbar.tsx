@@ -24,8 +24,17 @@ export default function Navbar() {
         borderBottom: "1px solid var(--color-line-on-light-soft)",
       }}
     >
-      <nav className="w-full max-w-6xl mx-auto px-6 lg:px-10">
-        <div className="flex items-center justify-between" style={{ height: "4.25rem" }}>
+      {/* Full-bleed nav — no `max-w-6xl mx-auto`. The user wants the
+          logo flush-left and the CTA flush-right against the viewport
+          edges (with only the px-6/lg:px-10 gutter), and the centred
+          link cluster absolutely anchored to the *screen* mid-point,
+          not to a 1152px-wide content column. */}
+      <nav className="w-full px-6 lg:px-10">
+        {/* `relative` so the centered link group below can absolutely
+            position itself. Logo + CTA still flex-justify-between at
+            the edges; the link group is ANCHORED to the row's
+            horizontal centre, independent of logo/CTA widths. */}
+        <div className="relative flex items-center justify-between" style={{ height: "4.25rem" }}>
           <Link href="/" className="flex items-center gap-2.5 group">
             <span
               className="relative inline-flex items-center justify-center w-9 h-9 rounded-lg transition-transform group-hover:scale-105"
@@ -56,7 +65,11 @@ export default function Navbar() {
             </span>
           </Link>
 
-          <div className="hidden md:flex items-center gap-1">
+          {/* Absolutely-centred link cluster — anchored to the row's
+              horizontal centre via `left-1/2 -translate-x-1/2`. This
+              keeps the links visually centered regardless of how wide
+              the logo or CTA on either side end up being. */}
+          <div className="hidden md:flex absolute left-1/2 -translate-x-1/2 items-center gap-1">
             <NavLink href={LINKS.litepaper} icon={<Document size={15} />}>
               Litepaper
             </NavLink>

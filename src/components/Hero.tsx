@@ -104,25 +104,31 @@ export default function Hero() {
           </div>
         </RevealOnScroll>
 
-        {/* Stats trio — original design: 3-cell rounded container with
-            hairline dividers (gap-px on the line-on-light background
-            creates the 1px white separators between cells). */}
+        {/* Stats trio — styled to match the reference "Blockchains On
+            Demand" Hero (Orbitron-style value at text-32/40, semibold,
+            label at text-12 widest tracking). The "Transactions /
+            second" label uses a slash so it fits on a single line —
+            keeps all three label rows at the same height. */}
         <RevealOnScroll delayMs={600} className="w-full flex justify-center">
           <div
-            className="mt-16 md:mt-24 w-full max-w-3xl grid grid-cols-1 sm:grid-cols-3 gap-px rounded-2xl overflow-hidden border border-line-on-light"
+            // Lighter border + lighter internal gaps to match the
+            // reference HTML's `border-slate-300/60` / `bg-slate-300/50`
+            // (was using the regular line-on-light token which read
+            // as too dark next to the surface colour).
+            className="mt-16 md:mt-24 w-full max-w-3xl grid grid-cols-1 sm:grid-cols-3 gap-px rounded-2xl overflow-hidden border border-line-on-light-soft"
             style={{
-              background: "var(--color-line-on-light)",
+              background: "var(--color-line-on-light-soft)",
               boxShadow:
                 "inset 0 1px 0 rgba(255,255,255,1), 0 12px 30px rgba(0,0,0,0.05)",
             }}
           >
             <Stat
               value="> 1M"
-              label="transactions per second"
+              label="Transactions / second"
               valueClass="text-primary-blue"
             />
-            <Stat value="< 50ms" label="confirmation" />
-            <Stat value="≈ $0" label="per transaction" />
+            <Stat value="< 50ms" label="Confirmation" />
+            <Stat value="≈ $0" label="Per transaction" />
           </div>
         </RevealOnScroll>
       </div>
@@ -164,13 +170,13 @@ function Stat({
   valueClass?: string;
 }) {
   return (
-    <div className="bg-surface-light px-5 py-6 text-left">
+    <div className="bg-surface-light px-6 py-7 text-left">
       <div
-        className={`font-heading ${valueClass} text-22 md:text-24 font-extrabold tracking-tight tabular-nums`}
+        className={`font-heading ${valueClass} text-22 md:text-24 font-semibold tracking-tight tabular-nums`}
       >
         {value}
       </div>
-      <div className="mt-1.5 font-heading text-10 uppercase tracking-wide text-on-light-muted">
+      <div className="mt-2 font-heading text-12 uppercase tracking-widest text-on-light-muted">
         {label}
       </div>
     </div>
