@@ -398,7 +398,7 @@ export default function IntroFilm() {
                     transform: "translateY(100%)",
                   }}
                 >
-                  A North Star Transmission
+                  A NORTH STAR TRANSMISSION
                 </div>
               </div>
               <div style={{ marginTop: 16 }}>

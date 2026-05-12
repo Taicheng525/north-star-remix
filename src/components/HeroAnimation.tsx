@@ -233,7 +233,7 @@ function Seq0({ active }: { active: boolean }) {
         </svg>
         <div className="text-center font-heading">
           <div className="text-12 font-semibold tracking-wide uppercase text-on-light-primary">
-            North Star
+            NORTH STAR
           </div>
           <div className="mt-1 text-10 uppercase tracking-wide text-on-light-muted">
             Sonic SVM · ready

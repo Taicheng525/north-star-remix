@@ -61,7 +61,7 @@ export default function Navbar() {
               className="font-heading text-16 font-semibold tracking-tight text-on-light-primary"
               style={{ letterSpacing: "0.01em" }}
             >
-              North Star
+              NORTH STAR
             </span>
           </Link>
 

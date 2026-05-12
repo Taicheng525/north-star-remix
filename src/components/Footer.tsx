@@ -93,8 +93,12 @@ export default function Footer() {
                     background:
                       "linear-gradient(135deg, rgba(255,255,255,0.20), rgba(255,255,255,0.08))",
                     border: "1px solid rgba(255,255,255,0.55)",
-                    boxShadow:
-                      "inset 0 1px 0 rgba(255,255,255,0.5), 0 6px 22px rgba(0,0,0,0.20)",
+                    // Dropped the `inset 0 1px 0 rgba(255,255,255,0.5)`
+                    // top-edge highlight — on the dark-blue footer
+                    // background it stacked on top of the already-bright
+                    // 0.55 white border and read as a duplicated top
+                    // line. External drop shadow alone is enough lift.
+                    boxShadow: "0 6px 22px rgba(0,0,0,0.20)",
                   }}
                   aria-hidden
                 >
