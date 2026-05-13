@@ -141,7 +141,9 @@ export default function HowItWorks() {
             0 28px 60px rgba(15,23,42,0.05) !important;
         }
         /* Tiny "live alert" indicator next to each Problem label —
-           6px red dot with a slow expanding halo (1.8s breath). */
+           6px red dot. Static by default; only pulses (slow expanding
+           halo, 1.8s breath) while its parent .problem-card is hovered,
+           so the page stays calm and the indicator reacts to attention. */
         .problem-pulse-dot {
           display: inline-block;
           width: 6px;
@@ -150,7 +152,10 @@ export default function HowItWorks() {
           background: #b91c1c;
           position: relative;
           flex-shrink: 0;
-          box-shadow: 0 0 0 0 rgba(185, 28, 28, 0.55);
+          opacity: 0.75;
+          box-shadow: 0 0 0 0 rgba(185, 28, 28, 0.5);
+        }
+        .problem-card:hover .problem-pulse-dot {
           animation: ns-problem-pulse 1.8s ease-in-out infinite;
         }
         @keyframes ns-problem-pulse {
@@ -165,7 +170,7 @@ export default function HowItWorks() {
         }
         @media (prefers-reduced-motion: reduce) {
           .problem-card:hover { transform: none; }
-          .problem-pulse-dot { animation: none; }
+          .problem-card:hover .problem-pulse-dot { animation: none; }
         }
         /* Oracle write row — strip of blocks scrolls left, simulating queue ingress */
         @keyframes ns-oracle-stream {
