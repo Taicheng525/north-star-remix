@@ -143,10 +143,15 @@
   --shadow-shadow-glow-green-out: 0px 0px 12px 0px rgba(0, 255, 148, 0.4);
 }
 
-/* ---------- Light theme alternative (project layer above SONIC-DS) ----------
+/* ---------- Page-theme tokens (light = default, dark = opt-in) ----------
    SONIC-DS itself remains dark-only for in-app dApp UI. The landing page
-   uses these light tokens for marketing-context surfaces. */
-:root {
+   ships both a light *and* a dark theme — selected via [data-theme] on
+   <html>. Token NAMES intentionally retain the legacy `*-on-light-*` /
+   `*-surface-light-*` form so existing components continue to work; the
+   values are swapped per theme. Treat the names as semantic ("page
+   surface", "on-page primary"), not literal. */
+:root,
+[data-theme="light"] {
   --color-surface-light: #EFEFF5;
   --color-surface-light-soft: #F7F7FB;
   --color-surface-light-elevated: rgba(255, 255, 255, 0.7);
@@ -166,9 +171,287 @@
   --color-primary-blue-on-light-border: rgba(0, 0, 255, 0.18);
   --color-primary-blue-on-light-border-strong: rgba(0, 0, 255, 0.45);
 
-  /* ---------- On-blue theme alternative (saturated #0000FF section bg) ----------
-     Used on ByTheNumbers + Closing for "rhythm break" sections. Reserved for
-     proof / final-CTA moments — max 2 per page. */
+  /* Nav surface — frosted strip that sticks to viewport top */
+  --color-nav-bg: rgba(239, 239, 245, 0.72);
+  --color-nav-logo-shadow: 0 4px 14px rgba(0, 0, 255, 0.10);
+  --color-nav-logo-inset: rgba(255, 255, 255, 0.7);
+
+  /* IntroFilm logo halo — pure sonic-blue. On light bg #0000FF
+     blends visibly at 32% alpha; on dark bg the same colour at the
+     same alpha becomes a near-invisible deep-violet so the dark
+     variant lifts alpha (NOT lightness) to keep the hue sonic. */
+  --intro-logo-glow: 0 20px 60px rgba(0, 0, 255, 0.32);
+
+  /* Closing → Footer fade-up "LED bleed" glow. Light keeps a softer
+     wash so it doesn't crush the lighter page bg; dark lifts the
+     alpha because it actually simulates the LED bar above the
+     Footer in dark mode. */
+  --closing-bleed-glow: linear-gradient(
+    to top,
+    rgba(0, 0, 255, 0.18) 0%,
+    rgba(0, 0, 255, 0.08) 25%,
+    rgba(0, 0, 255, 0.02) 55%,
+    transparent 100%
+  );
+
+  /* Ambient decorations (.ns-dot-grid, .ns-ambient-glow) */
+  --color-dot-grid: rgba(0, 0, 255, 0.08);
+  --color-ambient-glow-1: rgba(0, 0, 255, 0.09);
+  --color-ambient-glow-2: rgba(0, 0, 255, 0.04);
+  --color-ambient-glow-green-1: rgba(0, 255, 148, 0.08);
+  --color-ambient-glow-green-2: rgba(0, 255, 148, 0.03);
+
+  /* Pearl-glass card surface used by Hero pills, problem-card, number
+     tiles, etc. Stored as composite values so consumers swap a single
+     var instead of 5. The hover variant tints border+glow blue. */
+  --card-glass-gradient: linear-gradient(135deg, rgba(255,255,255,0.36), rgba(255,255,255,0.22) 55%, rgba(255,255,255,0.30));
+  --card-glass-border: rgba(255,255,255,0.75);
+  --card-glass-shadow:
+    inset 0 1px 0 rgba(255,255,255,1),
+    inset 0 -1px 0 rgba(255,255,255,0.4),
+    0 1px 0 rgba(0,0,0,0.02),
+    0 14px 32px rgba(15,23,42,0.06),
+    0 28px 60px rgba(15,23,42,0.05);
+  --card-glass-hover-border: rgba(0, 0, 255, 0.30);
+  --card-glass-hover-shadow:
+    inset 0 1px 0 rgba(255,255,255,1),
+    inset 0 -1px 0 rgba(255,255,255,0.4),
+    0 1px 0 rgba(0,0,0,0.02),
+    0 18px 40px rgba(0, 0, 255, 0.18),
+    0 28px 60px rgba(15,23,42,0.05);
+  --card-pill-inset: inset 0 1px 0 rgba(255,255,255,1), 0 2px 6px rgba(0,0,0,0.04);
+  --card-pill-inset-strong: inset 0 1px 0 rgba(255,255,255,1), 0 12px 30px rgba(0,0,0,0.05);
+
+  /* CTA secondary (e.g. "Read the litepaper") hover — mirrors the
+     primary CTA's drop shadow 1:1 (`0 10px 28px rgba(0,0,255,0.32)`)
+     so the two buttons read as the same family in hover state. Only
+     the inset highlight differs (white-on-light here vs white-on-blue
+     for primary), because each base surface needs a different top
+     edge highlight. */
+  --cta-secondary-hover-border: rgba(0, 0, 255, 0.45);
+  --cta-secondary-hover-shadow:
+    inset 0 1px 0 rgba(255,255,255,1),
+    0 10px 28px rgba(0, 0, 255, 0.32);
+
+  /* WhatYouCanBuild active card — light stays bright sonic, dark
+     flips to a deeper navy so it doesn't read as a "highlighter
+     stripe" against the near-black inactive cards next to it. */
+  --whyc-active-bg: rgba(0, 0, 255, 0.92);
+  --whyc-active-border: rgba(255, 255, 255, 0.55);
+
+  /* Inline viz palette — used by the SVG visuals inside problem
+     cards (oracle queue, agents chips, orderbook bars). Light keeps
+     the muted/translucent blues; dark uses brighter, more saturated
+     values so the visuals don't disappear on near-black. */
+  --viz-blue-fill: rgba(0, 0, 255, 0.35);
+  --viz-blue-stroke: rgba(0, 0, 255, 0.55);
+  /* Orderbook bars share the same translucent fill but use a much
+     fainter outline — they read as soft blue glass strips, not
+     chips. */
+  --viz-bar-stroke: rgba(0, 0, 255, 0.45);
+  --viz-blue-faint: rgba(0, 0, 255, 0.04);
+  --viz-blue-tinier: rgba(0, 0, 255, 0.015);
+  --viz-red: #b91c1c;
+  --viz-red-bg: rgba(185, 28, 28, 0.08);
+  --viz-green: #0F8F5C;
+  --viz-green-bg: rgba(15, 143, 92, 0.10);
+  /* Alert/limit pill fill — light gets a near-opaque chip so the
+     red text doesn't fight the bars showing through; dark already
+     reads well against the deep page bg so it keeps the same
+     translucent recipe as `--viz-red-bg`. */
+  --viz-pill-bg: rgba(255, 255, 255, 0.96);
+  --viz-chip-fill: rgba(255, 255, 255, 0.18);
+  --viz-chip-stroke: var(--color-line-on-light);
+  --viz-rail-soft: rgba(0, 0, 255, 0.35);
+  --viz-rail-strong: rgba(0, 0, 255, 0.55);
+
+  /* WhatYouCanBuild inactive card — light keeps the pearl-glass
+     recipe so the row stays alive at a glance. Token-ised so the
+     dark variant can flip it to "recede into background" mode. */
+  --whyc-inactive-bg: rgba(255, 255, 255, 0.36);
+  --whyc-inactive-border: rgba(255, 255, 255, 0.75);
+  --whyc-inactive-shadow: var(--card-glass-shadow);
+  --whyc-inactive-num: var(--color-primary-blue);
+
+  /* Hero-animation overlay scrim — paints a top-down readability wash
+     above the WebGL grid so the foreground text contrast stays high. */
+  --hero-anim-scrim: linear-gradient(180deg, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0) 100%), linear-gradient(45deg, rgba(0,0,255,0.025) 25%, transparent 25%, transparent 75%, rgba(0,0,255,0.025) 75%), linear-gradient(45deg, rgba(0,0,255,0.025) 25%, transparent 25%, transparent 75%, rgba(0,0,255,0.025) 75%);
+
+  /* AtomArrayBackground particle palette — defaults are blue at
+     readable opacities on the light surface. */
+  --atom-bond: 0, 0, 255;
+  --atom-bond-alpha: 0.16;
+  --atom-dot: 0, 0, 255;
+  --atom-dot-alpha: 0.45;
+
+  color-scheme: light;
+}
+
+/* ---------- Dark theme ----------
+   Mirrors the production reference (northstar.sonicsvm.org): near-black
+   #0a0a0a page, white text with the SONIC-DS muted ladder, hairline
+   white borders, and a deeper electric-blue #002CEA accent paired with
+   the existing #0000FF brand. */
+[data-theme="dark"] {
+  --color-surface-light: #0A0A0A;
+  --color-surface-light-soft: #0F0F12;
+  --color-surface-light-elevated: rgba(255, 255, 255, 0.05);
+  --color-surface-light-pane: rgba(255, 255, 255, 0.025);
+
+  --color-on-light-primary: #FFFFFF;
+  --color-on-light-secondary: #DADADA;
+  --color-on-light-muted: #999999;
+  --color-on-light-faint: #666666;
+
+  --color-line-on-light: rgba(255, 255, 255, 0.08);
+  --color-line-on-light-soft: rgba(255, 255, 255, 0.05);
+  --color-line-on-light-strong: rgba(255, 255, 255, 0.18);
+
+  --color-primary-blue-on-light-bg: rgba(0, 44, 234, 0.10);
+  --color-primary-blue-on-light-bg-strong: rgba(0, 44, 234, 0.20);
+  --color-primary-blue-on-light-border: rgba(0, 44, 234, 0.45);
+  --color-primary-blue-on-light-border-strong: rgba(56, 189, 248, 0.55);
+
+  --color-nav-bg: rgba(10, 10, 10, 0.72);
+  --color-nav-logo-shadow: 0 6px 18px rgba(0, 44, 234, 0.45);
+  --color-nav-logo-inset: rgba(255, 255, 255, 0.06);
+
+  /* Dark: same shape — stacked twice for visible brightness, but the
+     hue is shifted from pure #0000FF to the same deep electric blue
+     used by the logo's border (#002CEA aka rgba(0, 44, 234)). User
+     feedback: pure #0000FF was a touch stronger than the border so
+     they stopped reading as the same family — matching the border
+     keeps the halo "of the logo" rather than "around" it. */
+  --intro-logo-glow:
+    0 20px 60px rgba(0, 44, 234, 1),
+    0 20px 60px rgba(0, 44, 234, 1);
+
+  /* Dark Closing fade-up — kept stronger to do the LED-bleed
+     impression the user signed off on earlier. */
+  --closing-bleed-glow: linear-gradient(
+    to top,
+    rgba(0, 0, 255, 0.35) 0%,
+    rgba(0, 0, 255, 0.14) 25%,
+    rgba(0, 0, 255, 0.04) 55%,
+    transparent 100%
+  );
+
+  --color-dot-grid: rgba(255, 255, 255, 0.06);
+  --color-ambient-glow-1: rgba(0, 44, 234, 0.28);
+  --color-ambient-glow-2: rgba(0, 44, 234, 0.10);
+  --color-ambient-glow-green-1: rgba(0, 255, 148, 0.14);
+  --color-ambient-glow-green-2: rgba(0, 255, 148, 0.05);
+
+  /* Frosted glass + sonic-blue ambient tint, dark variant.
+     Half-transparent fill so the existing `backdrop-filter: blur(18px)
+     saturate(1.15)` on each card actually frost-blurs the page
+     behind. Sonic-blue tint is now CORNER-ONLY (low alpha + held
+     only in the first/last 10%) so the central area — where viz
+     elements live — stays deep near-black and lets blue dots /
+     strokes inside the SVG read clearly against the card. */
+  --card-glass-gradient: linear-gradient(
+    135deg,
+    rgba(40, 60, 160, 0.12) 0%,
+    rgba(22, 28, 50, 0.68) 30%,
+    rgba(22, 28, 50, 0.68) 70%,
+    rgba(30, 50, 140, 0.14) 100%
+  );
+  --card-glass-border: rgba(0, 60, 255, 0.22);
+  --card-glass-shadow:
+    inset 0 1px 0 rgba(100, 140, 255, 0.22),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.35),
+    0 1px 0 rgba(0, 0, 0, 0.4),
+    0 6px 18px rgba(0, 0, 0, 0.30);
+  /* Hover — the saturation does the lifting, not a white reflection.
+     Top inset is dropped to a low-alpha sonic-blue tinted highlight
+     (no longer the bright bluish-white that read as "glare"); the
+     outer drop + halo carry the heavier sonic-blue glow. */
+  --card-glass-hover-border: rgba(0, 80, 255, 0.55);
+  --card-glass-hover-shadow:
+    inset 0 1px 0 rgba(40, 90, 255, 0.30),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.35),
+    0 1px 0 rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(0, 0, 255, 0.18),
+    0 8px 22px rgba(0, 0, 255, 0.32);
+  --card-pill-inset: inset 0 1px 0 rgba(255,255,255,0.08), 0 2px 6px rgba(0,0,0,0.4);
+  --card-pill-inset-strong: inset 0 1px 0 rgba(255,255,255,0.10), 0 12px 30px rgba(0,0,0,0.55);
+
+  /* Dark variant — same drop shadow as light (matches primary CTA
+     1:1). Inset highlight drops to a faint white since the base
+     surface is the elevated dark glass, not solid blue. */
+  --cta-secondary-hover-border: rgba(0, 0, 255, 0.60);
+  --cta-secondary-hover-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.15),
+    0 10px 28px rgba(0, 0, 255, 0.32);
+
+  /* Active stays at full-saturation sonic blue — it's the focal
+     point of the row, and dialling it back read as "muted/dim"
+     instead of "selected". Border drops the white-leaning lift in
+     favour of a more saturated sonic-blue tint, so the active card
+     reads as "more sonic blue" rather than "white-rimmed". */
+  --whyc-active-bg: rgba(0, 0, 255, 0.92);
+  --whyc-active-border: rgba(60, 110, 255, 0.65);
+
+  /* Dark viz palette — brighter / more vibrant so the SVG visuals
+     inside problem cards (blue blocks, red alerts, chip outlines)
+     don't recede into the near-black surface. Sonic blue at high
+     alpha + #FB2C36 alert red matches the reference site. */
+  --viz-blue-fill: rgba(0, 0, 255, 0.30);
+  --viz-blue-stroke: rgba(0, 0, 255, 0.55);
+  --viz-bar-stroke: rgba(0, 0, 255, 0.50);
+  --viz-blue-faint: rgba(0, 0, 255, 0.12);
+  --viz-blue-tinier: rgba(0, 0, 255, 0.05);
+  --viz-red: #FB2C36;
+  --viz-red-bg: rgba(251, 44, 54, 0.14);
+  --viz-green: #00FF94;
+  --viz-green-bg: rgba(0, 255, 148, 0.16);
+  /* Dark: keep the translucent red chip — already reads cleanly
+     against the near-black page bg. */
+  --viz-pill-bg: var(--viz-red-bg);
+  --viz-chip-fill: rgba(255, 255, 255, 0.04);
+  --viz-chip-stroke: rgba(255, 255, 255, 0.18);
+  --viz-rail-soft: rgba(80, 120, 255, 0.45);
+  --viz-rail-strong: rgba(100, 140, 255, 0.65);
+
+  /* Inactive — same frosted-glass + sonic-blue tint recipe as the
+     rest of the dark glass cards. Corner sonic-blue tints +
+     slightly blue-leaning mid + brighter top highlight together
+     give the surface visible material presence (not a flat slab)
+     while still receding vs the saturated active card. */
+  --whyc-inactive-bg: linear-gradient(
+    135deg,
+    rgba(40, 60, 160, 0.22) 0%,
+    rgba(8, 12, 32, 0.60) 55%,
+    rgba(30, 45, 130, 0.24) 100%
+  );
+  --whyc-inactive-border: rgba(0, 60, 255, 0.38);
+  --whyc-inactive-shadow:
+    inset 0 1px 0 rgba(120, 160, 255, 0.28),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.35);
+  /* Full-saturation sonic blue — the 02/03 numerals work as a
+     brand signature, no need to dim them. */
+  --whyc-inactive-num: #0000FF;
+
+  /* Dark scrim — flips to a top-down dark wash so the WebGL grid
+     beneath stays atmospheric without the white milk-frost overlay. */
+  --hero-anim-scrim: linear-gradient(180deg, rgba(10,10,10,0.55) 0%, rgba(10,10,10,0) 100%), linear-gradient(45deg, rgba(56,189,248,0.025) 25%, transparent 25%, transparent 75%, rgba(56,189,248,0.025) 75%), linear-gradient(45deg, rgba(56,189,248,0.025) 25%, transparent 25%, transparent 75%, rgba(56,189,248,0.025) 75%);
+
+  /* Brighter, cyan-leaning bonds/dots so the lattice reads against
+     #0a0a0a. (Atom canvas reads these via getComputedStyle on
+     <html>.) */
+  --atom-bond: 56, 189, 248;
+  --atom-bond-alpha: 0.20;
+  --atom-dot: 125, 211, 252;
+  --atom-dot-alpha: 0.55;
+
+  color-scheme: dark;
+}
+
+/* ---------- On-blue theme alternative (saturated #0000FF section bg) ----------
+   Used on ByTheNumbers + Closing for "rhythm break" sections. Reserved
+   for proof / final-CTA moments — max 2 per page. These look the same
+   in both themes (the section paints over with solid #0000FF). */
+:root {
   --color-on-blue-primary: #ffffff;
   --color-on-blue-secondary: rgba(255, 255, 255, 0.85);
   --color-on-blue-muted: rgba(255, 255, 255, 0.6);
@@ -178,6 +461,22 @@
   --color-line-on-blue-strong: rgba(255, 255, 255, 0.45);
 
   --color-surface-on-blue-pane: rgba(255, 255, 255, 0.05);
+
+  /* ---------- Animation accent palette ----------
+     Multi-hue set pulled from the dark reference. Used by section
+     animations (Hero/HowItWorks/atom-array/etc.) for stroke + glow
+     traces. Same values both themes — they're already saturated
+     enough to read on the light surface and pop on dark. */
+  --color-accent-electric: #002CEA;
+  --color-accent-electric-soft: rgba(0, 44, 234, 0.40);
+  --color-accent-sky: #38BDF8;
+  --color-accent-sky-light: #7DD3FC;
+  --color-accent-violet: #A78BFA;
+  --color-accent-violet-light: #C084FC;
+  --color-accent-amber: #FFD166;
+  --color-accent-pink: #FF5C8A;
+  --color-accent-red: #FB2C36;
+  --color-accent-red-soft: rgba(251, 44, 54, 0.30);
 }
 
 @theme inline {
@@ -272,6 +571,26 @@
   --color-line-on-blue-strong: var(--color-line-on-blue-strong);
   --color-surface-on-blue-pane: var(--color-surface-on-blue-pane);
 
+  /* ---------- Animation accent palette ---------- */
+  --color-accent-electric: var(--color-accent-electric);
+  --color-accent-electric-soft: var(--color-accent-electric-soft);
+  --color-accent-sky: var(--color-accent-sky);
+  --color-accent-sky-light: var(--color-accent-sky-light);
+  --color-accent-violet: var(--color-accent-violet);
+  --color-accent-violet-light: var(--color-accent-violet-light);
+  --color-accent-amber: var(--color-accent-amber);
+  --color-accent-pink: var(--color-accent-pink);
+  --color-accent-red: var(--color-accent-red);
+  --color-accent-red-soft: var(--color-accent-red-soft);
+
+  /* ---------- Themed surface helpers ---------- */
+  --color-nav-bg: var(--color-nav-bg);
+  --color-dot-grid: var(--color-dot-grid);
+  --color-ambient-glow-1: var(--color-ambient-glow-1);
+  --color-ambient-glow-2: var(--color-ambient-glow-2);
+  --color-ambient-glow-green-1: var(--color-ambient-glow-green-1);
+  --color-ambient-glow-green-2: var(--color-ambient-glow-green-2);
+
   /* ---------- Typography ---------- */
   --font-heading: var(--font-orbitron), sans-serif;
   --font-body: var(--font-manrope), sans-serif;
@@ -336,6 +655,17 @@ body {
   color: var(--color-on-light-primary);
   font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
+  /* Smooth theme swap. Scoped to color-ish props so layout/transform
+     work isn't dragged into the transition window. */
+  transition:
+    background-color 240ms ease,
+    color 240ms ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body {
+    transition: none;
+  }
 }
 
 /* Unified section-title size — keep all interior section h2 sizes consistent.
@@ -367,7 +697,7 @@ body {
 .ns-dot-grid {
   background-image: radial-gradient(
     circle,
-    rgba(0, 0, 255, 0.08) 1px,
+    var(--color-dot-grid) 1px,
     transparent 1.5px
   );
   background-size: 24px 24px;
@@ -384,8 +714,8 @@ body {
   height: 720px;
   background: radial-gradient(
     circle at center,
-    rgba(0, 0, 255, 0.09) 0%,
-    rgba(0, 0, 255, 0.04) 35%,
+    var(--color-ambient-glow-1) 0%,
+    var(--color-ambient-glow-2) 35%,
     transparent 70%
   );
   filter: blur(40px);
@@ -396,8 +726,8 @@ body {
 .ns-ambient-glow-green {
   background: radial-gradient(
     circle at center,
-    rgba(0, 255, 148, 0.08) 0%,
-    rgba(0, 255, 148, 0.03) 35%,
+    var(--color-ambient-glow-green-1) 0%,
+    var(--color-ambient-glow-green-2) 35%,
     transparent 70%
   );
 }

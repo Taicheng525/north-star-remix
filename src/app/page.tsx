@@ -7,6 +7,9 @@ import HowItWorks from "@/components/HowItWorks";
 import IntroFilm from "@/components/IntroFilm";
 import Navbar from "@/components/Navbar";
 import WhatYouCanBuild from "@/components/WhatYouCanBuild";
+// WhyBuild — temporarily hidden, awaiting redesign before shipping.
+// Component file kept at src/components/WhyBuild.tsx for later use.
+// import WhyBuild from "@/components/WhyBuild";
 
 export default function Home() {
   return (
@@ -30,6 +33,7 @@ export default function Home() {
       >
         <AtomArrayBackground />
         <Hero />
+        {/* <WhyBuild /> — hidden pending redesign */}
         <HowItWorks />
         <ByTheNumbers />
         <WhatYouCanBuild />

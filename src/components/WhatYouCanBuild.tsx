@@ -12,10 +12,92 @@ type UseCaseRow = {
   shortLabel: string;
   headline: string;
   body: string;
-  statValue: string;
-  statLabel: string;
-  viz: React.ReactNode;
+  // Standard cards have a stat + visual; the SDK card has a code
+  // snippet + Copy button instead. Both shapes share the same active
+  // frame, just the bottom-half content differs.
+  statValue?: string;
+  statLabel?: string;
+  viz?: React.ReactNode;
+  // `code` is the plain string used by the Copy button (clipboard
+  // payload). `codeDisplay` is the syntax-highlighted JSX rendered
+  // inside <pre>. They must stay in sync.
+  code?: string;
+  codeDisplay?: React.ReactNode;
 };
+
+const SDK_CODE = `import { NorthStarSDK } from "@sonicsvm/northstar-sdk";
+
+const sdk = new NorthStarSDK({
+  portalProgramId: PORTAL,
+  customEndpoints: { solana: L1_RPC, ephemeralRollup: ER_RPC },
+});
+
+// Open a session, delegate accounts, run your workload at real-time.
+await sdk.openSession(user, gridId, ttlSlots, feeCap, signTx, signers);
+await sdk.delegate(user, gridId, ownerProgram, signTx, signers);
+// ... your existing program calls run inside the session ...`;
+
+// Hand-rolled syntax highlight palette. Keeping this inline instead
+// of pulling in shiki / prism — the snippet is fixed, so a tokenised
+// JSX render is cheaper than a runtime highlighter.
+const HL = {
+  keyword: "#FF73B6",  // import / from / const / new / await
+  string: "#FFB86C",   // string literals + class names
+  constant: "#F1E58E", // SCREAMING_SNAKE constants (PORTAL, L1_RPC…)
+  fn: "#FF7AB6",       // method calls after `.`
+  comment: "rgba(255, 255, 255, 0.45)",
+};
+
+function T({
+  c,
+  children,
+}: {
+  c: string;
+  children: React.ReactNode;
+}) {
+  return <span style={{ color: c }}>{children}</span>;
+}
+
+const SDK_CODE_DISPLAY = (
+  <>
+    <T c={HL.keyword}>import</T>
+    {" { "}
+    <T c={HL.string}>NorthStarSDK</T>
+    {" } "}
+    <T c={HL.keyword}>from</T>{" "}
+    <T c={HL.string}>{'"@sonicsvm/northstar-sdk"'}</T>
+    {";\n\n"}
+    <T c={HL.keyword}>const</T>
+    {" sdk = "}
+    <T c={HL.keyword}>new</T>{" "}
+    <T c={HL.string}>NorthStarSDK</T>
+    {"({\n"}
+    {"  portalProgramId: "}
+    <T c={HL.constant}>PORTAL</T>
+    {",\n"}
+    {"  customEndpoints: { solana: "}
+    <T c={HL.constant}>L1_RPC</T>
+    {", ephemeralRollup: "}
+    <T c={HL.constant}>ER_RPC</T>
+    {" },\n"}
+    {"});\n\n"}
+    <T c={HL.comment}>
+      {"// Open a session, delegate accounts, run your workload at real-time."}
+    </T>
+    {"\n"}
+    <T c={HL.keyword}>await</T>
+    {" sdk."}
+    <T c={HL.fn}>openSession</T>
+    {"(user, gridId, ttlSlots, feeCap, signTx, signers);\n"}
+    <T c={HL.keyword}>await</T>
+    {" sdk."}
+    <T c={HL.fn}>delegate</T>
+    {"(user, gridId, ownerProgram, signTx, signers);\n"}
+    <T c={HL.comment}>
+      {"// ... your existing program calls run inside the session ..."}
+    </T>
+  </>
+);
 
 export default function WhatYouCanBuild() {
   const rows: UseCaseRow[] = [
@@ -48,6 +130,15 @@ export default function WhatYouCanBuild() {
       statValue: "> 1M",
       statLabel: "ops per second",
       viz: <OrderbookLadderViz />,
+    },
+    {
+      num: "04",
+      label: "Open A Session",
+      shortLabel: "SDK",
+      headline: "Open a Session In Minutes.",
+      body: "One small integration path: open a session, delegate accounts, and run your existing program calls.",
+      code: SDK_CODE,
+      codeDisplay: SDK_CODE_DISPLAY,
     },
   ];
 
@@ -161,12 +252,13 @@ function ExpandCard({
         // before opening" feel.
         transition:
           "flex-grow 460ms cubic-bezier(0.22, 1, 0.36, 1), border-color 220ms ease-out",
-        // Active = SOLID sonic blue (the hovered card "lights up").
-        // Inactive = single-stop translucent white (no multi-stop
-        // gradient → no banding from alpha-stop transitions).
+        // Active + inactive both themed — light uses the original
+        // bright sonic + pearl-glass duo, dark uses deep-navy + a
+        // darker-navy "ghost" slab so the row stays in one tonal
+        // family on near-black.
         background: active
-          ? "rgba(0,0,255,0.92)"
-          : "rgba(255,255,255,0.36)",
+          ? "var(--whyc-active-bg)"
+          : "var(--whyc-inactive-bg)",
         // Inactive drops the `saturate(1.15)` — it was amplifying any
         // colour bleeding in from neighbouring cards' shadows (15%
         // boost made the active blue glow visible through the
@@ -179,8 +271,8 @@ function ExpandCard({
           ? "blur(18px) saturate(1.15)"
           : "blur(18px)",
         borderColor: active
-          ? "rgba(255,255,255,0.55)"
-          : "rgba(255,255,255,0.75)",
+          ? "var(--whyc-active-border)"
+          : "var(--whyc-inactive-border)",
         // Active outer shadow uses NEGATIVE spread (`-8px`, `-16px`) so
         // the blur is pulled inward on all sides. Net effect: shadow
         // mostly drops below the card, only a few px on the sides.
@@ -188,7 +280,7 @@ function ExpandCard({
         // gap, so no more diagonal blue bleed on inactive cards.
         boxShadow: active
           ? "inset 0 1px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(0,0,0,0.10), 0 12px 24px -8px rgba(0,0,255,0.28), 0 24px 40px -16px rgba(0,0,255,0.16)"
-          : "inset 0 1px 0 rgba(255,255,255,1), inset 0 -1px 0 rgba(255,255,255,0.4), 0 1px 0 rgba(0,0,0,0.02), 0 8px 20px rgba(15,23,42,0.05)",
+          : "var(--whyc-inactive-shadow)",
       }}
     >
       {/* Decoration layers — only visible when active. Adds a faint
@@ -242,7 +334,10 @@ function ExpandCard({
           transition: "opacity 180ms ease-out",
         }}
       >
-        <div className="font-heading text-primary-blue text-32 font-extrabold tracking-tight tabular-nums leading-none mb-3">
+        <div
+          className="font-heading text-32 font-extrabold tracking-tight tabular-nums leading-none mb-3"
+          style={{ color: "var(--whyc-inactive-num)" }}
+        >
           {row.num}
         </div>
         <span className="font-mono text-10 uppercase tracking-[0.18em] text-on-light-muted text-center">
@@ -281,22 +376,29 @@ function ExpandCard({
           {row.body}
         </p>
 
-        {/* spacer pushes stat + viz to the bottom */}
-        <div className="flex-1" />
-
-        {/* bottom row: stat (left) + viz (right) */}
-        <div className="flex items-end justify-between gap-6">
-          <div className="font-heading text-12 text-on-blue-secondary tabular-nums">
-            <span className="text-on-blue-primary font-medium">
-              {row.statValue}
-            </span>
-            <span className="text-on-blue-faint mx-2">/</span>
-            <span>{row.statLabel}</span>
-          </div>
-          <div className="shrink-0" aria-hidden style={{ width: 200 }}>
-            {row.viz}
-          </div>
-        </div>
+        {row.code ? (
+          /* SDK card — CodeBlock fills the remaining flex space and
+             scrolls vertically if the snippet is taller than the card
+             body. No spacer here: the block self-fills. */
+          <CodeBlock code={row.code} display={row.codeDisplay} />
+        ) : (
+          <>
+            {/* spacer pushes stat + viz to the bottom */}
+            <div className="flex-1" />
+            <div className="flex items-end justify-between gap-6">
+              <div className="font-heading text-12 text-on-blue-secondary tabular-nums">
+                <span className="text-on-blue-primary font-medium">
+                  {row.statValue}
+                </span>
+                <span className="text-on-blue-faint mx-2">/</span>
+                <span>{row.statLabel}</span>
+              </div>
+              <div className="shrink-0" aria-hidden style={{ width: 200 }}>
+                {row.viz}
+              </div>
+            </div>
+          </>
+        )}
       </div>
     </article>
   );
@@ -313,13 +415,11 @@ function MobileCard({ row }: { row: UseCaseRow }) {
       className="relative rounded-xl border p-5"
       style={{
         // Same frosted-glass recipe as Problem cards.
-        background:
-          "linear-gradient(135deg, rgba(255,255,255,0.36), rgba(255,255,255,0.22) 55%, rgba(255,255,255,0.30))",
+        background: "var(--card-glass-gradient)",
         backdropFilter: "blur(18px) saturate(1.15)",
         WebkitBackdropFilter: "blur(18px) saturate(1.15)",
-        borderColor: "rgba(255,255,255,0.75)",
-        boxShadow:
-          "inset 0 1px 0 rgba(255,255,255,1), inset 0 -1px 0 rgba(255,255,255,0.4), 0 1px 0 rgba(0,0,0,0.02), 0 14px 32px rgba(15,23,42,0.06), 0 28px 60px rgba(15,23,42,0.05)",
+        borderColor: "var(--card-glass-border)",
+        boxShadow: "var(--card-glass-shadow)",
       }}
     >
       <div className="flex items-baseline gap-3 mb-2">
@@ -336,14 +436,110 @@ function MobileCard({ row }: { row: UseCaseRow }) {
       <p className="font-body text-12 text-on-light-secondary leading-relaxed mb-4">
         {row.body}
       </p>
-      <div className="font-heading text-12 text-on-light-secondary tabular-nums">
-        <span className="text-on-light-primary font-medium">
-          {row.statValue}
-        </span>
-        <span className="text-on-light-faint mx-2">/</span>
-        <span>{row.statLabel}</span>
-      </div>
+      {row.code ? (
+        <CodeBlock code={row.code} display={row.codeDisplay} compact />
+      ) : (
+        <div className="font-heading text-12 text-on-light-secondary tabular-nums">
+          <span className="text-on-light-primary font-medium">
+            {row.statValue}
+          </span>
+          <span className="text-on-light-faint mx-2">/</span>
+          <span>{row.statLabel}</span>
+        </div>
+      )}
     </article>
+  );
+}
+
+/**
+ * CodeBlock — renders the SDK snippet inside the active card with a
+ * Copy button in the top-right. Two visual variants:
+ *   - default (desktop active card): white text on saturated blue,
+ *     a darkened pane so the code stands out from the active card bg.
+ *   - compact (mobile): a slightly smaller, on-light glass treatment
+ *     so it pairs with the rest of the mobile glass cards.
+ */
+function CodeBlock({
+  code,
+  display,
+  compact = false,
+}: {
+  code: string;
+  display?: React.ReactNode;
+  compact?: boolean;
+}) {
+  const [copied, setCopied] = useState(false);
+  async function copy() {
+    try {
+      await navigator.clipboard.writeText(code);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    } catch {
+      /* clipboard API unavailable (rare); fail silently */
+    }
+  }
+  // Two themed appearances. Desktop sits inside the saturated-blue
+  // active card → darken-on-blue. Mobile sits inside a light glass
+  // card → light glass.
+  const wrapStyle: React.CSSProperties = compact
+    ? {
+        background: "rgba(0, 0, 0, 0.05)",
+        borderColor: "var(--color-line-on-light-soft)",
+        color: "var(--color-on-light-primary)",
+      }
+    : {
+        background: "rgba(0, 0, 0, 0.28)",
+        borderColor: "rgba(255,255,255,0.15)",
+        color: "rgba(255,255,255,0.92)",
+      };
+  return (
+    <div
+      // `flex-1 min-h-0` lets this wrapper fill the active card's
+      // remaining height and shrink so the inner <pre> can scroll.
+      // `cursor-default` overrides the parent card's `cursor-pointer`
+      // — the code area is NOT clickable; only the Copy button is.
+      className="relative w-full rounded-lg border overflow-hidden flex-1 min-h-0 cursor-default"
+      style={wrapStyle}
+    >
+      <pre
+        // Vertical scroll for long snippets, horizontal scroll for
+        // long lines. h-full so it occupies the full wrapper height.
+        className="font-mono text-10 md:text-12 leading-relaxed h-full overflow-x-auto overflow-y-auto"
+        style={{
+          margin: 0,
+          padding: compact ? "10px 12px" : "12px 14px",
+          paddingRight: compact ? 56 : 72,
+        }}
+      >
+        <code>{display ?? code}</code>
+      </pre>
+      <button
+        type="button"
+        onClick={(e) => {
+          // Don't bubble up to the ExpandCard's onClick (which would
+          // re-trigger onActivate — harmless but redundant).
+          e.stopPropagation();
+          copy();
+        }}
+        className="cursor-pointer absolute top-2 right-2 font-mono text-10 tracking-wide uppercase px-2 py-1 rounded transition-colors"
+        style={
+          compact
+            ? {
+                background: "rgba(0, 0, 0, 0.04)",
+                color: "var(--color-on-light-secondary)",
+                border: "1px solid var(--color-line-on-light)",
+              }
+            : {
+                background: "rgba(255, 255, 255, 0.10)",
+                color: "rgba(255, 255, 255, 0.88)",
+                border: "1px solid rgba(255, 255, 255, 0.20)",
+              }
+        }
+        aria-label={copied ? "Copied" : "Copy code"}
+      >
+        {copied ? "✓ Copied" : "Copy"}
+      </button>
+    </div>
   );
 }
 

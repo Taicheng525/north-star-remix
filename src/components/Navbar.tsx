@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { ArrowRight, Book, Close, Code, Document, Menu } from "./icons";
+import ThemeToggle from "./ThemeToggle";
 
 const LINKS = {
   litepaper: "https://northstar.sonicsvm.org/",
@@ -20,8 +21,9 @@ export default function Navbar() {
       style={{
         backdropFilter: "blur(14px)",
         WebkitBackdropFilter: "blur(14px)",
-        background: "rgba(239, 239, 245, 0.72)",
+        background: "var(--color-nav-bg)",
         borderBottom: "1px solid var(--color-line-on-light-soft)",
+        transition: "background-color 240ms ease, border-color 240ms ease",
       }}
     >
       {/* Full-bleed nav — no `max-w-6xl mx-auto`. The user wants the
@@ -40,11 +42,11 @@ export default function Navbar() {
               className="relative inline-flex items-center justify-center w-9 h-9 rounded-lg transition-transform group-hover:scale-105"
               style={{
                 background:
-                  "linear-gradient(135deg, rgba(0,0,255,0.10), rgba(0,0,255,0.02))",
+                  "linear-gradient(135deg, var(--color-primary-blue-on-light-bg-strong), var(--color-primary-blue-on-light-bg))",
                 border:
                   "1px solid var(--color-primary-blue-on-light-border)",
                 boxShadow:
-                  "inset 0 1px 0 rgba(255,255,255,0.7), 0 4px 14px rgba(0,0,255,0.10)",
+                  "inset 0 1px 0 var(--color-nav-logo-inset), var(--color-nav-logo-shadow)",
               }}
               aria-hidden
             >
@@ -82,6 +84,7 @@ export default function Navbar() {
           </div>
 
           <div className="flex items-center gap-2">
+            <ThemeToggle />
             <a
               href={LINKS.demo}
               target="_blank"
@@ -103,7 +106,8 @@ export default function Navbar() {
               onClick={() => setOpen((v) => !v)}
               className="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-lg bg-surface-light-elevated border border-line-on-light text-on-light-primary"
               style={{
-                boxShadow: "inset 0 1px 0 rgba(255,255,255,1), 0 2px 6px rgba(0,0,0,0.04)",
+                boxShadow:
+                  "inset 0 1px 0 var(--color-nav-logo-inset), 0 2px 6px rgba(0,0,0,0.04)",
               }}
             >
               {open ? <Close size={20} /> : <Menu size={20} />}

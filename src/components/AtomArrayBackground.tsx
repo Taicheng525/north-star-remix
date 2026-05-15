@@ -50,6 +50,31 @@ export default function AtomArrayBackground() {
       "(prefers-reduced-motion: reduce)",
     ).matches;
 
+    // Atom palette is theme-aware. CSS variables on <html> hold the
+    // RGB triple + alpha for bonds and dots; reading them via
+    // getComputedStyle lets the canvas re-tint when the user flips
+    // the theme toggle. Cached and refreshed only on attribute change
+    // (cheap MutationObserver, not per-frame).
+    let bondRgb = "0, 0, 255";
+    let bondAlphaBase = 0.16;
+    let dotRgb = "0, 0, 255";
+    let dotAlpha = 0.45;
+    function refreshPalette() {
+      const cs = getComputedStyle(document.documentElement);
+      bondRgb = cs.getPropertyValue("--atom-bond").trim() || bondRgb;
+      const ba = parseFloat(cs.getPropertyValue("--atom-bond-alpha"));
+      if (!Number.isNaN(ba)) bondAlphaBase = ba;
+      dotRgb = cs.getPropertyValue("--atom-dot").trim() || dotRgb;
+      const da = parseFloat(cs.getPropertyValue("--atom-dot-alpha"));
+      if (!Number.isNaN(da)) dotAlpha = da;
+    }
+    refreshPalette();
+    const themeObserver = new MutationObserver(refreshPalette);
+    themeObserver.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["data-theme"],
+    });
+
     function resize() {
       width = window.innerWidth;
       viewportH = window.innerHeight;
@@ -137,11 +162,11 @@ export default function AtomArrayBackground() {
           const d2 = dx * dx + dy * dy;
           if (d2 < maxDistSq) {
             const d = Math.sqrt(d2);
-            const alpha = (1 - d / MAX_DIST) * 0.16;
+            const alpha = (1 - d / MAX_DIST) * bondAlphaBase;
             ctx.beginPath();
             ctx.moveTo(visX[i], visY[i]);
             ctx.lineTo(visX[j], visY[j]);
-            ctx.strokeStyle = `rgba(0, 0, 255, ${alpha})`;
+            ctx.strokeStyle = `rgba(${bondRgb}, ${alpha})`;
             ctx.stroke();
           }
         }
@@ -150,7 +175,7 @@ export default function AtomArrayBackground() {
       // Atoms (dots). Bumped dot opacity 0.32 → 0.45 and radius
       // 1.5 → 1.7 so dots are clearly readable without overwhelming
       // the page.
-      ctx.fillStyle = "rgba(0, 0, 255, 0.45)";
+      ctx.fillStyle = `rgba(${dotRgb}, ${dotAlpha})`;
       for (let i = 0; i < visIdx.length; i++) {
         ctx.beginPath();
         ctx.arc(visX[i], visY[i], 1.7, 0, Math.PI * 2);
@@ -206,6 +231,7 @@ export default function AtomArrayBackground() {
       if (rafRef.current != null) cancelAnimationFrame(rafRef.current);
       window.removeEventListener("resize", onResize);
       window.clearInterval(heightCheck);
+      themeObserver.disconnect();
     };
   }, []);
 

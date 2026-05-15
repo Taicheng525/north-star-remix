@@ -23,6 +23,16 @@ export default function HeroBackground() {
     let cancelled = false;
     let cleanup: (() => void) | null = null;
 
+    function readThemePalette() {
+      // Returns hex ints for fog + grid+particle color. Falls back to
+      // the light palette if the data-theme attr is missing.
+      const dark =
+        document.documentElement.getAttribute("data-theme") === "dark";
+      return dark
+        ? { fog: 0x0a0a0a, accent: 0x38bdf8, gridOpacity: 0.32, ptOpacity: 0.7 }
+        : { fog: 0xefeff5, accent: 0x0000ff, gridOpacity: 0.16, ptOpacity: 0.55 };
+    }
+
     (async () => {
       const THREE = await import("three");
       if (cancelled || !container.isConnected) return;
@@ -30,8 +40,10 @@ export default function HeroBackground() {
       const w = container.clientWidth || window.innerWidth;
       const h = container.clientHeight || window.innerHeight;
 
+      const initial = readThemePalette();
+
       const scene = new THREE.Scene();
-      scene.fog = new THREE.FogExp2(0xefeff5, 0.0018);
+      scene.fog = new THREE.FogExp2(initial.fog, 0.0018);
 
       const camera = new THREE.PerspectiveCamera(70, w / h, 0.1, 1000);
       camera.position.set(0, 60, 220);
@@ -44,9 +56,9 @@ export default function HeroBackground() {
 
       // ---- grid lines ----
       const gridMat = new THREE.LineBasicMaterial({
-        color: 0x0000ff,
+        color: initial.accent,
         transparent: true,
-        opacity: 0.16,
+        opacity: initial.gridOpacity,
       });
       const gpts: InstanceType<typeof THREE.Vector3>[] = [];
       const S = 900;
@@ -73,10 +85,10 @@ export default function HeroBackground() {
       }
       pgeo.setAttribute("position", new THREE.BufferAttribute(positions, 3));
       const pmat = new THREE.PointsMaterial({
-        color: 0x0000ff,
+        color: initial.accent,
         size: 1.6,
         transparent: true,
-        opacity: 0.55,
+        opacity: initial.ptOpacity,
       });
       const pts = new THREE.Points(pgeo, pmat);
       scene.add(pts);
@@ -121,10 +133,29 @@ export default function HeroBackground() {
       );
       observer.observe(container);
 
+      // Re-tint scene when the theme toggle flips the <html>
+      // data-theme attribute. We re-use the same materials and the
+      // FogExp2 instance — no scene rebuild required.
+      const themeObserver = new MutationObserver(() => {
+        const p = readThemePalette();
+        gridMat.color.setHex(p.accent);
+        gridMat.opacity = p.gridOpacity;
+        pmat.color.setHex(p.accent);
+        pmat.opacity = p.ptOpacity;
+        if (scene.fog && "color" in scene.fog) {
+          (scene.fog as InstanceType<typeof THREE.FogExp2>).color.setHex(p.fog);
+        }
+      });
+      themeObserver.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ["data-theme"],
+      });
+
       cleanup = () => {
         cancelAnimationFrame(raf);
         window.removeEventListener("resize", onResize);
         observer.disconnect();
+        themeObserver.disconnect();
         renderer.dispose();
         gridGeo.dispose();
         pgeo.dispose();

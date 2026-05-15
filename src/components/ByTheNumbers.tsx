@@ -96,13 +96,8 @@ export default function ByTheNumbers() {
            CSS specificity). */
         .bty-card:hover {
           transform: translateY(-6px);
-          border-color: rgba(0,0,255,0.30) !important;
-          box-shadow:
-            inset 0 1px 0 rgba(255,255,255,1),
-            inset 0 -1px 0 rgba(255,255,255,0.4),
-            0 1px 0 rgba(0,0,0,0.02),
-            0 18px 40px rgba(0,0,255,0.18),
-            0 28px 60px rgba(15,23,42,0.05) !important;
+          border-color: var(--card-glass-hover-border) !important;
+          box-shadow: var(--card-glass-hover-shadow) !important;
         }
         @media (prefers-reduced-motion: reduce) {
           .bty-card:hover {
@@ -179,13 +174,11 @@ function BigStat({
       style={{
         // Same frosted-glass recipe as Problem cards — the 3 stat cards
         // now have the same material quality.
-        background:
-          "linear-gradient(135deg, rgba(255,255,255,0.36), rgba(255,255,255,0.22) 55%, rgba(255,255,255,0.30))",
+        background: "var(--card-glass-gradient)",
         backdropFilter: "blur(18px) saturate(1.15)",
         WebkitBackdropFilter: "blur(18px) saturate(1.15)",
-        borderColor: "rgba(255,255,255,0.75)",
-        boxShadow:
-          "inset 0 1px 0 rgba(255,255,255,1), inset 0 -1px 0 rgba(255,255,255,0.4), 0 1px 0 rgba(0,0,0,0.02), 0 14px 32px rgba(15,23,42,0.06), 0 28px 60px rgba(15,23,42,0.05)",
+        borderColor: "var(--card-glass-border)",
+        boxShadow: "var(--card-glass-shadow)",
         transition:
           "transform 320ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 320ms ease-out, border-color 320ms ease-out",
       }}

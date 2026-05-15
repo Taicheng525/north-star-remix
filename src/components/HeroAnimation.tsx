@@ -69,8 +69,7 @@ export default function HeroAnimation() {
       className="relative w-full aspect-square rounded-3xl overflow-hidden border border-line-on-light"
       style={{
         backgroundColor: "var(--color-surface-light)",
-        backgroundImage:
-          "linear-gradient(180deg, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0) 100%), linear-gradient(45deg, rgba(0,0,255,0.025) 25%, transparent 25%, transparent 75%, rgba(0,0,255,0.025) 75%), linear-gradient(45deg, rgba(0,0,255,0.025) 25%, transparent 25%, transparent 75%, rgba(0,0,255,0.025) 75%)",
+        backgroundImage: "var(--hero-anim-scrim)",
         backgroundSize: "100% 100%, 20px 20px, 20px 20px",
         backgroundPosition: "0 0, 0 0, 10px 10px",
         boxShadow:
@@ -82,7 +81,7 @@ export default function HeroAnimation() {
         className="pointer-events-none absolute inset-0"
         style={{
           boxShadow:
-            "inset 0 1px 1px rgba(255,255,255,1), inset 0 -1px 2px rgba(0,0,0,0.1)",
+            "inset 0 1px 1px var(--color-nav-logo-inset), inset 0 -1px 2px rgba(0,0,0,0.1)",
           borderRadius: "inherit",
         }}
       />

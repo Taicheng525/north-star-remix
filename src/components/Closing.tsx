@@ -48,6 +48,39 @@ export default function Closing() {
         }}
       />
 
+      {/* Footer bleed-up glow — reads as a long horizontal "light bar"
+          sitting at the top edge of the Footer below, radiating
+          straight UP across the full width into Closing. Linear (not
+          radial) so the brightness is uniform across the row instead
+          of falling off at the sides like a spotlight. Height 45%
+          + the gradient fades to transparent before reaching the CTA
+          cluster, so the buttons sitting above stay uncovered. */}
+      <div
+        aria-hidden
+        className="absolute left-0 right-0 bottom-0 pointer-events-none"
+        style={{
+          height: "45%",
+          background: "var(--closing-bleed-glow)",
+        }}
+      >
+        {/* LED light bar itself — sits flush at the Closing/Footer
+            seam (bottom: 0 inside the glow wrapper above). Uniform
+            brightness across the full width (like a real LED strip),
+            with the vertical halo handled by box-shadow + the
+            fade-up glow above it. */}
+        <div
+          aria-hidden
+          className="absolute left-0 right-0 bottom-0"
+          style={{
+            height: "1.5px",
+            background: "rgba(160, 190, 255, 0.95)",
+            boxShadow:
+              "0 0 6px rgba(120, 160, 255, 0.85), 0 -2px 14px rgba(80, 120, 255, 0.55)",
+            animation: "ns-footer-line 6s ease-in-out infinite",
+          }}
+        />
+      </div>
+
       <div className="relative pt-14 md:pt-18">
         <SectionDivider label="Launch" theme="light" />
       </div>
@@ -82,7 +115,7 @@ export default function Closing() {
               href={LINKS.demo}
               target="_blank"
               rel="noopener noreferrer"
-              className="font-heading text-12 font-bold tracking-wider uppercase px-5 py-3 rounded-lg bg-primary-blue text-white inline-flex items-center justify-center gap-2 transition-all hover:brightness-110 active:scale-[0.97]"
+              className="font-heading text-12 font-bold tracking-wider uppercase px-5 py-3 rounded-lg bg-primary-blue text-white inline-flex items-center justify-center gap-2 transition-all hover:-translate-y-px hover:brightness-110 active:scale-[0.97]"
               style={{
                 boxShadow:
                   "inset 0 1px 0 rgba(255,255,255,0.25), 0 10px 28px rgba(0,0,255,0.32)",
@@ -120,6 +153,12 @@ export default function Closing() {
         @keyframes ns-cursor-blink {
           0%, 49%   { opacity: 1; }
           50%, 100% { opacity: 0; }
+        }
+        /* LED bar breathing — kept in sync with the old footer
+           hairline animation name so its 6s slow pulse continues. */
+        @keyframes ns-footer-line {
+          0%, 100% { opacity: 0.65; }
+          50%      { opacity: 1; }
         }
         /* hide the scrollbar inside the terminal scroll zone */
         .terminal-scroll::-webkit-scrollbar { display: none; }

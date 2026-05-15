@@ -29,20 +29,12 @@ export default function Footer() {
   return (
     <footer
       className="relative w-full overflow-hidden bg-primary-blue"
-      style={{
-        borderTop: "1px solid var(--color-line-on-blue-strong)",
-      }}
     >
-      {/* top hairline accent — white-tinted, slowly breathing */}
-      <div
-        aria-hidden
-        className="absolute top-0 inset-x-0 h-px"
-        style={{
-          background:
-            "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.55) 50%, transparent 100%)",
-          animation: "ns-footer-line 6s ease-in-out infinite",
-        }}
-      />
+      {/* Top hairline is now rendered as a sonic-blue LED bar inside
+          Closing's bottom-glow (see Closing.tsx), so the white hairline
+          here is removed — having both stacked at the Footer/Closing
+          seam read as "white border ON TOP OF blue glow", which broke
+          the LED illusion. */}
 
       {/* ambient halo at top center, breathing slowly */}
       <div
@@ -55,7 +47,7 @@ export default function Footer() {
           width: "1200px",
           height: "560px",
           background:
-            "radial-gradient(ellipse at center, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.04) 40%, transparent 72%)",
+            "radial-gradient(ellipse at center, rgba(180, 200, 255, 0.22) 0%, rgba(180, 200, 255, 0.05) 40%, transparent 72%)",
           filter: "blur(20px)",
           animation: "ns-footer-halo 9s ease-in-out infinite",
           willChange: "opacity, transform",
@@ -68,7 +60,7 @@ export default function Footer() {
         className="absolute inset-0 pointer-events-none"
         style={{
           backgroundImage:
-            "linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px)",
+            "linear-gradient(rgba(190, 210, 255, 0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(190, 210, 255, 0.08) 1px, transparent 1px)",
           backgroundSize: "56px 56px",
           maskImage:
             "radial-gradient(ellipse at top, black 25%, transparent 75%)",
@@ -91,8 +83,8 @@ export default function Footer() {
                   className="relative inline-flex items-center justify-center w-11 h-11 rounded-lg"
                   style={{
                     background:
-                      "linear-gradient(135deg, rgba(255,255,255,0.20), rgba(255,255,255,0.08))",
-                    border: "1px solid rgba(255,255,255,0.55)",
+                      "linear-gradient(135deg, rgba(180, 200, 255, 0.22), rgba(180, 200, 255, 0.10))",
+                    border: "1px solid rgba(170, 195, 255, 0.65)",
                     // Dropped the `inset 0 1px 0 rgba(255,255,255,0.5)`
                     // top-edge highlight — on the dark-blue footer
                     // background it stacked on top of the already-bright
@@ -184,7 +176,7 @@ export default function Footer() {
             className="absolute inset-0"
             style={{
               background:
-                "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.32) 20%, rgba(255,255,255,0.32) 80%, transparent 100%)",
+                "linear-gradient(90deg, transparent 0%, rgba(180, 200, 255, 0.40) 20%, rgba(180, 200, 255, 0.40) 80%, transparent 100%)",
             }}
           />
         </div>

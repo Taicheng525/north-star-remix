@@ -100,8 +100,7 @@ export default function HowItWorks() {
           <div
             className="relative flex items-center gap-3 px-5 py-2 rounded-full bg-surface-light border border-line-on-light"
             style={{
-              boxShadow:
-                "inset 0 1px 0 rgba(255,255,255,1), 0 4px 14px rgba(0,0,0,0.04)",
+              boxShadow: "var(--card-pill-inset)",
             }}
           >
             <ArrowDown size={14} className="text-primary-blue" />
@@ -132,13 +131,8 @@ export default function HowItWorks() {
            hover interaction language is consistent across the page. */
         .problem-card:hover {
           transform: translateY(-6px);
-          border-color: rgba(0, 0, 255, 0.30) !important;
-          box-shadow:
-            inset 0 1px 0 rgba(255,255,255,1),
-            inset 0 -1px 0 rgba(255,255,255,0.4),
-            0 1px 0 rgba(0,0,0,0.02),
-            0 18px 40px rgba(0, 0, 255, 0.18),
-            0 28px 60px rgba(15,23,42,0.05) !important;
+          border-color: var(--card-glass-hover-border) !important;
+          box-shadow: var(--card-glass-hover-shadow) !important;
         }
         /* Tiny "live alert" indicator next to each Problem label —
            6px red dot. Static by default; only pulses (slow expanding
@@ -252,15 +246,13 @@ function ProblemRow({
       // hover — red because the Problem section reads as "alert").
       className="problem-card relative grid grid-cols-1 md:grid-cols-[minmax(0,420px)_1fr] gap-6 md:gap-12 items-stretch rounded-xl px-6 md:px-8 py-6 md:py-7 border"
       style={{
-        // Frosted glass — translucent white with backdrop blur so the page
-        // behind shows through softly (echoes the reference site's feel).
-        background:
-          "linear-gradient(135deg, rgba(255,255,255,0.36), rgba(255,255,255,0.22) 55%, rgba(255,255,255,0.30))",
+        // Frosted glass — translucent fill with backdrop blur so the page
+        // behind shows through softly. Composite tokens flip light/dark.
+        background: "var(--card-glass-gradient)",
         backdropFilter: "blur(18px) saturate(1.15)",
         WebkitBackdropFilter: "blur(18px) saturate(1.15)",
-        borderColor: "rgba(255,255,255,0.75)",
-        boxShadow:
-          "inset 0 1px 0 rgba(255,255,255,1), inset 0 -1px 0 rgba(255,255,255,0.4), 0 1px 0 rgba(0,0,0,0.02), 0 14px 32px rgba(15,23,42,0.06), 0 28px 60px rgba(15,23,42,0.05)",
+        borderColor: "var(--card-glass-border)",
+        boxShadow: "var(--card-glass-shadow)",
         transition:
           "transform 320ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 320ms ease-out, border-color 320ms ease-out",
         // All 3 cards lock to this min-height for visual consistency.
@@ -290,8 +282,8 @@ function ProblemRow({
 
 /* ============ visuals (SVG-based) ============ */
 
-const RED = "#b91c1c";
-const RED_BG = "rgba(185,28,28,0.08)";
+const RED = "var(--viz-red)";
+const RED_BG = "var(--viz-red-bg)";
 const VIS_WIDTH = 360;
 
 /**
@@ -344,7 +336,7 @@ function OracleVisual() {
         width={ROW_W}
         height={ROW_H}
         rx={3}
-        fill="rgba(0,0,255,0.04)"
+        fill="var(--viz-blue-faint)"
         stroke="var(--color-line-on-light)"
         strokeWidth={0.8}
       />
@@ -364,14 +356,16 @@ function OracleVisual() {
               width={BLOCK}
               height={BLOCK}
               rx={2}
-              fill="rgba(0,0,255,0.45)"
-              stroke="rgba(0,0,255,0.75)"
+              fill="var(--viz-blue-fill)"
+              stroke="var(--viz-blue-stroke)"
               strokeWidth={0.5}
             />
           ))}
         </g>
       </g>
-      {/* GAS pill */}
+      {/* GAS pill — chip uses the same alert recipe as WAIT / STALE
+         (translucent red fill + solid red outline) so it adapts to
+         dark mode without flashing a white block. */}
       <g>
         <rect
           x={ROW_X + ROW_W - 34}
@@ -379,8 +373,8 @@ function OracleVisual() {
           width={30}
           height={ROW_H - 6}
           rx={2}
-          fill="rgba(255,255,255,0.96)"
-          stroke="var(--color-line-on-light)"
+          fill={RED_BG}
+          stroke={RED}
           strokeWidth={0.8}
         />
         <text
@@ -511,7 +505,7 @@ function AgentsVisual() {
               y1={cy}
               x2={gapStartX + STEP_GAP - 1}
               y2={cy}
-              stroke="rgba(0,0,255,0.35)"
+              stroke="var(--viz-rail-soft)"
               strokeWidth={1}
               strokeDasharray="2 2"
               style={{
@@ -521,7 +515,7 @@ function AgentsVisual() {
             {/* chevron tip pointing into the next box */}
             <polyline
               points={`${gapStartX + STEP_GAP - 4},${cy - 2.5} ${gapStartX + STEP_GAP - 1},${cy} ${gapStartX + STEP_GAP - 4},${cy + 2.5}`}
-              stroke="rgba(0,0,255,0.55)"
+              stroke="var(--viz-rail-strong)"
               strokeWidth={1}
               fill="none"
               strokeLinecap="round"
@@ -543,7 +537,7 @@ function AgentsVisual() {
               width={STEP_W}
               height={STEP_H}
               rx={3}
-              fill={isWarn ? RED_BG : "rgba(255,255,255,0.18)"}
+              fill={isWarn ? RED_BG : "var(--viz-chip-fill)"}
               stroke={isWarn ? RED : "var(--color-line-on-light)"}
               strokeWidth={isWarn ? 1 : 0.8}
               style={
@@ -642,7 +636,10 @@ function OrderbookVisual() {
   const X0 = (VIS_WIDTH - TOTAL_BARS_W) / 2;
   const TOP_PAD = 8; // space for limit label above limit line
   const LIMIT_Y = CHART_H + TOP_PAD - LIMIT_VAL;
-  const VB_H = CHART_H + TOP_PAD + 16; // include x-axis ticks at bottom
+  // Restored original VB_H: pill now sits inside the bar area (just
+  // above baseline) instead of in the bottom strip, so no extra
+  // bottom space is required.
+  const VB_H = CHART_H + TOP_PAD + 16;
 
   return (
     <svg
@@ -677,15 +674,18 @@ function OrderbookVisual() {
               transformOrigin: "center bottom",
             }}
           >
-            {/* visible blue portion (below or at limit) */}
+            {/* visible blue portion (below or at limit) — same
+                translucent sonic-blue fill as the oracle WRITE chips,
+                with a much fainter outline (about half the alpha of
+                the chip stroke). */}
             <rect
               x={x}
               y={baseY - visible}
               width={BAR_W}
               height={visible}
               rx={1}
-              fill="rgba(0,0,255,0.45)"
-              stroke="rgba(0,0,255,0.75)"
+              fill="var(--viz-blue-fill)"
+              stroke="var(--viz-bar-stroke)"
               strokeWidth={0.5}
             />
             {/* overshoot portion (above limit) — red */}
@@ -716,25 +716,27 @@ function OrderbookVisual() {
         strokeWidth={0.8}
         strokeDasharray="4 3"
       />
-      {/* limit label pill */}
+      {/* limit label pill — sits ABOVE the baseline with a 2px gap.
+         Clears the overshoot zone (high up near the limit line).
+         Right edge aligns with the dashed limit line's right end
+         (= X0 + TOTAL_BARS_W + 12). Fill is themed: light mode gets
+         a near-opaque pill bg so the red text reads against the
+         bars behind it; dark mode keeps the translucent chip
+         recipe (already clear there). */}
       <g>
-        {/* Widened pill (120→140 wide, x shifted left by 20) and
-            reduced letter-spacing on the text so "SHARED THROUGHPUT
-            LIMIT" fits fully inside instead of bleeding past the
-            right edge. */}
         <rect
-          x={VIS_WIDTH - 152}
-          y={LIMIT_Y - 12}
+          x={X0 + TOTAL_BARS_W + 12 - 140}
+          y={CHART_H + TOP_PAD - 18}
           width={140}
           height={14}
           rx={2}
-          fill="rgba(255,255,255,0.96)"
-          stroke="var(--color-line-on-light)"
+          fill="var(--viz-pill-bg)"
+          stroke={RED}
           strokeWidth={0.6}
         />
         <text
-          x={VIS_WIDTH - 82}
-          y={LIMIT_Y - 2}
+          x={X0 + TOTAL_BARS_W + 12 - 70}
+          y={CHART_H + TOP_PAD - 8}
           fontFamily="var(--font-jetbrains-mono), monospace"
           fontSize={8}
           letterSpacing={0.4}
@@ -1096,7 +1098,7 @@ function SolutionTimeline() {
             <div className="mx-auto max-w-2xl px-2 text-center">
               <p className="font-body italic text-14 md:text-16 text-on-light-secondary leading-relaxed">
                 Think of it as renting a private server — except it&rsquo;s{" "}
-                <span className="text-primary-blue not-italic font-medium">
+                <span className="text-primary-blue font-medium">
                   on-chain
                 </span>
                 , verifiable, and disappears when you&rsquo;re done.
@@ -1143,13 +1145,11 @@ function StepCard({
     <div
       className="relative rounded-2xl border p-10 md:p-14 lg:p-16 overflow-hidden"
       style={{
-        background:
-          "linear-gradient(135deg, rgba(255,255,255,0.36), rgba(255,255,255,0.22) 55%, rgba(255,255,255,0.30))",
+        background: "var(--card-glass-gradient)",
         backdropFilter: "blur(18px) saturate(1.15)",
         WebkitBackdropFilter: "blur(18px) saturate(1.15)",
-        borderColor: "rgba(255,255,255,0.75)",
-        boxShadow:
-          "inset 0 1px 0 rgba(255,255,255,1), inset 0 -1px 0 rgba(255,255,255,0.4), 0 1px 0 rgba(0,0,0,0.02), 0 14px 32px rgba(15,23,42,0.06), 0 28px 60px rgba(15,23,42,0.05)",
+        borderColor: "var(--card-glass-border)",
+        boxShadow: "var(--card-glass-shadow)",
       }}
     >
       {/* Giant ghost number — positioned BOTTOM-LEFT with negative
@@ -1210,8 +1210,8 @@ function StepCard({
  * Sonic blue palette (semi-transparent fill + 0.5px stroke), readable
  * green for "ok / settled" status indicators, mono labels.
  */
-const SOLUTION_GREEN = "#0F8F5C";
-const SOLUTION_GREEN_BG = "rgba(15,143,92,0.1)";
+const SOLUTION_GREEN = "var(--viz-green)";
+const SOLUTION_GREEN_BG = "var(--viz-green-bg)";
 
 /**
  * SequenceDiagramViz (Solution 01 — Open Session)
@@ -1436,8 +1436,8 @@ function ResourcePoolViz() {
         width={FRAME_W}
         height={FRAME_H}
         rx={3}
-        fill="rgba(0,0,255,0.04)"
-        stroke="rgba(0,0,255,0.55)"
+        fill="var(--viz-blue-faint)"
+        stroke="var(--viz-rail-strong)"
         strokeWidth={0.6}
       />
       {/* 4 chips with staggered clockwise pulse */}
@@ -1449,8 +1449,8 @@ function ResourcePoolViz() {
           width={CHIP}
           height={CHIP}
           rx={2}
-          fill="rgba(0,0,255,0.45)"
-          stroke="rgba(0,0,255,0.75)"
+          fill="var(--viz-blue-fill)"
+          stroke="var(--viz-blue-stroke)"
           strokeWidth={0.5}
           style={{
             animation: `ns-runtime-pulse ${CYCLE}s ease-in-out infinite`,
@@ -1509,7 +1509,7 @@ function ConvergenceFlowViz() {
           key={i}
           d={pathFor(s.x, s.y)}
           fill="none"
-          stroke="rgba(0,0,255,0.3)"
+          stroke="var(--viz-rail-soft)"
           strokeWidth={0.5}
           strokeDasharray="2 2"
         />

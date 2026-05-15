@@ -74,8 +74,15 @@ export default function IntroFilm() {
     let webglRaf = 0;
 
     if (container) {
+      // Fog colour follows the persisted theme — the bootstrap script
+      // in layout.tsx has already applied data-theme to <html> before
+      // we mount, so this read is correct on first paint.
+      const dark =
+        document.documentElement.getAttribute("data-theme") === "dark";
+      const fogHex = dark ? 0x0a0a0a : 0xefeff5;
+
       scene = new THREE.Scene();
-      scene.fog = new THREE.FogExp2(0xefeff5, 0.0018);
+      scene.fog = new THREE.FogExp2(fogHex, 0.0018);
       camera = new THREE.PerspectiveCamera(
         75,
         window.innerWidth / window.innerHeight,
@@ -229,8 +236,8 @@ export default function IntroFilm() {
         position: "fixed",
         inset: 0,
         zIndex: 9999,
-        background: "#EFEFF5",
-        color: "#0F172A",
+        background: "var(--color-surface-light)",
+        color: "var(--color-on-light-primary)",
         overflow: "hidden",
         opacity: exiting ? 0 : 1,
         transition: "opacity 560ms cubic-bezier(0.22, 1, 0.36, 1)",
@@ -264,7 +271,9 @@ export default function IntroFilm() {
             "radial-gradient(ellipse at center, transparent 40%, rgba(0,0,30,0.15) 100%)",
         }}
       />
-      {/* Scanlines */}
+      {/* Scanlines — themed: dark lines on light bg, light lines on
+          dark bg. Without this swap the scanlines vanish in dark mode
+          (black-on-near-black). */}
       <div
         aria-hidden
         style={{
@@ -274,7 +283,7 @@ export default function IntroFilm() {
           pointerEvents: "none",
           opacity: 0.08,
           backgroundImage:
-            "repeating-linear-gradient(0deg, rgba(0,0,0,0.4) 0, rgba(0,0,0,0.4) 1px, transparent 1px, transparent 3px)",
+            "repeating-linear-gradient(0deg, var(--color-on-light-primary) 0, var(--color-on-light-primary) 1px, transparent 1px, transparent 3px)",
         }}
       />
 
@@ -283,7 +292,7 @@ export default function IntroFilm() {
           progress bar at the very bottom so users can see how close
           we are to revealing the page. */}
 
-      {/* Progress bar */}
+      {/* Progress bar — track tint themed (very faint on either bg). */}
       <div
         aria-hidden
         style={{
@@ -293,7 +302,7 @@ export default function IntroFilm() {
           right: 0,
           height: 2,
           zIndex: 31,
-          background: "rgba(0,0,0,0.06)",
+          background: "var(--color-line-on-light-soft)",
         }}
       >
         <div
@@ -336,7 +345,7 @@ export default function IntroFilm() {
             </h1>
             <p
               style={{
-                color: "#475569",
+                color: "var(--color-on-light-secondary)",
                 fontSize: 14,
                 maxWidth: 420,
                 margin: "0 auto 28px",
@@ -394,7 +403,7 @@ export default function IntroFilm() {
                     fontSize: 11,
                     letterSpacing: "0.4em",
                     textTransform: "uppercase",
-                    color: "#64748B",
+                    color: "var(--color-on-light-muted)",
                     transform: "translateY(100%)",
                   }}
                 >
@@ -429,9 +438,13 @@ export default function IntroFilm() {
                       width: 60,
                       height: 60,
                       borderRadius: 14,
-                      // Softer shadow (0.32 vs 0.5) so it reads as
-                      // ambient glow, not a hard blue block fading in.
-                      boxShadow: "0 20px 60px rgba(0,0,255,0.32)",
+                      // Same shape as before (downward-offset shadow
+                      // contained left/right by clip-path). Glow colour
+                      // is theme-aware — light keeps the original 32%
+                      // sonic-blue, dark lifts alpha (NOT lightness) so
+                      // the hue stays pure #0000FF instead of going
+                      // dead deep-violet on the dark backdrop.
+                      boxShadow: "var(--intro-logo-glow)",
                       opacity: 0,
                       // Vertical halo killed by clip-path so the glow
                       // only spreads left/right (matches HTML ref).
@@ -454,7 +467,7 @@ export default function IntroFilm() {
                     fontSize: 11,
                     letterSpacing: "0.3em",
                     textTransform: "uppercase",
-                    color: "#94A3B8",
+                    color: "var(--color-on-light-faint)",
                     opacity: 0,
                   }}
                 >
@@ -502,17 +515,21 @@ function NorthStarMark({
   large?: boolean;
   withGlow?: boolean;
 }) {
-  // Scaled up version of the Navbar mark (which is w-9 h-9 = 36px).
+  // Scaled up version of the Navbar mark (which is w-9 h-9 = 36px),
+  // using the SAME themed tokens so light/dark both look correct.
   const size = large ? 60 : 44;
   const inner = large ? 34 : 26;
   const radius = large ? 14 : 10;
-  const innerHighlight = large
-    ? "inset 0 1px 0 rgba(255,255,255,0.85)"
-    : "inset 0 1px 0 rgba(255,255,255,0.7)";
-  // Outer glow — single strong shadow matching the reference HTML
-  // (0 20px 60px rgba(0,0,255,0.5) instead of two softer layers).
+  const innerHighlight = "inset 0 1px 0 var(--color-nav-logo-inset)";
+  // Outer sonic-blue glow — three layers on the intro variant:
+  //   1. tight centred halo (lights the IMMEDIATE area around the
+  //      logo, including LEFT + RIGHT — fixes the prior version's
+  //      "shadow only goes down" issue, since (0 20px) offset only
+  //      lit the bottom).
+  //   2. wide ambient halo (slow falloff into the page).
+  //   3. legacy downward drop, kept so the logo still has "weight".
   const outerGlow = large
-    ? ", 0 20px 60px rgba(0,0,255,0.5)"
+    ? ", 0 0 60px rgba(0, 0, 255, 0.55), 0 0 140px rgba(0, 0, 255, 0.30), 0 20px 60px rgba(0, 0, 255, 0.40)"
     : ", 0 4px 14px rgba(0,0,255,0.10)";
   return (
     <div
@@ -524,7 +541,7 @@ function NorthStarMark({
         alignItems: "center",
         justifyContent: "center",
         background:
-          "linear-gradient(135deg, rgba(0,0,255,0.18), rgba(0,0,255,0.06))",
+          "linear-gradient(135deg, var(--color-primary-blue-on-light-bg-strong), var(--color-primary-blue-on-light-bg))",
         backdropFilter: "blur(22px) saturate(1.3)",
         WebkitBackdropFilter: "blur(22px) saturate(1.3)",
         border: "1px solid var(--color-primary-blue-on-light-border)",

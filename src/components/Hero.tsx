@@ -32,8 +32,7 @@ export default function Hero() {
             <div
               className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-surface-light-elevated border border-line-on-light"
               style={{
-                boxShadow:
-                  "inset 0 1px 0 rgba(255,255,255,1), 0 2px 6px rgba(0,0,0,0.04)",
+                boxShadow: "var(--card-pill-inset)",
               }}
             >
               <Bolt size={14} className="text-primary-blue" />
@@ -92,8 +91,7 @@ export default function Hero() {
               // language across both CTAs.
               className="hero-secondary-cta font-heading text-14 font-semibold tracking-tight px-6 py-3.5 rounded-xl text-on-light-primary bg-surface-light-elevated border border-line-on-light inline-flex items-center gap-2 hover:-translate-y-px"
               style={{
-                boxShadow:
-                  "inset 0 1px 0 rgba(255,255,255,1), 0 2px 6px rgba(0,0,0,0.04)",
+                boxShadow: "var(--card-pill-inset)",
                 transition:
                   "transform 240ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 240ms ease-out, border-color 240ms ease-out, background-color 240ms ease-out",
               }}
@@ -118,8 +116,7 @@ export default function Hero() {
             className="mt-16 md:mt-24 w-full max-w-3xl grid grid-cols-1 sm:grid-cols-3 gap-px rounded-2xl overflow-hidden border border-line-on-light-soft"
             style={{
               background: "var(--color-line-on-light-soft)",
-              boxShadow:
-                "inset 0 1px 0 rgba(255,255,255,1), 0 12px 30px rgba(0,0,0,0.05)",
+              boxShadow: "var(--card-pill-inset-strong)",
             }}
           >
             <Stat
@@ -146,11 +143,8 @@ export default function Hero() {
            the interaction feel of the primary blue CTA without
            competing visually. */
         .hero-secondary-cta:hover {
-          border-color: rgba(0, 0, 255, 0.25) !important;
-          box-shadow:
-            inset 0 1px 0 rgba(255,255,255,1),
-            0 6px 16px rgba(0, 0, 255, 0.10),
-            0 2px 6px rgba(0,0,0,0.04) !important;
+          border-color: var(--cta-secondary-hover-border) !important;
+          box-shadow: var(--cta-secondary-hover-shadow) !important;
         }
         @media (prefers-reduced-motion: reduce) {
           .hero-secondary-cta:hover { transform: none !important; }
